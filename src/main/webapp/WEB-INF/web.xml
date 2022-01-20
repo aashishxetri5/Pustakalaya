@@ -53,12 +53,13 @@
     
     <!-- Add new book Page -->
     <servlet>
-        <servlet-name>Add new book Page</servlet-name>
-        <jsp-file>/addNewBook.jsp</jsp-file>
+        <servlet-name>Add update book Page</servlet-name>
+        <jsp-file>/addUpdateBook.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Add new book Page</servlet-name>
+        <servlet-name>Add update book Page</servlet-name>
         <url-pattern>/newbook</url-pattern>
+        <url-pattern>/book/updateBookInfo</url-pattern>
     </servlet-mapping>
    
     <!-- defaultDashboardPage.jsp Page -->

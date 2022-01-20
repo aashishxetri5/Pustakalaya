@@ -45,4 +45,4 @@
         }
     %>
 </nav>
-<span class=""><i class="hamburg-menu fas fa-bars"></i></span>
+<span><i class="hamburg-menu fas fa-bars"></i></span>

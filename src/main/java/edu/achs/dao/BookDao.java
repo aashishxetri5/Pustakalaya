@@ -23,11 +23,13 @@ public interface BookDao {
 
     public List<Books> getAllBorrowedBooks();
 
+    public Books getDetailsOfBookToBeUpdated(String bookId, String ISBN);
+
     public void updateBook(Books book);
 
-    public void deleteBook(int bookId);
+    public void deleteBook(String bookId);
 
-    public List<Books> getSearchedBookDetail(int id);
+    public List<Books> getSearchedBookDetail(String bookTitle);
 
     public ArrayList<String> getAllGenres();
 }

@@ -63,6 +63,7 @@ public class BookDaoImpl implements BookDao {
                 book.setAuthor(rs.getString("author"));
                 book.setPublisher(rs.getString("publisher"));
                 book.setGenre(rs.getString("genre"));
+                book.setISBN(rs.getString("isbn"));
                 book.setLanguage(rs.getString("language"));
                 book.setPrice(rs.getDouble("price"));
                 allBooks.add(book);
@@ -131,16 +132,44 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void updateBook(Books book) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            sqlQuery = "update tbl_books set title = ?, genre = ?, author = ?, publisher = ?, language = ?, ISBN = ?,"
+                    + "edition = ?, stock = ?, price = ?, pages = ? where bookId = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, book.getBookTitle());
+            pst.setString(2, book.getGenre());
+            pst.setString(3, book.getAuthor());
+            pst.setString(4, book.getPublisher());
+            pst.setString(5, book.getLanguage());
+            pst.setString(6, book.getISBN());
+            pst.setString(7, book.getEdition());
+            pst.setInt(8, book.getStock());
+            pst.setDouble(9, book.getPrice());
+            pst.setString(10, book.getNumOfPages());
+            pst.setString(11, book.getBookId());
+            //This inserts the data received above to the respective fields in the table.
+            pst.executeUpdate();
+            new DBConnection().getConnection().close();
+        } catch (SQLException ex) {
+            Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
-    public void deleteBook(int bookId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void deleteBook(String bookId) {
+        try {
+            sqlQuery = "delete from tbl_books where bookId = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, bookId);
+            pst.executeUpdate();
+            new DBConnection().getConnection().close();
+        } catch (SQLException ex) {
+            Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
-    public List<Books> getSearchedBookDetail(int id) {
+    public List<Books> getSearchedBookDetail(String bookTitle) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -162,4 +191,64 @@ public class BookDaoImpl implements BookDao {
         return allGenres;
     }
 
+    @Override
+    public Books getDetailsOfBookToBeUpdated(String bookId, String ISBN) {
+        Books thisBook = new Books();
+        try {
+            sqlQuery = "select * from tbl_books where bookId = ? and ISBN = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, bookId);
+            pst.setString(2, ISBN);
+            ResultSet rs = pst.executeQuery();
+            rs.next();
+            thisBook.setBookId(rs.getString("bookId"));
+            thisBook.setBookTitle(rs.getString("title"));
+            thisBook.setAuthor(rs.getString("author"));
+            thisBook.setPublisher(rs.getString("publisher"));
+            thisBook.setEdition(rs.getString("edition"));
+            thisBook.setNumOfPages(rs.getString("pages"));
+            thisBook.setISBN(rs.getString("ISBN"));
+            thisBook.setGenre(rs.getString("Genre"));
+            thisBook.setStock(rs.getInt("stock"));
+            thisBook.setPrice(rs.getDouble("price"));
+            thisBook.setLanguage(rs.getString("language"));
+        } catch (SQLException ex) {
+            Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return thisBook;
+    }
+
+    public boolean isBookBorrowed(String bookId) {
+        try {
+            sqlQuery = "select count(*) from tbl_borrow where bookId = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, bookId);
+            ResultSet rs = pst.executeQuery();
+            rs.next();
+            if (rs.getInt(1) > 0) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean doesBookidAndIsbnExist(String bookId, String ISBN) {
+        try {
+            sqlQuery = "select count(*) from tbl_books where bookId = ? or ISBn = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, bookId);
+            pst.setString(2, ISBN);
+            ResultSet rs = pst.executeQuery();
+            rs.next();
+
+            if (rs.getInt(1) > 0) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 }

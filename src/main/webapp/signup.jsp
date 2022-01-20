@@ -20,7 +20,6 @@
 
         <%
             if (!request.getRequestURI().contains("/updateInfo")) {
-                System.out.println("FOUND THIS TO BE NULL");
                 if (session.getAttribute("currentUser") != null) {
                     response.sendRedirect(request.getContextPath() + "/home");
                 } else {
@@ -61,7 +60,6 @@
             } else {
                 Users user = (Users) session.getAttribute("currentUser");
                 Users cUser = new UserDaoImpl().getCurrentUserDetail(user.getUserId());
-                request.setAttribute("currentUserId", cUser.getUserId());
         %>
 
         <section>

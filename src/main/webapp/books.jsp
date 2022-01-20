@@ -92,10 +92,16 @@
                                     if (user.getUserType().equals("Librarian")) {
 
                                 %>
-                                <a href="#" title="Edit"><i class="fas fa-pen"></i></a>
-                                <a href="#" title="Delete"><i class="fas fa-trash"></i></a>
-                                    <%} else if (user.getUserType().equals("Student")) { %>
-                                <a href="#"><button class="borrow-btn">Borrow</button></i></a>
+                                <a href="${pageContext.request.contextPath}/book/updateBookInfo?bookId=<%=book.getBookId()%>&ISBN=<%=book.getISBN()%>" title="Edit Book Info">
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                                <a href="${pageContext.request.contextPath}/book/deleteBook?bookId=<%=book.getBookId()%>" title="Delete Book">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                                <%} else if (user.getUserType().equals("Student")) {%>
+                                <a href="${pageContext.request.contextPath}/book/borrow?bookId=<%=book.getBookId()%>&ISBN=<%=book.getISBN()%>" title="Borrow This Book">
+                                    <button class="borrow-btn">Borrow</button>
+                                </a>
                                 <% } %>
 
                             </td>

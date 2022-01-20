@@ -21,60 +21,32 @@ public class CountRecords {
     String sqlQuery = "";
 
     public int getTotalBooks() {
-        try {
-            sqlQuery = "select count(*) from tbl_books";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
-            ResultSet rs = pst.executeQuery();
-            rs.next();
-            return rs.getInt(1);
-        } catch (SQLException ex) {
-            Logger.getLogger(CountRecords.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        sqlQuery = "select count(*) from tbl_books";
+        return getNumOfRecords(sqlQuery);
     }
 
     public int getTotalMembers() {
-        try {
-            sqlQuery = "select count(*) from tbl_userdetails";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
-            ResultSet rs = pst.executeQuery();
-            rs.next();
-            return rs.getInt(1);
-        } catch (SQLException ex) {
-            Logger.getLogger(CountRecords.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        sqlQuery = "select count(*) from tbl_userdetails";
+        return getNumOfRecords(sqlQuery);
     }
 
     public int getTotalBorrowedBooks() {
-        try {
-            sqlQuery = "select count(*) from tbl_borrow";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
-            ResultSet rs = pst.executeQuery();
-            rs.next();
-            return rs.getInt(1);
-        } catch (SQLException ex) {
-            Logger.getLogger(CountRecords.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        sqlQuery = "select count(*) from tbl_borrow";
+        return getNumOfRecords(sqlQuery);
     }
 
     public int getTotalBookRequests() {
-        try {
-            sqlQuery = "select count(*) from tbl_bookrequest";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
-            ResultSet rs = pst.executeQuery();
-            rs.next();
-            return rs.getInt(1);
-        } catch (SQLException ex) {
-            Logger.getLogger(CountRecords.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+        sqlQuery = "select count(*) from tbl_bookrequest";
+        return getNumOfRecords(sqlQuery);
     }
 
     public int getTotalFeedbacks() {
+        sqlQuery = "select count(*) from tbl_feedback";
+        return getNumOfRecords(sqlQuery);
+    }
+
+    public int getNumOfRecords(String query) {
         try {
-            sqlQuery = "select count(*) from tbl_feedback";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             ResultSet rs = pst.executeQuery();
             rs.next();
