@@ -1,0 +1,391 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 8, 2022, 4:56:35 PM
+    Author     : Aashish Katwal
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    border: none;
+    box-sizing: border-box;
+    font-family: 'News Cycle', sans-serif;
+}
+
+:root {
+    --navTextColor: #ddd;
+    --primaryColor: #273c75;
+}
+
+ul {
+    list-style-type: none;
+}
+
+a{
+    color: var(--navTextColor);
+}
+
+/* navigation section */
+
+.navigation {
+    background-color: var(--primaryColor);
+    color: var(--navTextColor);
+    height: 80px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+    user-select: none;
+}
+
+.navigation ul{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: large;
+
+}
+
+.navigation ul:not(:first-child) li {
+    padding: 15px 5px;
+}
+
+.navigation ul:not(:first-child) li a {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.left-nav img {
+    width: 119px;
+    height: 43px;
+}
+
+.center-nav-links a:hover, footer a:hover{
+    color: #fff;
+}
+
+.hamburg-menu{
+    display: none;
+    font-size: 25px;
+    position: absolute;
+    top: 25px;
+    right: 0px;
+    color: var(--navTextColor);
+}
+
+.right-nav li:first-child a {
+    background-color: var(--navTextColor);
+    color: #000;
+}
+
+.right-nav li:last-child {
+    margin: -5px;
+}
+
+.right-nav li a {
+    padding: 5px 10px !important;
+}
+
+.dropbtn-nav, .dropbtn-book-tab {
+    background-color: #fee;
+    height: 40px;
+    padding: 0 5px;
+    font-size: 16px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.dropdown-nav, .dropdown-book-tab {
+    font-weight: 500;
+    height: 40px;
+    position: relative;
+    top: 17px;
+    right: 0;
+    flex-direction: column
+}
+
+.dropdown-content-nav, .dropdown-content-book-tab {
+    display: none;
+    position: absolute;
+    background-color: #fee;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content-nav{
+    right: 0px;
+    top: 40px;
+}
+
+.dropdown-content-nav a, .dropdown-content-book-tab a {
+    display: block;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content-nav a:hover, .dropdown-content-book-tab a:hover{
+    background-color: #f1f1f1;
+}
+
+.dropdown-nav:hover .dropdown-content-nav, .dropdown-book-tab:hover .dropdown-content-book-tab {
+    display: block;
+}
+
+/* Main Content Section */
+section.main {
+    background-image: url(../Images/LogoAndBg/lib_background_overlay.png);
+    background-size: cover;
+    min-height: 100vh;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.mainpage-content-wrapper{
+    min-width: 55.64%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.middle-content-row {
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-panel{
+    width: 750px;
+    font-size: 18px;
+    color: var(--navTextColor);
+}
+
+.right-panel, .left-panel{
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.highlight{
+    color: #f1903e;
+}
+
+.bookreq-form {
+    width: 450px;
+}
+
+.input-title{
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    line-height: 40px;
+}
+
+.bookreq-form form {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+.bookreq-form-input-area input, select{
+    height: 45px; 
+    margin: 3px 0;
+    padding-left: 10px;
+    padding-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.bookreq-form-input-area input:focus{
+    outline: none;
+}
+
+/* Footer Section */
+
+footer {
+    min-height: 200px;
+    background-color: var(--primaryColor);
+    width: 100%;
+}
+
+.footer-container {
+    padding: 15px 30px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-around;
+    align-self: center;
+    /*flex-wrap: nowrap !important;*/
+    margin: 15px;
+}
+
+.f-col {
+    width: 20%;
+    margin-right: 10px;
+}
+
+.f-col:first-child {
+    width: 50%;
+}
+
+.f-col h4 {
+    font-size: 18px;
+    margin-bottom: 35px;
+    color: #fff;
+}
+
+.contact-container {
+    display: flex;
+    flex-direction: row;
+}
+
+p.desc-nl{
+    font-weight: bold;
+    color: #ddd;
+    margin-bottom: 10px;
+    font-size: large;
+}
+
+input#contact-email {
+    background-color: #194480;
+    width: 300px;
+    color: #ddd;
+    margin-right: 5px;
+    letter-spacing: 1px;
+}
+
+input#submit-btn {
+    width: 65px;
+    background-color: #e9163e;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--navTextColor);
+    padding: 0px;
+    cursor: pointer;
+    outline: none;
+}
+
+input#submit-btn:hover{
+    background-color: #d9163e;
+}
+
+#contact-email,
+#submit-btn {
+    height: 40px;
+    border-radius: 3px;
+    font-size: 1rem;
+    padding: 5px 10px;
+    border: none;
+    outline: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+#quicklinks ul li, #Company ul li{
+    margin-top: 5px;
+    font-size: 16px;
+}
+
+.social-icons {
+    display: inline-block;
+    font-size: 1.3rem;
+}
+
+.social-icons a:not(:last-child) {
+    margin-right: 10px;
+}
+
+#f-hr{
+    display: inline-block;
+    width: 100%;
+    border-top: 1.1px solid #808080;
+}
+
+.f-bottom{
+    text-align: center;
+    color: #eee;
+    padding: 10px;
+}
+
+/*responsive*/
+@media(max-width: 767px){
+
+    .center-nav, .right-nav{
+        display: none !important;
+        margin: 10px 0;
+    }
+
+    .center-nav, .right-nav{
+        position: fixed;
+        width: 100%;
+        max-width: 300px;
+        background: var(--primaryColor);
+        top: 73px;
+        right: 10px;
+        display: none;
+        padding: 10px;
+    }
+
+    .right-nav{
+        top: 250px;
+        display: none;
+    }
+
+    .center-nav.active, .right-nav.active{
+        display: block !important;
+    }
+
+    .right-nav li:first-child a {
+        background: none;
+        color: var(--navTextColor);
+    }
+
+    .hamburg-menu{
+        display: block !important;
+        margin-right: 10px;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+
+    .dropdown-nav{
+        margin-right: 10px;
+    }
+
+    .middle-content-row{
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .bookreq-container{
+        margin-top: 80px;
+    }
+
+    .left-panel{
+        width: auto;
+    }
+
+    .bookreq-form{
+        width: auto;
+        max-width: 400px;
+    }
+
+    .f-col{
+        width: 50% !important;
+        margin-bottom: 30px;
+    }
+}
+@media(max-width: 574px){
+    .footer-col{
+        width: 100%;
+    }
+}

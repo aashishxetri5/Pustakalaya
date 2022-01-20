@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <!-- Index.jsp page -->
+    <servlet>
+        <servlet-name>Home</servlet-name>
+        <jsp-file>/index.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Login.jsp page -->
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <jsp-file>/login.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+   
+    <!-- Signup.jsp Page -->
+    <servlet>
+        <servlet-name>Signup</servlet-name>
+        <jsp-file>/signup.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Signup</servlet-name>
+        <url-pattern>/signup</url-pattern>
+        <url-pattern>/updateInfo</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Contact Page -->
+    <servlet>
+        <servlet-name>Contact page</servlet-name>
+        <jsp-file>/contactPage.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Contact page</servlet-name>
+        <url-pattern>/contact</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Feedback Page -->
+    <servlet>
+        <servlet-name>Feedback Page</servlet-name>
+        <jsp-file>/feedbackPage.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Feedback Page</servlet-name>
+        <url-pattern>/feedback</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Add new book Page -->
+    <servlet>
+        <servlet-name>Add new book Page</servlet-name>
+        <jsp-file>/addNewBook.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Add new book Page</servlet-name>
+        <url-pattern>/newbook</url-pattern>
+    </servlet-mapping>
+   
+    <!-- defaultDashboardPage.jsp Page -->
+    <servlet>
+        <servlet-name>Dashboard</servlet-name>
+        <jsp-file>/defaultDashboardPage.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Dashboard</servlet-name>
+        <url-pattern>/dashboard</url-pattern>
+    </servlet-mapping>
+    
+    <!-- profile.jsp Page -->
+    <servlet>
+        <servlet-name>Dashboard Profile</servlet-name>
+        <jsp-file>/profile.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Dashboard Profile</servlet-name>
+        <url-pattern>/dashboard/profile</url-pattern>
+    </servlet-mapping>
+    
+    <!-- readers.jsp Page -->
+    <servlet>
+        <servlet-name>Dashboard Members</servlet-name>
+        <jsp-file>/members.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Dashboard Members</servlet-name>
+        <url-pattern>/dashboard/members</url-pattern>
+    </servlet-mapping>
+    
+    <!-- books.jsp Page -->
+    <servlet>
+        <servlet-name>Dashboard Books</servlet-name>
+        <jsp-file>/books.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Dashboard Books</servlet-name>
+        <url-pattern>/dashboard/books/all</url-pattern>
+        <url-pattern>/dashboard/books/borrowed</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Error Page -->
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/pageNotFound.jsp</location>
+    </error-page>
+     
+    <session-config>
+        <session-timeout>
+            60
+        </session-timeout>
+    </session-config>
+</web-app>

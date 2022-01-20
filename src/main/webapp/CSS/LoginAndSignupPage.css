@@ -1,0 +1,143 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 10, 2022, 2:50:17 PM
+    Author     : Aashish Katwal
+*/
+
+body.form-page{
+    background-color: #f0f2f5;
+    background-image: url('../Images/LogoAndBg/lib_background.png');
+}
+
+.container {
+    max-width: 1000px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.major-form {
+    width: 400px;
+    background-color: #fff;
+    margin-top: 10px;
+    padding: 10px 20px;
+    box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+.form-title{
+    font-family: "Poppins", sans-serif;
+    font-size: 18px;
+    text-decoration: underline;
+    padding-bottom: 0px;
+}
+
+input, .bottom-link, select, textarea{
+    font-family: "Poppins", sans-serif;
+}
+
+input, select, textArea { /*:not(input.ptab-inputs)*/
+    width: 100%;
+    border-radius: 2px;
+    font-size: 1rem;
+}
+
+.input-area input, .input-area select, textArea {
+    height: 50px;
+    margin: 3px 0;
+    padding: 16px 10px;
+    padding-bottom: 0;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+textarea{
+    height: 100px;
+    resize: none;
+    padding-top: 5px;
+}
+
+.input-area input:focus, select:focus, textarea:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+input::placeholder, textArea::placeholder {
+    opacity: 0.7;
+    font-weight: 400;
+}
+
+input[type="submit"].submit-btn{
+    height: 40px;
+    background-color: var(--primaryColor);
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin: 10px auto;
+    padding: 10px;
+    cursor: pointer;
+}
+
+input[type="submit"].submit-btn:hover {
+    background-color: #273175;
+}
+
+.bottom-link {
+    display: block;
+    text-align: center;
+    line-height: 20px;
+    font-size: 13px;
+    font-weight: normal;
+    color: #273ca9;
+}
+
+.bottom-link:hover {
+    text-decoration: underline;
+}
+
+hr {
+    height: 0.5px;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+#create-nacc button {
+    background-color: #e9163e;
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    display: block;
+    margin: 15px auto;
+    padding: 0 15px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 50px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#create-nacc button:hover {
+    background-color: #d9163e;
+    transition: .4s ease-in-;
+}
+
+
+.cf-inp:not(textarea){
+    padding-top: 0 !important;
+}
+
+.cf-inp{
+    border: 1px solid rgba(0, 0, 0, 0.3) !important;
+}
+
+.short-field {
+    display: inline;
+    width: 49%;
+}
