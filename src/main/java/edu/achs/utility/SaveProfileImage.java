@@ -1,0 +1,35 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package edu.achs.utility;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.http.Part;
+
+/**
+ *
+ * @author Aashish Katwal
+ */
+public class SaveProfileImage {
+
+    public void saveImage(String path, Part filePart) {
+        try {
+            FileOutputStream fos = new FileOutputStream(path);
+            InputStream ips = filePart.getInputStream();
+
+            byte[] data = new byte[ips.available()];
+            ips.read(data);
+            fos.write(data);
+            ips.close();
+            fos.close();
+        } catch (IOException | IllegalStateException ex) {
+            Logger.getLogger(SaveProfileImage.class.getName()).log(Level.SEVERE.SEVERE, null, ex);
+        }
+    }
+}

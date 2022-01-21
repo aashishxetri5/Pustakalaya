@@ -18,15 +18,18 @@ public interface UserDao {
 
     public void addLoginCredentials(int userId, String username, String password, String userType);
 
-    public List<Users> getAllMembers(String userType);
-    
-//    public List<Users> getAllLibrarians();
+    public void saveProfilePicture(int userId, String imageFileName);
 
+    public List<Users> getAllMembers(String userType);
+
+//    public List<Users> getAllLibrarians();
     public Users getLoggedinUser(String username);
 
     public int getUserID(String username);
 
     public void updateUser(Users user);
+
+    public void updateProfilePicture(int userId, String imageFileName);
 
     public void deleteUser(int id);
 

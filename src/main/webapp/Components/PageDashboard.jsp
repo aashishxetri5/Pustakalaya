@@ -33,28 +33,16 @@
             </div>
         </div>
 
-        <% Users user = (Users) session.getAttribute("currentUser");%>
+        <%            Users user = (Users) session.getAttribute("currentUser");
+            String imgName = new UserDaoImpl().getProfileImgName(user.getUserId());
+        %>
         <div class="right-nav-dashboard">
             <div class="profile-icon">
                 <a href="<%=request.getContextPath()%>/dashboard/profile">
                     <b><%=user.getUsername()%></b>
                 </a>
                 <div class="profile-container-topbar">
-                    <%
-                        if (new UserDaoImpl().getUserGender(user.getUserId()).equals("M")) {
-                    %>
-                    <img src="${pageContext.request.contextPath}/Images/ProfilePictures/Male_Default_pp.png" alt="profile" class="profile-img-dshb"/>
-                    <%
-                    } else if (new UserDaoImpl().getUserGender(user.getUserId()).equals("F")) {
-                    %>
-                    <img src="${pageContext.request.contextPath}/Images/ProfilePictures/Female_Default_pp.png" alt="profile" class="profile-img-dshb"/>
-                    <%
-                    } else if (new UserDaoImpl().getUserGender(user.getUserId()).equals("O")) {
-                    %>
-                    <img src="${pageContext.request.contextPath}/Images/ProfilePictures/Female_Default_pp.png" alt="profile" class="profile-img-dshb"/>
-                    <%
-                        }
-                    %>
+                    <img src="${pageContext.request.contextPath}/Images/ProfilePictures/<%=imgName%>" alt="profile" class="profile-img-dshb"/>
                 </div>
             </div>
         </div>
@@ -64,21 +52,7 @@
 <section id="dashboard-section">
     <div class="sidebar-container">
         <div class="profile-container">
-            <%
-                if (new UserDaoImpl().getUserGender(user.getUserId()).equals("M")) {
-            %>
-            <img src="${pageContext.request.contextPath}/Images/ProfilePictures/Male_Default_pp.png" alt="profile" class="profile-img-dshb"/>
-            <%
-            } else if (new UserDaoImpl().getUserGender(user.getUserId()).equals("F")) {
-            %>
-            <img src="${pageContext.request.contextPath}/Images/ProfilePictures/Female_Default_pp.png" alt="profile" class="profile-img-dshb"/>
-            <%
-            } else if (new UserDaoImpl().getUserGender(user.getUserId()).equals("O")) {
-            %>
-            <img src="${pageContext.request.contextPath}/Images/ProfilePictures/Female_Default_pp.png" alt="profile" class="profile-img-dshb"/>
-            <%
-                }
-            %>
+            <img src="${pageContext.request.contextPath}/Images/ProfilePictures/<%=imgName%>" alt="profile" class="profile-img-dshb"/>
         </div>
         <!-- Sidebar Navigation Menu -->
         <nav class="sidebar-nav">

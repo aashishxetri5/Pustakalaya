@@ -22,8 +22,8 @@
         <div class="profile-left-div">
             <h1 class="p-title-heading">Profile:</h1>
             <div class="profile-tab-dash">
-                <img src="${pageContext.request.contextPath}/Images/ProfilePictures/Male_Default_pp.png" alt="Profile PP" class="profile-tab-img" />
-                <form action="changePP" method="POST" id="profile-upload-form">
+                <img src="${pageContext.request.contextPath}/Images/ProfilePictures/<%=imgName%>" alt="Profile PP" class="profile-tab-img" />
+                <form action="changePP?userId=<%=user.getUserId()%>" method="POST" id="profile-upload-form" enctype="multipart/form-data">
                     <label for="pimg-upload"title="Upload Profile Picture">Choose</label>
                     <input type="file" id="pimg-upload" name="newProfileImg" accept="image/png,image/jpeg" onchange="form.submit()">
                     <p class="img-desc">jpg or png only</p>

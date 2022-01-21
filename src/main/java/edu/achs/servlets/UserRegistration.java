@@ -40,7 +40,7 @@ public class UserRegistration extends HttpServlet {
         //Checking if any of the above fields have received null values.
         if (firstname != null && lastname != null && email != null && address != null && phNum != null && gender != null
                 && username != null && password != null) {
-            
+
             //checking if the username is unique
             if (udl.isUniqueUsername(username)) {
                 //checking if there has been some descripancies in the values of the field gender 
@@ -63,23 +63,31 @@ public class UserRegistration extends HttpServlet {
                             break;
                         }
                     }
-                    
+
                     //Assigns M for male, F for female, O for other.
                     gender = (gender.equalsIgnoreCase("Male")) ? "M" : gender.equalsIgnoreCase("Female") ? "F" : "O";
-                    
+
                     ///Sends the received data to addUser() function.
                     udl.addUser(new Users(libraryId, userId, firstname, lastname, gender, username, password, address, email,
                             phNum, "Student", 0.0));
 
+                    String imgFileName = gender.equalsIgnoreCase("Male") ? "Male_Default_pp.png" : gender.equalsIgnoreCase("Female") ? "Female_Default_pp.png" : "Other_Default_pp.png";
+
+                    udl.saveProfilePicture(userId, imgFileName);
+
                     request.setAttribute("successMsg", "You're now successfully registered. Welcome to Pustakalaya!!");
+                    response.sendRedirect(request.getContextPath() + "/home");
                 } else {
                     request.setAttribute("errorMsg", "Your attempt to alter default values were detected. Please try again!!");
+                    response.sendRedirect(request.getContextPath() + "/signup");
                 }
             } else {
                 request.setAttribute("errorMsg", "The username already exists. Please use a different one!!");
+                response.sendRedirect(request.getContextPath() + "/signup");
             }
         } else {
             request.setAttribute("errorMsg", "There was a problem registering you. Please try again!!");
+            response.sendRedirect(request.getContextPath() + "/signup");
         }
     }
 

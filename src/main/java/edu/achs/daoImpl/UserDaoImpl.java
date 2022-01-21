@@ -50,12 +50,39 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void addLoginCredentials(int userId, String username, String password, String userType) {
         try {
-            sqlQuery = "insert into tbl_userlogindetails values (?,?,?,?)";
+            sqlQuery = "insert into tbl_userlogindetails values (?,?,?,?,?)";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             pst.setString(2, username);
             pst.setString(3, new PasswordHashing().hashPassword(password));
             pst.setString(4, userType);
+            pst.setString(5, "active");
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void saveProfilePicture(int userId, String imageFileName) {
+        try {
+            sqlQuery = "insert into tbl_userprofileimgs values (?, ?)";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setInt(1, userId);
+            pst.setString(2, imageFileName);
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void updateProfilePicture(int userId, String imageFileName) {
+        try {
+            sqlQuery = "update tbl_userprofileimgs set profileImgName = ? where userId = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, imageFileName);
+            pst.setInt(2, userId);
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -139,22 +166,21 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean isValidUser(String username, String password) {
         PasswordHashing pwdHash = new PasswordHashing();
-        boolean isAuthorizedUser = false;
         try {
-            sqlQuery = "select username, password from tbl_userlogindetails";
+            sqlQuery = "select count(*) from tbl_userlogindetails where username = ? and password = ? and account_status = ?";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, username);
+            pst.setString(2, pwdHash.hashPassword(password));
+            pst.setString(3, "active");
             ResultSet rs = pst.executeQuery();
-            while (rs.next()) {
-                if (rs.getString("username").equals(username) && rs.getString("password").equals(pwdHash.hashPassword(password))) {
-                    isAuthorizedUser = true;
-                    break;
-                }
+            rs.next();
+            if (rs.getInt(1) == 1) {
+                return true;
             }
-            new DBConnection().getConnection().close();
         } catch (SQLException e) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, e);
         }
-        return isAuthorizedUser;
+        return false;
     }
 
     @Override
@@ -254,18 +280,14 @@ public class UserDaoImpl implements UserDao {
         return true;
     }
 
-    public String getUserGender(int userId) {
-        /**
-         * Returns gender from the database using userId of currently logged in
-         * user.
-         */
+    public String getProfileImgName(int userId) {
         try {
-            sqlQuery = "select gender from tbl_userdetails where userId = ?";
+            sqlQuery = "select profileImgName from tbl_userprofileimgs where userId = ?";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             ResultSet rs = pst.executeQuery();
             rs.next();
-            return rs.getString("gender");
+            return rs.getString("profileImgName");
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
