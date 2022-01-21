@@ -33,9 +33,9 @@
             </button>
 
             <% }%>
-            <div class="dropdown-book-tab">
-                <button class="dropbtn-book-tab">View</button>
-                <div class="dropdown-content-book-tab">
+            <div class="dropdown-bm-tab">
+                <button class="dropbtn-bm-tab">View</button>
+                <div class="dropdown-content-bm-tab">
                     <a href="<%=request.getContextPath()%>/dashboard/books/all">All Books</a>
                     <a href="<%=request.getContextPath()%>/dashboard/books/borrowed">Borrowed Books</a>
                 </div>
@@ -48,7 +48,13 @@
                     <thead>
                         <tr>
                             <th>S.N.</th>
+                                <%
+                                    if (request.getRequestURI().contains("books/borrowed") && user.getUserType().equals("Librarian")) {
+                                %>
+                            <th>Borrower</th>
+                                <% } else if (request.getRequestURI().contains("books/all")) {%>
                             <th>Book Id</th>
+                                <% } %>
                             <th>Book Name</th>
                             <th>Author</th>
                             <th>Publication</th>
@@ -119,7 +125,11 @@
                         %>
                         <tr>
                             <td><%=count++%></td>
-                            <td><%=book.getBookId()%></td>
+                            <%
+                                if (user.getUserType().equals("Librarian")) {
+                            %>
+                            <td><%=new BookDaoImpl().getBorrowerName(book.getBorrowerId())%></td>
+                            <% }%>
                             <td><%=book.getBookTitle()%></td>
                             <td><%=book.getAuthor()%></td>
                             <td><%=book.getPublisher()%></td>

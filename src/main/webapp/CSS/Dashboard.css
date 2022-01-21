@@ -265,17 +265,17 @@ section#dashboard-section {
     overflow-y: scroll;
 }
 
-.dropdown-book-tab{
+.dropdown-bm-tab{
     float: right;
     top: 0;
     margin-bottom: 10px;
 }
 
-.dropdown-content-book-tab{
+.dropdown-content-bm-tab{
     right: 0;
 }
 
-.dropbtn-book-tab{
+.dropbtn-bm-tab{
     width: 60px;
     background-color: var(--primaryColor);
     color: #fff;
@@ -344,6 +344,18 @@ section#dashboard-section {
     padding: 0 10px;
 }
 
+.restricted-page{
+    color: #aaa;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -60%);
+    font-size: 2rem;
+    user-select: none;
+    border: 2px double #aaa;
+    cursor: wait;
+}
 
 /* tablets */
 @media screen and (max-width: 819px) {

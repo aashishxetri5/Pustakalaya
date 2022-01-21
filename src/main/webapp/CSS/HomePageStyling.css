@@ -91,7 +91,7 @@ a{
     padding: 5px 10px !important;
 }
 
-.dropbtn-nav, .dropbtn-book-tab {
+.dropbtn-nav, .dropbtn-bm-tab {
     background-color: #fee;
     height: 40px;
     padding: 0 5px;
@@ -102,7 +102,7 @@ a{
     font-weight: 500;
 }
 
-.dropdown-nav, .dropdown-book-tab {
+.dropdown-nav, .dropdown-bm-tab {
     font-weight: 500;
     height: 40px;
     position: relative;
@@ -111,7 +111,7 @@ a{
     flex-direction: column
 }
 
-.dropdown-content-nav, .dropdown-content-book-tab {
+.dropdown-content-nav, .dropdown-content-bm-tab {
     display: none;
     position: absolute;
     background-color: #fee;
@@ -125,7 +125,7 @@ a{
     top: 40px;
 }
 
-.dropdown-content-nav a, .dropdown-content-book-tab a {
+.dropdown-content-nav a, .dropdown-content-bm-tab a {
     display: block;
     color: black;
     padding: 12px 16px;
@@ -133,11 +133,11 @@ a{
     display: block;
 }
 
-.dropdown-content-nav a:hover, .dropdown-content-book-tab a:hover{
+.dropdown-content-nav a:hover, .dropdown-content-bm-tab a:hover{
     background-color: #f1f1f1;
 }
 
-.dropdown-nav:hover .dropdown-content-nav, .dropdown-book-tab:hover .dropdown-content-book-tab {
+.dropdown-nav:hover .dropdown-content-nav, .dropdown-bm-tab:hover .dropdown-content-bm-tab {
     display: block;
 }
 
@@ -182,7 +182,7 @@ section.main {
 }
 
 .bookreq-form {
-    width: 450px;
+    width: 400px;
 }
 
 .input-title{

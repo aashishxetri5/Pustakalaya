@@ -12,7 +12,7 @@ package edu.achs.entities;
 public class Books {
 
 //    private int numOfTimesBorrowed;
-    private int stock;
+    private int stock, borrowerId;
     private String bookId, numOfPages, author, bookTitle, publisher, ISBN, edition, genre, language,
             issue_date, return_date, status;
     private double price;
@@ -46,6 +46,14 @@ public class Books {
         this.author = author;
         this.bookTitle = bookTitle;
         this.genre = genre;
+    }
+
+    public int getBorrowerId() {
+        return borrowerId;
+    }
+
+    public void setBorrowerId(int borrowerId) {
+        this.borrowerId = borrowerId;
     }
 
     public String getBookId() {

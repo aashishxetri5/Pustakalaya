@@ -21,19 +21,24 @@
 
     </head>
     <body id="dashboard-body">
-
         <%@include file="Components/PageDashboard.jsp" %> 
+        <%
+            if (user.getUserType().equals("Librarian")) {
+        %>
 
         <div class="booktop-div" style="margin-bottom: 15px;">
-            <%
-                if (user.getUserType().equals("Librarian")) {
-            %>
 
             <button class="addBook" title="Add New Book">
                 <a href="<%=request.getContextPath()%>/librarian/new" class="add-newbook">Add Librarian</a>
             </button>
 
-            <% } %>
+            <div class="dropdown-bm-tab">
+                <button class="dropbtn-bm-tab">View</button>
+                <div class="dropdown-content-bm-tab">
+                    <a href="<%=request.getContextPath()%>/dashboard/members/all">Members</a>
+                    <a href="<%=request.getContextPath()%>/dashboard/users/librarians">Librarians</a>
+                </div>
+            </div>
 
         </div>
 
@@ -56,7 +61,8 @@
                     <tbody>
                         <%
                             List<Users> allUsers = new ArrayList<>();
-                            allUsers = new UserDaoImpl().getAllUsers();
+                            String userType = request.getRequestURI().contains("/members/all") ? "Student" : "Librarian";
+                            allUsers = new UserDaoImpl().getAllMembers(userType);
                             int count = 1;
                             for (Users alluser : allUsers) {
 
@@ -82,15 +88,16 @@
                                 <%}%>
                             </td>
                         </tr>
-                         <%}%>
+                        <%}%>
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
-</section>
-<%
-    }
-%>
+        <% } else {%>
+        <%@include file="Components/RestrictedPage.jsp" %>
+        <% } %>
+        </div>
+    </section>
+<% }%>
 </body>
 </html>

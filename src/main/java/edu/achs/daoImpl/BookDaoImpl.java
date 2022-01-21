@@ -79,8 +79,8 @@ public class BookDaoImpl implements BookDao {
     public List<Books> getBorrowedBooks(int userId) {
         try {
             sqlQuery = "select tbl_books.bookId, tbl_books.title, tbl_books.author, tbl_books.publisher, tbl_books.genre, "
-                    + "tbl_borrow.issue_date, tbl_borrow.return_date, tbl_borrow.status from tbl_books inner join tbl_borrow on userId = ? "
-                    + "and tbl_books.bookId = tbl_borrow.bookId;";
+                    + "tbl_borrow.issue_date, tbl_borrow.return_date, tbl_borrow.status from tbl_books inner join tbl_borrow "
+                    + "on userId = ? and tbl_books.bookId = tbl_borrow.bookId";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             ResultSet rs = pst.executeQuery();
@@ -107,12 +107,13 @@ public class BookDaoImpl implements BookDao {
     public List<Books> getAllBorrowedBooks() {
         try {
             sqlQuery = "select tbl_books.bookId, tbl_books.title, tbl_books.author, tbl_books.publisher, tbl_books.genre, "
-                    + "tbl_borrow.issue_date, tbl_borrow.return_date, tbl_borrow.status from tbl_books inner join tbl_borrow on tbl_books.bookId "
-                    + "= tbl_borrow.bookId";
+                    + "tbl_borrow.userId, tbl_borrow.issue_date, tbl_borrow.return_date, tbl_borrow.status from tbl_books "
+                    + "inner join tbl_borrow on tbl_books.bookId = tbl_borrow.bookId";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 Books book = new Books();
+                book.setBorrowerId(rs.getInt("userId"));
                 book.setBookId(rs.getString("bookId"));
                 book.setBookTitle(rs.getString("title"));
                 book.setAuthor(rs.getString("author"));
@@ -212,10 +213,28 @@ public class BookDaoImpl implements BookDao {
             thisBook.setStock(rs.getInt("stock"));
             thisBook.setPrice(rs.getDouble("price"));
             thisBook.setLanguage(rs.getString("language"));
+            new DBConnection().getConnection().close();
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return thisBook;
+    }
+
+    @Override
+    public String getBorrowerName(int userId) {
+        String fullname = "";
+        try {
+            sqlQuery = "select first_name, last_name from tbl_userdetails where userId = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setInt(1, userId);
+            ResultSet rs = pst.executeQuery();
+            rs.next();
+            fullname = rs.getString("first_name").concat(" ").concat(rs.getString("last_name"));
+            new DBConnection().getConnection().close();
+        } catch (SQLException ex) {
+            Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return fullname;
     }
 
     public boolean isBookBorrowed(String bookId) {

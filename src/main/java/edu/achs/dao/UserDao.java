@@ -18,7 +18,9 @@ public interface UserDao {
 
     public void addLoginCredentials(int userId, String username, String password, String userType);
 
-    public List<Users> getAllUsers();
+    public List<Users> getAllMembers(String userType);
+    
+//    public List<Users> getAllLibrarians();
 
     public Users getLoggedinUser(String username);
 

@@ -89,7 +89,8 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Dashboard Members</servlet-name>
-        <url-pattern>/dashboard/members</url-pattern>
+        <url-pattern>/dashboard/members/all</url-pattern>
+        <url-pattern>/dashboard/users/librarians</url-pattern>
     </servlet-mapping>
     
     <!-- books.jsp Page -->

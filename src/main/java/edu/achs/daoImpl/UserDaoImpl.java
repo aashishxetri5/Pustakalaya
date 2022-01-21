@@ -63,11 +63,15 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<Users> getAllUsers() {
+    public List<Users> getAllMembers(String userType) {
         List<Users> allUsers = new ArrayList<>();
         try {
-            sqlQuery = "select * from tbl_userdetails";
+            sqlQuery = "select tbl_userdetails.userId, tbl_userdetails.libraryId, tbl_userdetails.first_name, tbl_userdetails.last_name, "
+                    + "tbl_userdetails.gender, tbl_userdetails.email, tbl_userdetails.address, tbl_userdetails.contactNum, "
+                    + "tbl_userdetails.fine from tbl_userdetails inner join tbl_userlogindetails on "
+                    + "tbl_userdetails.userId = tbl_userlogindetails.userId and tbl_userlogindetails.userType = ?";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, userType);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 Users user = new Users();

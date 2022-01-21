@@ -105,7 +105,7 @@
                     if (user.getUserType().equals("Librarian")) {
                 %>
                 <li class="db-icon" title="Members">
-                    <a href="<%=request.getContextPath()%>/dashboard/members">
+                    <a href="<%=request.getContextPath()%>/dashboard/members/all">
                         <i class="fas fa-users"></i>
                         <span>Members</span>
                     </a>

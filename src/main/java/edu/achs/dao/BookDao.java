@@ -32,4 +32,6 @@ public interface BookDao {
     public List<Books> getSearchedBookDetail(String bookTitle);
 
     public ArrayList<String> getAllGenres();
+
+    public String getBorrowerName(int userId);
 }
