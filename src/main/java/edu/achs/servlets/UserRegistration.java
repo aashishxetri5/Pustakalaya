@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Aashish Katwal
  */
-@WebServlet(name = "Registration", urlPatterns = {"/validateRegistration"})
+@WebServlet(name = "Registration", urlPatterns = {"/validateRegistration", "/librarian/newLibrarian"})
 public class UserRegistration extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -64,8 +64,8 @@ public class UserRegistration extends HttpServlet {
                     }
 
                     /**
-                     * calls the generateLibraryId() function and checks if the Id
-                     * is already assigned to a user. If yes, the function is
+                     * calls the generateLibraryId() function and checks if the
+                     * Id is already assigned to a user. If yes, the function is
                      * again called and another Id is generated and again
                      * checked. This process is repeated until a unique Id is
                      * generated.
@@ -79,19 +79,27 @@ public class UserRegistration extends HttpServlet {
 
                     //Assigns M for male, F for female, O for other.
                     gender = (gender.equalsIgnoreCase("Male")) ? "M" : gender.equalsIgnoreCase("Female") ? "F" : "O";
+                    String userType = "", directTo = "";
+                    if (request.getRequestURI().contains("librarian/newLibrarian")) {
+                        userType = "Librarian";
+                        directTo = "/dashboard/users/librarians";
+                    } else {
+                        userType = "Student";
+                        directTo = "/home";
+                    }
 
                     // Sends the received data to addUser() function.
                     udl.addUser(new Users(libraryId, userId, firstname, lastname, gender, username, password, address, email,
-                            phNum, "Student", 0.0));
-                    
+                            phNum, userType, 0.0));
+
                     // Decides default profile picture to a user based on their gender.
-                    String imgFileName = gender.equalsIgnoreCase("Male") ? "Male_Default_pp.png" : gender.equalsIgnoreCase("Female") ? "Female_Default_pp.png" : "Other_Default_pp.png";
-                    
+                    String imgFileName = gender.equalsIgnoreCase("M") ? "Male_Default_pp.png" : gender.equalsIgnoreCase("F") ? "Female_Default_pp.png" : "Other_Default_pp.png";
+
                     // Saves the name of profile to the database.
                     udl.saveProfilePicture(userId, imgFileName);
 
                     request.setAttribute("successMsg", "You're now successfully registered. Welcome to Pustakalaya!!");
-                    response.sendRedirect(request.getContextPath() + "/home");
+                    response.sendRedirect(request.getContextPath() + directTo);
                 } else {
                     request.setAttribute("errorMsg", "Your attempt to alter default values were detected. Please try again!!");
                     response.sendRedirect(request.getContextPath() + "/signup");

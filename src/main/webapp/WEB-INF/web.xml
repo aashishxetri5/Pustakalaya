@@ -29,6 +29,7 @@
         <servlet-name>Signup</servlet-name>
         <url-pattern>/signup</url-pattern>
         <url-pattern>/updateInfo</url-pattern>
+        <url-pattern>/librarian/new</url-pattern>
     </servlet-mapping>
     
     <!-- Contact Page -->

@@ -28,7 +28,7 @@
 
         <div class="booktop-div" style="margin-bottom: 15px;">
 
-            <button class="addBook" title="Add New Book">
+            <button class="addBook" title="Add New Librarian">
                 <a href="<%=request.getContextPath()%>/librarian/new" class="add-newbook">Add Librarian</a>
             </button>
 

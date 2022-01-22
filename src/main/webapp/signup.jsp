@@ -12,15 +12,21 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Sign-up</title>
+        <title>
+            <%if (request.getRequestURI().contains("/updateInfo")) {%>
+            Update Info
+            <% } else { %>
+            Sign-up
+            <% } %>
+        </title>
         <link rel="icon" href="${pageContext.request.contextPath}/Images/LogoAndBg/Favicon.png">
         <%@include file="Components/all_css_js.jsp" %>
     </head>
     <body class="form-page">
 
         <%
-            if (!request.getRequestURI().contains("/updateInfo")) {
-                if (session.getAttribute("currentUser") != null) {
+            if (request.getRequestURI().contains("/signup") || request.getRequestURI().contains("/librarian/new")) {
+                if (session.getAttribute("currentUser") != null && !request.getRequestURI().contains("/librarian/new")) {
                     response.sendRedirect(request.getContextPath() + "/home");
                 } else {
         %>
@@ -28,26 +34,34 @@
         <section>
             <div class="container">
                 <div class="major-form">
+                    <%                
+                        if (request.getRequestURI().contains("/signup")) {
+                    %>
                     <form action="validateRegistration" method="POST">
-                        <h3 class="form-title">Welcome to the family</h3>
-                        <div class="input-area">
-                            <input type="text" name="fname" placeholder="First name" required/>
-                            <input type="text" name="lname" placeholder="Last name" required/>
-                            <input type="email" name="email" placeholder="Email" required/>
-                            <input type="text" name="address" placeholder="Address" required/>
-                            <input type="text" name="phoneNum" placeholder="Phone Number" required/>
-                            <select name="gender" title="Choose Gender" required>
-                                <option value="Select" hidden selected disabled>Choose Gender</option>
-                                <option title="Male" value="Male">Male</option>
-                                <option title="Female" value="Female">Female</option>
-                                <option title="Other" value="Other">Other</option>
-                            </select>
-                            <input type="text" name="username" placeholder="Username" autocomplete="off" required />
-                            <input type="password" name="password" placeholder="Password (minimum 8 digits recommended)" required />
-                        </div>
-                        <input type="submit" value="Register" class="submit-btn"/><br />
-                        <a href="login" class="bottom-link" id="to-login">Have an account? Login</a>
-                    </form>
+                        <% } else if (request.getRequestURI().contains("/librarian/new") && session.getAttribute("currentUser") != null) {%>
+                        <form action="newLibrarian" method="POST">
+                            <% } else {
+                                    response.sendRedirect(request.getContextPath() + "/home");
+                                }%>
+                            <h3 class="form-title">Welcome to the family</h3>
+                            <div class="input-area">
+                                <input type="text" name="fname" placeholder="First name" required/>
+                                <input type="text" name="lname" placeholder="Last name" required/>
+                                <input type="email" name="email" placeholder="Email" required/>
+                                <input type="text" name="address" placeholder="Address" required/>
+                                <input type="text" name="phoneNum" placeholder="Phone Number" required/>
+                                <select name="gender" title="Choose Gender" required>
+                                    <option value="Select" hidden selected disabled>Choose Gender</option>
+                                    <option title="Male" value="Male">Male</option>
+                                    <option title="Female" value="Female">Female</option>
+                                    <option title="Other" value="Other">Other</option>
+                                </select>
+                                <input type="text" name="username" placeholder="Username" autocomplete="off" required />
+                                <input type="password" name="password" placeholder="Password (minimum 8 digits recommended)" required />
+                            </div>
+                            <input type="submit" value="Register" class="submit-btn"/><br />
+                            <a href="login" class="bottom-link" id="to-login">Have an account? Login</a>
+                        </form>
                 </div>
             </div>
         </section>

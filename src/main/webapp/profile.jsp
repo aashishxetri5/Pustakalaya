@@ -27,7 +27,7 @@
                     <label for="pimg-upload"title="Upload Profile Picture">Choose</label>
                     <input type="file" id="pimg-upload" name="newProfileImg" accept="image/png,image/jpeg" onchange="form.submit()">
                     <p class="img-desc">jpg or png only</p>
-                    <p class="img-desc">max. size is 500kb and preferred resolution is square</p>
+                    <p class="img-desc">max. size is 1MB and preferred resolution is square</p>
                 </form>
             </div>
             <div class="acc-info">
