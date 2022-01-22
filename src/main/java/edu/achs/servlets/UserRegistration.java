@@ -43,12 +43,19 @@ public class UserRegistration extends HttpServlet {
 
             //checking if the username is unique
             if (udl.isUniqueUsername(username)) {
+
                 //checking if there has been some descripancies in the values of the field gender 
                 if (gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female") || gender.equalsIgnoreCase("Other")) {
                     int userId;
                     String libraryId = "";
 
-                    // Generate userId and check duplication
+                    /**
+                     * calls the generateUserId() function and checks if the Id
+                     * is already assigned to a user. If yes, the function is
+                     * again called and another Id is generated and again
+                     * checked. This process is repeated until a unique Id is
+                     * generated.
+                     */
                     while (true) {
                         userId = generate.generateUserId();
                         if (udl.isDuplicateUserID(userId)) {
@@ -56,7 +63,13 @@ public class UserRegistration extends HttpServlet {
                         }
                     }
 
-                    //Generate libraryId and check duplication
+                    /**
+                     * calls the generateLibraryId() function and checks if the Id
+                     * is already assigned to a user. If yes, the function is
+                     * again called and another Id is generated and again
+                     * checked. This process is repeated until a unique Id is
+                     * generated.
+                     */
                     while (true) {
                         libraryId = generate.generateLibraryId();
                         if (udl.isDuplicateLibraryID(libraryId)) {
@@ -67,12 +80,14 @@ public class UserRegistration extends HttpServlet {
                     //Assigns M for male, F for female, O for other.
                     gender = (gender.equalsIgnoreCase("Male")) ? "M" : gender.equalsIgnoreCase("Female") ? "F" : "O";
 
-                    ///Sends the received data to addUser() function.
+                    // Sends the received data to addUser() function.
                     udl.addUser(new Users(libraryId, userId, firstname, lastname, gender, username, password, address, email,
                             phNum, "Student", 0.0));
-
+                    
+                    // Decides default profile picture to a user based on their gender.
                     String imgFileName = gender.equalsIgnoreCase("Male") ? "Male_Default_pp.png" : gender.equalsIgnoreCase("Female") ? "Female_Default_pp.png" : "Other_Default_pp.png";
-
+                    
+                    // Saves the name of profile to the database.
                     udl.saveProfilePicture(userId, imgFileName);
 
                     request.setAttribute("successMsg", "You're now successfully registered. Welcome to Pustakalaya!!");

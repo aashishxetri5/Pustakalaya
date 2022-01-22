@@ -19,6 +19,7 @@ public class DBConnection {
 
     Connection con;
 
+    //URL to the database, username and Password of MySql
     final String DB_URL = "jdbc:mysql://localhost:3306/library_mgmt_system";
     final String username = "root", password = "1Enter@MYsql";
 

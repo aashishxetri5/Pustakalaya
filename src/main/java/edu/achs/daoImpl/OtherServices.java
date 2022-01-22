@@ -21,6 +21,13 @@ public class OtherServices {
 
     String sqlQuery;
 
+    /**
+     * Inserts the data obtained from contact form and saves it in database
+     *
+     * @param fullname
+     * @param email
+     * @param message
+     */
     public void insertContactInfo(String fullname, String email, String message) {
         try {
             sqlQuery = "insert into tbl_contact (fullname, email, message) values(?,?,?)";
@@ -35,6 +42,12 @@ public class OtherServices {
         }
     }
 
+    /**
+     * Inserts the data obtained from feedback form and saves it in database.
+     *
+     * @param user
+     * @param message
+     */
     public void insertFeedbacks(Users user, String message) {
         try {
             sqlQuery = "insert into tbl_feedback values(?,?,?,?)";
@@ -50,6 +63,11 @@ public class OtherServices {
         }
     }
 
+    /**
+     * Inserts data obtained from book request form to database.
+     *
+     * @param book
+     */
     public void addBookRequest(Books book) {
         sqlQuery = "insert into tbl_bookRequest values(?,?,?, ?)";
         try {

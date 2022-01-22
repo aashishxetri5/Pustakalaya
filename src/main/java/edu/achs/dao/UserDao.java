@@ -6,6 +6,8 @@
 package edu.achs.dao;
 
 import edu.achs.entities.Users;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -22,10 +24,7 @@ public interface UserDao {
 
     public List<Users> getAllMembers(String userType);
 
-//    public List<Users> getAllLibrarians();
     public Users getLoggedinUser(String username);
-
-    public int getUserID(String username);
 
     public void updateUser(Users user);
 
@@ -39,7 +38,13 @@ public interface UserDao {
 
     public Users getCurrentUserDetail(int id);
 
+    public int getUserID(String username);
+
     public boolean isDuplicateUserID(int generatedId);
 
     public boolean isDuplicateLibraryID(String generatedId);
+
+    public boolean checkUniqueness(ResultSet rs) throws SQLException;
+
+    public String getProfileImgName(int userId);
 }

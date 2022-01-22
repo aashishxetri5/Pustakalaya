@@ -28,6 +28,9 @@ public class PasswordHashing {
         return new String(hexaCharacters);
     }
 
+    /**
+     * Accepts password and hashes it using SHA-512 algorithm.
+     */
     public String hashPassword(String unhashedPwd) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");

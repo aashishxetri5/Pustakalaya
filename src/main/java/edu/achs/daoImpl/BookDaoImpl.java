@@ -23,8 +23,13 @@ import java.util.logging.Logger;
 public class BookDaoImpl implements BookDao {
 
     String sqlQuery = "";
-    List<Books> allBooks = new ArrayList<Books>();
+    List<Books> allBooks = new ArrayList<>();
 
+    /**
+     * Inserts information of a new book to the database
+     *
+     * @param book
+     */
     @Override
     public void addBook(Books book) {
         try {
@@ -49,6 +54,11 @@ public class BookDaoImpl implements BookDao {
         }
     }
 
+    /**
+     * Fetches information of all the books from the database and returns it.
+     *
+     * @return
+     */
     @Override
     public List<Books> getAllBooks() {
         try {
@@ -75,12 +85,20 @@ public class BookDaoImpl implements BookDao {
         return allBooks;
     }
 
+    /**
+     * Fetches all the books borrowed by a specific user. A user's id is used to
+     * for this purpose. This function is for an individual member to see which
+     * book(s) s/he has borrowed.
+     *
+     * @param userId
+     * @return
+     */
     @Override
     public List<Books> getBorrowedBooks(int userId) {
         try {
             sqlQuery = "select tbl_books.bookId, tbl_books.title, tbl_books.author, tbl_books.publisher, tbl_books.genre, "
                     + "tbl_borrow.issue_date, tbl_borrow.return_date, tbl_borrow.status from tbl_books inner join tbl_borrow "
-                    + "on userId = ? and tbl_books.bookId = tbl_borrow.bookId";
+                    + "on userId = ? and tbl_books.bookId = tbl_borrow.bookId order by tbl_borrow.status ASC";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             ResultSet rs = pst.executeQuery();
@@ -103,12 +121,18 @@ public class BookDaoImpl implements BookDao {
         return allBooks;
     }
 
+    /**
+     * Fetches all the books that has been borrowed along with other details and
+     * Id of user who borrowed it. Inner join is used to fetch record.
+     *
+     * @return
+     */
     @Override
     public List<Books> getAllBorrowedBooks() {
         try {
             sqlQuery = "select tbl_books.bookId, tbl_books.title, tbl_books.author, tbl_books.publisher, tbl_books.genre, "
                     + "tbl_borrow.userId, tbl_borrow.issue_date, tbl_borrow.return_date, tbl_borrow.status from tbl_books "
-                    + "inner join tbl_borrow on tbl_books.bookId = tbl_borrow.bookId";
+                    + "inner join tbl_borrow on tbl_books.bookId = tbl_borrow.bookId order by tbl_borrow.status ASC";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -131,6 +155,11 @@ public class BookDaoImpl implements BookDao {
         return allBooks;
     }
 
+    /**
+     * Updates the Book with new information.
+     *
+     * @param book
+     */
     @Override
     public void updateBook(Books book) {
         try {
@@ -156,6 +185,11 @@ public class BookDaoImpl implements BookDao {
         }
     }
 
+    /**
+     * Deletes a book from the database. A book is identified using its Id.
+     *
+     * @param bookId
+     */
     @Override
     public void deleteBook(String bookId) {
         try {
@@ -169,11 +203,22 @@ public class BookDaoImpl implements BookDao {
         }
     }
 
+    /**
+     * Returns the detail of the book that is searched.
+     *
+     * @param bookTitle
+     * @return
+     */
     @Override
     public List<Books> getSearchedBookDetail(String bookTitle) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Fetches all the genres from the database.
+     *
+     * @return
+     */
     @Override
     public ArrayList<String> getAllGenres() {
         ArrayList<String> allGenres = new ArrayList<>();
@@ -192,6 +237,13 @@ public class BookDaoImpl implements BookDao {
         return allGenres;
     }
 
+    /**
+     * Fetches the details of the book to be updated and returns it.
+     *
+     * @param bookId
+     * @param ISBN
+     * @return
+     */
     @Override
     public Books getDetailsOfBookToBeUpdated(String bookId, String ISBN) {
         Books thisBook = new Books();
@@ -220,6 +272,13 @@ public class BookDaoImpl implements BookDao {
         return thisBook;
     }
 
+    /**
+     * Fetches the first name and last name of a user using their userId and
+     * returns the full name after concatenating them.
+     *
+     * @param userId
+     * @return
+     */
     @Override
     public String getBorrowerName(int userId) {
         String fullname = "";
@@ -237,6 +296,13 @@ public class BookDaoImpl implements BookDao {
         return fullname;
     }
 
+    /**
+     * Checks if the book is borrowed by any member currently. This function is
+     * called before a delete book operation is carried out.
+     *
+     * @param bookId
+     * @return
+     */
     public boolean isBookBorrowed(String bookId) {
         try {
             sqlQuery = "select count(*) from tbl_borrow where bookId = ?";
@@ -253,6 +319,14 @@ public class BookDaoImpl implements BookDao {
         return false;
     }
 
+    /**
+     * Checks if the book already exists in the database. This function is
+     * called each time a book is added to the database or updated.
+     *
+     * @param bookId
+     * @param ISBN
+     * @return
+     */
     public boolean doesBookidAndIsbnExist(String bookId, String ISBN) {
         try {
             sqlQuery = "select count(*) from tbl_books where bookId = ? or ISBn = ?";

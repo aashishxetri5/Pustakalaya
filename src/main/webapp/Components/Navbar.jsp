@@ -34,7 +34,7 @@
     %>
 
     <div class="dropdown-nav nav">
-        <button class="dropbtn-nav"><%=currentUser.getUsername()%></button><br>
+        <button class="dropbtn-nav">@<%=currentUser.getUsername()%></button><br>
         <div class="dropdown-content-nav">
             <a href="dashboard">Dashboard</a>
             <a href="logout">Logout</a>

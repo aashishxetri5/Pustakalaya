@@ -30,6 +30,13 @@ public class SignIn extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
+        /**
+         * Checks if a user exists with provided username and password. If the
+         * user with the given credentials, information about him/her is stored
+         * in the session and login is approved. Else, invalid login msg is
+         * sent.
+         *
+         */
         if (udl.isValidUser(username, password)) {
             session.setAttribute("currentUser", udl.getLoggedinUser(username));
             request.setAttribute("successMsg", "Logged in successfully!!");

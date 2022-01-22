@@ -18,6 +18,13 @@ import javax.servlet.http.Part;
  */
 public class SaveProfileImage {
 
+    /**
+     * Accepts path where the file is to saved and the file part. This writes
+     * the image to given destination.
+     *
+     * @param path
+     * @param filePart
+     */
     public void saveImage(String path, Part filePart) {
         try {
             FileOutputStream fos = new FileOutputStream(path);
@@ -29,7 +36,7 @@ public class SaveProfileImage {
             ips.close();
             fos.close();
         } catch (IOException | IllegalStateException ex) {
-            Logger.getLogger(SaveProfileImage.class.getName()).log(Level.SEVERE.SEVERE, null, ex);
+            Logger.getLogger(SaveProfileImage.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

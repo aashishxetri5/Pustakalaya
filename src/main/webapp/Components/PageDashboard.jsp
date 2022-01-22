@@ -39,7 +39,7 @@
         <div class="right-nav-dashboard">
             <div class="profile-icon">
                 <a href="<%=request.getContextPath()%>/dashboard/profile">
-                    <b><%=user.getUsername()%></b>
+                    <b>@<%=user.getUsername()%></b>
                 </a>
                 <div class="profile-container-topbar">
                     <img src="${pageContext.request.contextPath}/Images/ProfilePictures/<%=imgName%>" alt="profile" class="profile-img-dshb"/>

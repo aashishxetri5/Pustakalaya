@@ -26,6 +26,11 @@ public class UserDaoImpl implements UserDao {
     String sqlQuery = "";
     boolean isUnique;
 
+    /**
+     * Adds the information of the user into the database.
+     *
+     * @param user
+     */
     @Override
     public void addUser(Users user) {
         try {
@@ -47,6 +52,16 @@ public class UserDaoImpl implements UserDao {
         addLoginCredentials(user.getUserId(), user.getUsername(), user.getPassword(), user.getUserType());
     }
 
+    /**
+     * Adds the login credentials into the database. The password is hashed with
+     * the SHA-512 algorithm and saves it to the database. By default,
+     * account_status is set to 'active'.
+     *
+     * @param userId
+     * @param username
+     * @param password
+     * @param userType
+     */
     @Override
     public void addLoginCredentials(int userId, String username, String password, String userType) {
         try {
@@ -63,6 +78,13 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * Saves the Image name to the database along with the Id of the user with
+     * whom the image is associated.
+     *
+     * @param userId
+     * @param imageFileName
+     */
     @Override
     public void saveProfilePicture(int userId, String imageFileName) {
         try {
@@ -76,6 +98,12 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * Updates the image filename to the new image's name.
+     *
+     * @param userId
+     * @param imageFileName
+     */
     @Override
     public void updateProfilePicture(int userId, String imageFileName) {
         try {
@@ -89,14 +117,21 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * Fetches all the users depending on the type of user (Librarian, Member)
+     *
+     * @param userType
+     * @return
+     */
     @Override
     public List<Users> getAllMembers(String userType) {
         List<Users> allUsers = new ArrayList<>();
         try {
-            sqlQuery = "select tbl_userdetails.userId, tbl_userdetails.libraryId, tbl_userdetails.first_name, tbl_userdetails.last_name, "
-                    + "tbl_userdetails.gender, tbl_userdetails.email, tbl_userdetails.address, tbl_userdetails.contactNum, "
-                    + "tbl_userdetails.fine from tbl_userdetails inner join tbl_userlogindetails on "
-                    + "tbl_userdetails.userId = tbl_userlogindetails.userId and tbl_userlogindetails.userType = ?";
+            sqlQuery = "select tbl_userdetails.userId, tbl_userdetails.libraryId, tbl_userdetails.first_name, "
+                    + "tbl_userdetails.last_name, tbl_userdetails.gender, tbl_userdetails.email, tbl_userdetails.address, "
+                    + "tbl_userdetails.contactNum, tbl_userdetails.fine from tbl_userdetails inner join "
+                    + "tbl_userlogindetails on tbl_userdetails.userId = tbl_userlogindetails.userId and "
+                    + "tbl_userlogindetails.userType = ?";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setString(1, userType);
             ResultSet rs = pst.executeQuery();
@@ -120,6 +155,12 @@ public class UserDaoImpl implements UserDao {
         return allUsers;
     }
 
+    /**
+     * Fetches the details of currently logged in user on the basis of username
+     *
+     * @param uname
+     * @return
+     */
     @Override
     public Users getLoggedinUser(String uname) {
         Users currentUser = new Users();
@@ -139,6 +180,11 @@ public class UserDaoImpl implements UserDao {
         return currentUser;
     }
 
+    /**
+     * Updates the new details of the user.
+     *
+     * @param user
+     */
     @Override
     public void updateUser(Users user) {
         try {
@@ -158,11 +204,22 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     *
+     * @param id
+     */
     @Override
     public void deleteUser(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Checks if the credentials entered by the user is valid or not.
+     *
+     * @param username
+     * @param password
+     * @return
+     */
     @Override
     public boolean isValidUser(String username, String password) {
         PasswordHashing pwdHash = new PasswordHashing();
@@ -183,13 +240,19 @@ public class UserDaoImpl implements UserDao {
         return false;
     }
 
+    /**
+     * Fetches the details of currently logged in user using the Id.
+     *
+     * @param userId
+     * @return
+     */
     @Override
-    public Users getCurrentUserDetail(int id) {
+    public Users getCurrentUserDetail(int userId) {
         Users user = new Users();
         try {
             sqlQuery = "select * from tbl_userdetails where userId = ?";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
-            pst.setInt(1, id);
+            pst.setInt(1, userId);
             ResultSet rs = pst.executeQuery();
             rs.next();
             user.setUserId(rs.getInt("userId"));
@@ -207,6 +270,12 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
+    /**
+     * Fetches userId based on the username.
+     *
+     * @param username
+     * @return
+     */
     @Override
     public int getUserID(String username) {
         int id = 0;
@@ -225,6 +294,13 @@ public class UserDaoImpl implements UserDao {
         return id;
     }
 
+    /**
+     * Checks if the username is unique. This function is called before
+     * registering the new user.
+     *
+     * @param username
+     * @return
+     */
     @Override
     public boolean isUniqueUsername(String username) {
         try {
@@ -239,6 +315,13 @@ public class UserDaoImpl implements UserDao {
         return isUnique;
     }
 
+    /**
+     * Checks if the generated userId is already assigned to a user. This
+     * function is called before registering a new user.
+     *
+     * @param generatedID
+     * @return
+     */
     @Override
     public boolean isDuplicateUserID(int generatedID) {
 
@@ -254,6 +337,13 @@ public class UserDaoImpl implements UserDao {
         return isUnique;
     }
 
+    /**
+     * Checks if the generated libraryId is already assigned to a user. This
+     * function is called before registering a new user.
+     *
+     * @param generatedID
+     * @return
+     */
     @Override
     public boolean isDuplicateLibraryID(String generatedID) {
         try {
@@ -268,6 +358,14 @@ public class UserDaoImpl implements UserDao {
         return isUnique;
     }
 
+    /**
+     * Accepts the following parameter
+     *
+     * @param rs
+     * @return
+     * @throws SQLException
+     */
+    @Override
     public boolean checkUniqueness(ResultSet rs) throws SQLException {
         /**
          * Returns true is the result set is empty and false not empty. If data
@@ -280,6 +378,14 @@ public class UserDaoImpl implements UserDao {
         return true;
     }
 
+    /**
+     * Fetches the filename of the profile picture and returns it using which
+     * the profile picture will be displayed.
+     *
+     * @param userId
+     * @return
+     */
+    @Override
     public String getProfileImgName(int userId) {
         try {
             sqlQuery = "select profileImgName from tbl_userprofileimgs where userId = ?";

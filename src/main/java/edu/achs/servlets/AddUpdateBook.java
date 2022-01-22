@@ -53,9 +53,12 @@ public class AddUpdateBook extends HttpServlet {
                 }
 
             } else if (request.getRequestURI().contains("/updateBook")) {
-                bdi.updateBook(new Books(bookId, stock, numOfPages, author, title, publisher, ISBN, edition, genre, language, price));
-                System.out.println("REACHED");
-                request.setAttribute("successMsg", "Book updated successfully!!");
+                if (!bdi.doesBookidAndIsbnExist(bookId, ISBN)) {
+                    bdi.updateBook(new Books(bookId, stock, numOfPages, author, title, publisher, ISBN, edition, genre, language, price));
+                    request.setAttribute("successMsg", "Book updated successfully!!");
+                } else {
+                    request.setAttribute("errorMsg", "Duplicate Data. Try again!!");
+                }
             }
             response.sendRedirect(request.getContextPath() + "/dashboard/books/all");
         } else {
