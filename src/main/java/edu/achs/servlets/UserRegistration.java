@@ -93,7 +93,8 @@ public class UserRegistration extends HttpServlet {
                             phNum, userType, 0.0));
 
                     // Decides default profile picture to a user based on their gender.
-                    String imgFileName = gender.equalsIgnoreCase("M") ? "Male_Default_pp.png" : gender.equalsIgnoreCase("F") ? "Female_Default_pp.png" : "Other_Default_pp.png";
+                    String imgFileName = gender.equalsIgnoreCase("M") ? "Male_Default_pp.png"
+                            : gender.equalsIgnoreCase("F") ? "Female_Default_pp.png" : "Others_Default_pp.png";
 
                     // Saves the name of profile to the database.
                     udl.saveProfilePicture(userId, imgFileName);

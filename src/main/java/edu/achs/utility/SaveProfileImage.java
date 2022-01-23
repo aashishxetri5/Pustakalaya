@@ -34,7 +34,7 @@ public class SaveProfileImage {
             ips.read(data);
             fos.write(data);
             ips.close();
-            fos.close();
+            fos.close();           
         } catch (IOException | IllegalStateException ex) {
             Logger.getLogger(SaveProfileImage.class.getName()).log(Level.SEVERE, null, ex);
         }
