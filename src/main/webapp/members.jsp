@@ -83,9 +83,8 @@
 
                                 %>
                                 <a href="#" title="Ban this user"><i class="fas fa-ban"></i></a>
-                                <a href="#" title="Suspend this user"><i class="fas fa-user-slash"></i></a>
-                                <!--<a href="#" title="Promote to Admin"><i class="fas fa-user-shield"></i></a>-->
-                                <%}%>
+                                <a href="#" title="Promote to Admin"><i class="fas fa-user-shield"></i></a>
+                                    <%}%>
                             </td>
                         </tr>
                         <%}%>
@@ -96,8 +95,8 @@
         <% } else {%>
         <%@include file="Components/RestrictedPage.jsp" %>
         <% } %>
-        </div>
-    </section>
+    </div>
+</section>
 <% }%>
 </body>
 </html>
