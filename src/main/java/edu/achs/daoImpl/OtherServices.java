@@ -6,10 +6,13 @@
 package edu.achs.daoImpl;
 
 import edu.achs.entities.Books;
-import edu.achs.entities.Users;
+import edu.achs.entities.FeedbacksAndContacts;
 import edu.achs.utility.DBConnection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,19 +27,16 @@ public class OtherServices {
     /**
      * Inserts the data obtained from contact form and saves it in database
      *
-     * @param fullname
-     * @param email
-     * @param message
+     * @param fac
      */
-    public void insertContactInfo(String fullname, String email, String message) {
+    public void insertContactInfo(FeedbacksAndContacts fac) {
         try {
             sqlQuery = "insert into tbl_contact (fullname, email, message) values(?,?,?)";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
-            pst.setString(1, fullname);
-            pst.setString(2, email);
-            pst.setString(3, message);
+            pst.setString(1, fac.getFullname());
+            pst.setString(2, fac.getEmail());
+            pst.setString(3, fac.getMessage());
             pst.executeUpdate();
-            new DBConnection().getConnection().close();
         } catch (SQLException ex) {
             Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -45,19 +45,17 @@ public class OtherServices {
     /**
      * Inserts the data obtained from feedback form and saves it in database.
      *
-     * @param user
-     * @param message
+     * @param fac
      */
-    public void insertFeedbacks(Users user, String message) {
+    public void insertFeedbacks(FeedbacksAndContacts fac) {
         try {
             sqlQuery = "insert into tbl_feedback values(?,?,?,?)";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
-            pst.setInt(1, new UserDaoImpl().getUserID(user.getUsername()));
-            pst.setString(2, user.getEmail());
-            pst.setString(3, user.getUsername());
-            pst.setString(4, message);
+            pst.setInt(1, new UserDaoImpl().getUserID(fac.getUsername()));
+            pst.setString(2, fac.getEmail());
+            pst.setString(3, fac.getUsername());
+            pst.setString(4, fac.getMessage());
             pst.executeUpdate();
-            new DBConnection().getConnection().close();
         } catch (SQLException ex) {
             Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -77,9 +75,33 @@ public class OtherServices {
             pst.setString(3, book.getGenre());
             pst.setBoolean(4, false);
             pst.executeUpdate();
-            new DBConnection().getConnection().close();
         } catch (SQLException ex) {
             Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    /**
+     * Fetches and returns all the feedbacks received
+     *
+     * @return
+     */
+    public List<FeedbacksAndContacts> getAllFeedbacks() {
+        List<FeedbacksAndContacts> allFeedbacks = new ArrayList<>();
+        try {
+            sqlQuery = "select * from tbl_feedback";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                FeedbacksAndContacts feedback = new FeedbacksAndContacts();
+                feedback.setEmail(rs.getString("email"));
+                feedback.setUsername(rs.getString("username"));
+                feedback.setMessage(rs.getString("f_message"));
+                allFeedbacks.add(feedback);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return allFeedbacks;
+    }
+
 }

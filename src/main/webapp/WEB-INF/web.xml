@@ -105,6 +105,15 @@
         <url-pattern>/dashboard/books/borrowed</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>Display Feedbacks</servlet-name>
+        <jsp-file>/feedbacks.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Display Feedbacks</servlet-name>
+        <url-pattern>/dashboard/feedbacks</url-pattern>
+    </servlet-mapping>
+    
     <!-- Error Page -->
     <error-page>
         <exception-type>java.lang.Exception</exception-type>

@@ -6,8 +6,7 @@
 package edu.achs.servlets;
 
 import edu.achs.daoImpl.OtherServices;
-import edu.achs.daoImpl.UserDaoImpl;
-import edu.achs.entities.Users;
+import edu.achs.entities.FeedbacksAndContacts;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,7 +27,6 @@ public class FeedbackAndContact extends HttpServlet {
         String message = "", email;
 
         OtherServices survey = new OtherServices();
-        Users user = new Users();
 
         if (request.getParameter("ContactFormSubmission") != null) {
             String fullname = request.getParameter("fullname");
@@ -37,21 +35,21 @@ public class FeedbackAndContact extends HttpServlet {
 
             //checking if any of the values are null
             if (fullname != null && email != null && message != null) {
-                survey.insertContactInfo(fullname, email, message);
+                survey.insertContactInfo(new FeedbacksAndContacts(fullname, email, message));
                 request.setAttribute("successMsg", "Contact request sent successfully!!");
             } else {
                 request.setAttribute("errorMsg", "Could not place the request. Please try again!!");
             }
 
         } else if (request.getParameter("FeedbackFormSubmission") != null) {
-
+            int userId = Integer.parseInt(request.getParameter("userId"));
             email = request.getParameter("f-email");
             String username = request.getParameter("username");
             message = request.getParameter("f-message");
 
             //checking if any of the values are null
             if (email != null && username != null && message != null) {
-                survey.insertFeedbacks(new Users(email, username), message);
+                survey.insertFeedbacks(new FeedbacksAndContacts(userId, email, username, message));
                 request.setAttribute("successMsg", "Feedback sent successfully!!");
             } else {
                 request.setAttribute("errorMsg", "Could not send the feedback. Please try again!!");

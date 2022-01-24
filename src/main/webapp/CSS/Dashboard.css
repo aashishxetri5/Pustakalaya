@@ -357,6 +357,49 @@ section#dashboard-section {
     cursor: wait;
 }
 
+/**/
+
+.feedback-wrapper{
+    overflow-y: scroll;
+    padding: 5px 20px;
+}
+
+.feedbacks{
+    box-shadow: 0px 2px 7px rgb(0 0 0 / 30%);
+}
+
+.accordion-feedback {
+    font-family: 'Poppins';
+    background-color: #fff;
+    color: #444;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.active-fd{
+    background-color: #f1f1f1; 
+}
+
+.details-feedback {
+    display: none;
+    background-color: white;
+    overflow: hidden;
+}
+
+.email-fd, .msg-content{
+    padding: 9px 25px;
+    font-family: 'Poppins';
+}
+
+.msg-content{
+
+}
+
 /* tablets */
 @media screen and (max-width: 819px) {
 

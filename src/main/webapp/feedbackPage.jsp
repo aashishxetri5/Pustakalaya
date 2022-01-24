@@ -33,6 +33,7 @@
                         <span class="input-title">Email</span>
                         <input type="email" name="f-email" placeholder="Email" class="cf-inp" required />
                         <input type="text" name="username" value="<%=cUser.getUsername()%>" hidden/>
+                        <input type="text" name="userID" value="<%=cUser.getUserId()%>" hidden/>
 
                         <span class="input-title">Message</span>
                         <textarea name="f-message" cols="30" rows="10" placeholder="Have feedback? We'd love to hear..." class="cf-inp" required></textarea>
