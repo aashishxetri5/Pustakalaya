@@ -92,4 +92,19 @@ public class CountRecords {
         }
         return 0;
     }
+
+    public int getPendingBorrowedBooks(int userId) {
+        try {
+            sqlQuery = "select count(*) from tbl_borrow where userId = ? and status = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setInt(1, userId);
+            pst.setString(2, "pending");
+            ResultSet rs = pst.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(CountRecords.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
 }

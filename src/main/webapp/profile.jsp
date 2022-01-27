@@ -4,13 +4,15 @@
     Author     : Aashish Katwal
 --%>
 
+<%@page import="edu.achs.dashboardContents.CountRecords"%>
+<%@page import="edu.achs.daoImpl.BookDaoImpl"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="${pageContext.request.contextPath}/Images/LogoAndBg/Favicon.png">
+        <link rel="shortcut icon" href="${pageContext.request.contextPath}/Images/LogoAndBg/Favicon.png">
         <title>Dashboard | Profile</title>
 
         <%@include file="Components/all_css_js.jsp" %>
@@ -75,7 +77,8 @@
                     <p class="Title">Borrowed Books</p>
                     <div class="ptab-block-boxes" title="Borrowed Books">
                         <a href="<%=request.getContextPath()%>/dashboard/books/borrowed">
-                            <p><strong>4<%//=new CountRecords().getTotalBooks()%></strong></p>
+                            <!--<p><strong><%//=new BookDaoImpl().getBorrowedBooks(user.getUserId()).size()%></strong></p>-->
+                            <p><strong><%=new CountRecords().getPendingBorrowedBooks(user.getUserId())%></strong></p>
                             <p>Borrowed</p>
                         </a>
                     </div>
