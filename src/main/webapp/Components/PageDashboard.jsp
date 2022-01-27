@@ -127,6 +127,12 @@
                     </a>
                 </li>
                 <% }%>
+                <li class="db-icon" title="Change Password">
+                    <a href="<%=request.getContextPath()%>/user/changePassword">
+                        <i class="fas fa-key"></i>
+                        <span>Change Password</span>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>

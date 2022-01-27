@@ -5,7 +5,7 @@
             <h4>News Letter</h4>
             <p class="desc-nl">Subscribe to our news letter</p>
             <div class="contact-container">
-                <form method="POST">
+                <form method="POST" action="#">
                     <input
                         type="email"
                         name="contact-email"

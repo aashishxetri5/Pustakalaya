@@ -15,6 +15,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Dashboard | Feedbacks</title>
+        <link rel="shortcut icon" href="${pageContext.request.contextPath}/Images/LogoAndBg/Favicon.png">
 
         <%@include file="Components/all_css_js.jsp" %>
 
@@ -30,6 +31,102 @@
             <%
                 for (FeedbacksAndContacts feedback : feedbacks) {
             %>
+            <div class="feedbacks">
+                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
+                <div class="details-feedback">
+                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
+                    <hr />
+                    <p class="msg-content"><%=feedback.getMessage() %></p>
+                </div>
+            </div>
+            <div class="feedbacks">
+                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
+                <div class="details-feedback">
+                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
+                    <hr />
+                    <p class="msg-content"><%=feedback.getMessage() %></p>
+                </div>
+            </div>
+            <div class="feedbacks">
+                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
+                <div class="details-feedback">
+                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
+                    <hr />
+                    <p class="msg-content"><%=feedback.getMessage() %></p>
+                </div>
+            </div>
+            <div class="feedbacks">
+                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
+                <div class="details-feedback">
+                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
+                    <hr />
+                    <p class="msg-content"><%=feedback.getMessage() %></p>
+                </div>
+            </div>
+            <div class="feedbacks">
+                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
+                <div class="details-feedback">
+                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
+                    <hr />
+                    <p class="msg-content"><%=feedback.getMessage() %></p>
+                </div>
+            </div>
+            <div class="feedbacks">
+                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
+                <div class="details-feedback">
+                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
+                    <hr />
+                    <p class="msg-content"><%=feedback.getMessage() %></p>
+                </div>
+            </div>
+            <div class="feedbacks">
+                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
+                <div class="details-feedback">
+                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
+                    <hr />
+                    <p class="msg-content"><%=feedback.getMessage() %></p>
+                </div>
+            </div>
+            <div class="feedbacks">
+                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
+                <div class="details-feedback">
+                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
+                    <hr />
+                    <p class="msg-content"><%=feedback.getMessage() %></p>
+                </div>
+            </div>
+            <div class="feedbacks">
+                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
+                <div class="details-feedback">
+                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
+                    <hr />
+                    <p class="msg-content"><%=feedback.getMessage() %></p>
+                </div>
+            </div>
+            <div class="feedbacks">
+                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
+                <div class="details-feedback">
+                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
+                    <hr />
+                    <p class="msg-content"><%=feedback.getMessage() %></p>
+                </div>
+            </div>
+            <div class="feedbacks">
+                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
+                <div class="details-feedback">
+                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
+                    <hr />
+                    <p class="msg-content"><%=feedback.getMessage() %></p>
+                </div>
+            </div>
+            <div class="feedbacks">
+                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
+                <div class="details-feedback">
+                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
+                    <hr />
+                    <p class="msg-content"><%=feedback.getMessage() %></p>
+                </div>
+            </div>
             <div class="feedbacks">
                 <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
                 <div class="details-feedback">

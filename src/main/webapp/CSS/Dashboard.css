@@ -360,11 +360,15 @@ section#dashboard-section {
 /**/
 
 .feedback-wrapper{
+    height: 83vh;
+    background-color: #eee;
     overflow-y: scroll;
-    padding: 5px 20px;
+    padding: 15px;
+    box-shadow: 0px 2px 7px rgb(0 0 0 / 30%);
 }
 
 .feedbacks{
+    margin-bottom: 10px;
     box-shadow: 0px 2px 7px rgb(0 0 0 / 30%);
 }
 
@@ -394,10 +398,6 @@ section#dashboard-section {
 .email-fd, .msg-content{
     padding: 9px 25px;
     font-family: 'Poppins';
-}
-
-.msg-content{
-
 }
 
 /* tablets */

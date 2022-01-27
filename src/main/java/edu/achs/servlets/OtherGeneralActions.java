@@ -7,48 +7,49 @@ package edu.achs.servlets;
 
 import edu.achs.daoImpl.UserDaoImpl;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Aashish Katwal
  */
-@WebServlet(name = "SignIn", urlPatterns = {"/validateLogin"})
-public class SignIn extends HttpServlet {
+@WebServlet(name = "OtherGeneralActions", urlPatterns = {"/user/changerole"})
+public class OtherGeneralActions extends HttpServlet {
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        UserDaoImpl udl = new UserDaoImpl();
-        HttpSession session = request.getSession();
+        if (request.getRequestURI().contains("/user/changerole")) {
+            String userType = request.getParameter("currentRole");
+            int userId = Integer.parseInt(request.getParameter("userId"));
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-
-        if (username != null && password != null) {
-            /**
-             * Checks if a user exists with provided username and password. If
-             * the user with the given credentials, information about him/her is
-             * stored in the session and login is approved. Else, invalid login
-             * message is sent.
-             *
-             */
-            if (udl.isValidUser(username, password)) {
-                session.setAttribute("currentUser", udl.getLoggedinUser(username));
-                request.setAttribute("successMsg", "Logged in successfully!!");
-                response.sendRedirect(request.getContextPath() + "/home");
+            if ((userType.equals("Librarian") || userType.equals("Student")) && (userId >= 200000 && userId <= 300000)) {
+                String newRole = "", attrMsg="";
+                if (userType.equals("Student")) {
+                    newRole = "Librarian";
+                    attrMsg = "User Promoted Successfully!!";
+                } else if (userType.equals("Librarian")) {
+                    newRole = "Student";
+                    attrMsg = "User Demoted Successfully!!";
+                }
+                new UserDaoImpl().changeRole(userId, newRole);
+                request.setAttribute("successMsg", attrMsg);
             } else {
-                request.setAttribute("errorMsg", "Either Username or Password do not match!!");
-                response.sendRedirect(request.getContextPath() + "/login");
+                request.setAttribute("errorMsg", "Problem updating role. Please try again later!!");
             }
-        } else {
-            request.setAttribute("errorMsg", "Invalid values received. Please try again");
-            response.sendRedirect(request.getContextPath() + "/login");
+            response.sendRedirect(request.getContextPath() + "/dashboard/members/all");
         }
 
     }

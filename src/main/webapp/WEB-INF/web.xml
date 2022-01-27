@@ -83,7 +83,7 @@
         <url-pattern>/dashboard/profile</url-pattern>
     </servlet-mapping>
     
-    <!-- readers.jsp Page -->
+    <!-- members.jsp Page -->
     <servlet>
         <servlet-name>Dashboard Members</servlet-name>
         <jsp-file>/members.jsp</jsp-file>

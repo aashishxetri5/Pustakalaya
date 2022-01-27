@@ -14,7 +14,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="${pageContext.request.contextPath}/Images/LogoAndBg/Favicon.png">
+        <link rel="shortcut icon" href="${pageContext.request.contextPath}/Images/LogoAndBg/Favicon.png">
         <title>Dashboard | Readers</title>
 
         <%@include file="Components/all_css_js.jsp" %>
@@ -65,6 +65,9 @@
                             allUsers = new UserDaoImpl().getAllMembers(userType);
                             int count = 1;
                             for (Users alluser : allUsers) {
+                                if (user.getUserId() == alluser.getUserId()) {
+                                    continue;
+                                }
 
                         %>
                         <tr>
@@ -83,8 +86,14 @@
 
                                 %>
                                 <a href="#" title="Ban this user"><i class="fas fa-ban"></i></a>
-                                <a href="#" title="Promote to Admin"><i class="fas fa-user-shield"></i></a>
-                                    <%}%>
+                                <a href="/user/changerole?currentRole=<%=alluser.getUserType()%>&userId=<%=alluser.getUserId()%>">
+                                    <% if (alluser.getUserType().equals("Student")) { %>
+                                    <i title="Promote to Admin" class="fas fa-user-shield"></i>
+                                    <% } else if (alluser.getUserType().equals("Librarian")) { %>
+                                    <i title="Demote to User" class="fas fa-user"></i>
+                                    <% } %>
+                                </a>
+                                <%}%>
                             </td>
                         </tr>
                         <%}%>

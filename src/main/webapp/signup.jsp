@@ -19,7 +19,7 @@
             Sign-up
             <% } %>
         </title>
-        <link rel="icon" href="${pageContext.request.contextPath}/Images/LogoAndBg/Favicon.png">
+        <link rel="shortcut icon" href="${pageContext.request.contextPath}/Images/LogoAndBg/Favicon.png">
         <%@include file="Components/all_css_js.jsp" %>
     </head>
     <body class="form-page">

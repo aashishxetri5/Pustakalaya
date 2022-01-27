@@ -47,4 +47,6 @@ public interface UserDao {
     public boolean checkUniqueness(ResultSet rs) throws SQLException;
 
     public String getProfileImgName(int userId);
+    
+    public void changeRole(int userId, String newRole);
 }

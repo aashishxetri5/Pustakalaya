@@ -14,7 +14,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="${pageContext.request.contextPath}/Images/LogoAndBg/Favicon.png">
+        <link rel="shortcut icon" href="${pageContext.request.contextPath}/Images/LogoAndBg/Favicon.png">
         <title>Dashboard</title>
 
         <%@include file="Components/all_css_js.jsp" %>
@@ -35,7 +35,7 @@
                 </a>
             </div>
             <div class="block-boxes">
-                <a href="<%=request.getContextPath()%>/dashboard/members">
+                <a href="<%=request.getContextPath()%>/dashboard/members/all">
                     <p><strong><%=new CountRecords().getTotalMembers()%></strong></p>
                     <p>Members</p>
                 </a>
@@ -47,7 +47,7 @@
                 </a>
             </div>
             <div class="block-boxes">
-                <a href="<%=request.getContextPath()%>/dashboard/books/request">
+                <a href="<%=request.getContextPath()%>/dashboard/books/requests">
                     <p><strong><%=new CountRecords().getTotalBookRequests()%></strong></p>
                     <p>Requests</p>
                 </a>

@@ -146,6 +146,7 @@ public class UserDaoImpl implements UserDao {
                 user.setAddress(rs.getString("address"));
                 user.setContactNum(rs.getString("contactNum"));
                 user.setFine(rs.getDouble("fine"));
+                user.setUserType(userType);
                 allUsers.add(user);
             }
             new DBConnection().getConnection().close();
@@ -398,5 +399,23 @@ public class UserDaoImpl implements UserDao {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "null";
+    }
+
+    /**
+     *
+     * @param userId
+     * @param userType
+     */
+    @Override
+    public void changeRole(int userId, String newRole) {
+        try {
+            sqlQuery = "update tbl_userlogindetails set userType = ? where userId = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, newRole);
+            pst.setInt(2, userId);
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
