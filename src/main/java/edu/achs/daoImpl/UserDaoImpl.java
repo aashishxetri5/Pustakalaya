@@ -210,8 +210,25 @@ public class UserDaoImpl implements UserDao {
      * @param id
      */
     @Override
-    public void deleteUser(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void banUser(int userId) {
+        try {
+            String deleteLoginDetails = "delete from tbl_userlogindetails where userId = ?";
+            String deleteUserDetails = "delete from tbl_userdetails where userId = ?";
+            String deleteProfileImg = "delete from tbl_userprofileimgs where userId = ?";
+            PreparedStatement prepDltLoginCr = new DBConnection().getConnection().prepareStatement(deleteLoginDetails);
+            PreparedStatement prepDltuserDetail = new DBConnection().getConnection().prepareStatement(deleteUserDetails);
+            PreparedStatement prepDltProfileImg = new DBConnection().getConnection().prepareStatement(deleteProfileImg);
+
+            prepDltLoginCr.setInt(1, userId);
+            prepDltProfileImg.setInt(1, userId);
+            prepDltuserDetail.setInt(1, userId);
+
+            prepDltLoginCr.executeUpdate();
+            prepDltProfileImg.executeUpdate();
+            prepDltuserDetail.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

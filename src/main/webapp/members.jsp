@@ -85,7 +85,7 @@
                                     if (user.getUserType().equals("Librarian")) {
 
                                 %>
-                                <a href="#" title="Ban this user"><i class="fas fa-ban"></i></a>
+                                <a href="/user/ban?userId=<%=alluser.getUserId()%>" title="Ban this user"><i class="fas fa-ban"></i></a>
                                 <a href="/user/changerole?currentRole=<%=alluser.getUserType()%>&userId=<%=alluser.getUserId()%>">
                                     <% if (alluser.getUserType().equals("Student")) { %>
                                     <i title="Promote to Admin" class="fas fa-user-shield"></i>

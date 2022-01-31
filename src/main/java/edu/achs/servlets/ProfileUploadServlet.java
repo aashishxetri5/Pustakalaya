@@ -61,10 +61,12 @@ public class ProfileUploadServlet extends HttpServlet {
             String realPath = request.getRealPath("Images") + File.separator + "ProfilePictures" + File.separator + newCustomFileName;
 
             //Checks if the current image name is that of a default img file name
-            if (!new UserDaoImpl().getProfileImgName(userId).equals("Male_Default_pp.png")
-                    || !new UserDaoImpl().getProfileImgName(userId).equals("Female_Default_pp.png") 
-                    || !new UserDaoImpl().getProfileImgName(userId).equals("Others_Default_pp.png")) {
+            if (!new UserDaoImpl().getProfileImgName(userId).equalsIgnoreCase("Male_Default_pp.png")
+                    && !new UserDaoImpl().getProfileImgName(userId).equalsIgnoreCase("Female_Default_pp.png") 
+                    && !new UserDaoImpl().getProfileImgName(userId).equalsIgnoreCase("Others_Default_pp.png")) {
 
+                System.out.println("REACHED HERE + " + new UserDaoImpl().getProfileImgName(userId));
+                
                 //Deletes the old file so that there will be room for the new img file.
                 Files.delete(Paths.get(request.getRealPath("Images") + File.separator + "ProfilePictures" + File.separator
                         + new UserDaoImpl().getProfileImgName(userId)));

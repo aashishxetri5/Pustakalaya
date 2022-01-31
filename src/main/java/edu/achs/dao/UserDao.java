@@ -30,13 +30,13 @@ public interface UserDao {
 
     public void updateProfilePicture(int userId, String imageFileName);
 
-    public void deleteUser(int id);
+    public void banUser(int userId);
 
     public boolean isValidUser(String username, String password);
 
     public boolean isUniqueUsername(String username);
 
-    public Users getCurrentUserDetail(int id);
+    public Users getCurrentUserDetail(int userId);
 
     public int getUserID(String username);
 
