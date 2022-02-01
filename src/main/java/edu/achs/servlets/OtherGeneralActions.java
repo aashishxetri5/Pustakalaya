@@ -31,27 +31,30 @@ public class OtherGeneralActions extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        if (request.getRequestURI().contains("/user/changerole")) {
-            String userType = request.getParameter("currentRole");
-            int userId = Integer.parseInt(request.getParameter("userId"));
+        if (request.getSession().getAttribute("currentUser") != null) {
+            if (request.getRequestURI().contains("/user/changerole")) {
+                String userType = request.getParameter("currentRole");
+                int userId = Integer.parseInt(request.getParameter("userId"));
 
-            if ((userType.equals("Librarian") || userType.equals("Student")) && (userId >= 200000 && userId <= 300000)) {
-                String newRole = "", attrMsg="";
-                if (userType.equals("Student")) {
-                    newRole = "Librarian";
-                    attrMsg = "User Promoted Successfully!!";
-                } else if (userType.equals("Librarian")) {
-                    newRole = "Student";
-                    attrMsg = "User Demoted Successfully!!";
+                if ((userType.equals("Librarian") || userType.equals("Student")) && (userId >= 200000 && userId <= 300000)) {
+                    String newRole = "", attrMsg = "";
+                    if (userType.equals("Student")) {
+                        newRole = "Librarian";
+                        attrMsg = "User Promoted Successfully!!";
+                    } else if (userType.equals("Librarian")) {
+                        newRole = "Student";
+                        attrMsg = "User Demoted Successfully!!";
+                    }
+                    new UserDaoImpl().changeRole(userId, newRole);
+                    request.setAttribute("successMsg", attrMsg);
+                } else {
+                    request.setAttribute("errorMsg", "Problem updating role. Please try again later!!");
                 }
-                new UserDaoImpl().changeRole(userId, newRole);
-                request.setAttribute("successMsg", attrMsg);
-            } else {
-                request.setAttribute("errorMsg", "Problem updating role. Please try again later!!");
+                response.sendRedirect(request.getContextPath() + "/dashboard/members/all");
             }
-            response.sendRedirect(request.getContextPath() + "/dashboard/members/all");
+        } else {
+            request.setAttribute("errorMsg", "Invalid Request!");
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

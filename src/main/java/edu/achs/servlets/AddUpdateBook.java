@@ -7,6 +7,7 @@ package edu.achs.servlets;
 
 import edu.achs.daoImpl.BookDaoImpl;
 import edu.achs.entities.Books;
+import edu.achs.entities.Users;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,49 +25,60 @@ public class AddUpdateBook extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String bookId = request.getParameter("bookId");
-        String title = request.getParameter("bookname");
-        String author = request.getParameter("author");
-        String publisher = request.getParameter("publisher");
-        String edition = request.getParameter("edition");
-        String numOfPages = request.getParameter("numOfPages");
-        String ISBN = request.getParameter("isbn");
-        String genre = request.getParameter("genre");
-        int stock = Integer.parseInt(request.getParameter("stock"));
-        Double price = Double.parseDouble(request.getParameter("price"));
-        String language = request.getParameter("language");
+        if (request.getSession().getAttribute("currentUser") != null) {
 
-        if (bookId != null && title != null && author != null && publisher != null && edition != null
-                && (numOfPages != "0" && numOfPages != null) && ISBN != null && genre != null && stock != 0 && price != 0.0
-                && language != null) {
+            Users user = (Users) request.getSession().getAttribute("currentUser");
 
-            BookDaoImpl bdi = new BookDaoImpl();
-            //Checking if new Book is to be added or existing book is to be updated.
-            if (request.getRequestURI().contains("/addBook")) {
+            if (user.getUserType().equals("Librarian")) {
 
-                if (!bdi.doesBookidAndIsbnExist(bookId, ISBN)) {
+                String bookId = request.getParameter("bookId");
+                String title = request.getParameter("bookname");
+                String author = request.getParameter("author");
+                String publisher = request.getParameter("publisher");
+                String edition = request.getParameter("edition");
+                String numOfPages = request.getParameter("numOfPages");
+                String ISBN = request.getParameter("isbn");
+                String genre = request.getParameter("genre");
+                int stock = Integer.parseInt(request.getParameter("stock"));
+                Double price = Double.parseDouble(request.getParameter("price"));
+                String language = request.getParameter("language");
 
-                    bdi.addBook(new Books(bookId, stock, numOfPages, author, title, publisher, ISBN, edition, genre, language, price));
-                    request.setAttribute("successMsg", "New book added successfully!!");
+                if (bookId != null && title != null && author != null && publisher != null && edition != null
+                        && (numOfPages != "0" && numOfPages != null) && ISBN != null && genre != null && stock != 0 && price != 0.0
+                        && language != null) {
+
+                    BookDaoImpl bdi = new BookDaoImpl();
+                    //Checking if new Book is to be added or existing book is to be updated.
+                    if (request.getRequestURI().contains("/addBook")) {
+
+                        if (!bdi.doesBookidAndIsbnExist(bookId, ISBN)) {
+
+                            bdi.addBook(new Books(bookId, stock, numOfPages, author, title, publisher, ISBN, edition, genre, language, price));
+                            request.setAttribute("successMsg", "New book added successfully!!");
+                        } else {
+                            request.setAttribute("errorMsg", "Duplicate Data. Try again!!");
+                        }
+
+                    } else if (request.getRequestURI().contains("/updateBook")) {
+                        if (!bdi.doesBookidAndIsbnExist(bookId, ISBN)) {
+                            bdi.updateBook(new Books(bookId, stock, numOfPages, author, title, publisher, ISBN, edition, genre, language, price));
+                            request.setAttribute("successMsg", "Book updated successfully!!");
+                        } else {
+                            request.setAttribute("errorMsg", "Duplicate Data. Try again!!");
+                        }
+                    }
+                    response.sendRedirect(request.getContextPath() + "/dashboard/books/all");
                 } else {
-                    request.setAttribute("errorMsg", "Duplicate Data. Try again!!");
+                    request.setAttribute("errorMsg", "Operation Failed. Please try again!!");
+                    if (request.getRequestURI().contains("/updateBook")) {
+                        response.sendRedirect(request.getContextPath() + "/dashboard/books/all");
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/newbook");
+                    }
                 }
-
-            } else if (request.getRequestURI().contains("/updateBook")) {
-                if (!bdi.doesBookidAndIsbnExist(bookId, ISBN)) {
-                    bdi.updateBook(new Books(bookId, stock, numOfPages, author, title, publisher, ISBN, edition, genre, language, price));
-                    request.setAttribute("successMsg", "Book updated successfully!!");
-                } else {
-                    request.setAttribute("errorMsg", "Duplicate Data. Try again!!");
-                }
-            }
-            response.sendRedirect(request.getContextPath() + "/dashboard/books/all");
-        } else {
-            request.setAttribute("errorMsg", "Operation Failed. Please try again!!");
-            if (request.getRequestURI().contains("/updateBook")) {
-                response.sendRedirect(request.getContextPath() + "/dashboard/books/all");
             } else {
-                response.sendRedirect(request.getContextPath() + "/newbook");
+                request.setAttribute("errorMsg", "Invalid request");
+                response.sendRedirect(request.getContextPath() + "/home");
             }
         }
     }

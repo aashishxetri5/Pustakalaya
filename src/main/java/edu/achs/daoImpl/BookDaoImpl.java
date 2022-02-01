@@ -344,4 +344,22 @@ public class BookDaoImpl implements BookDao {
         }
         return false;
     }
+    
+    public boolean isBookBorrowedByUser(int userId) {
+        try {
+            sqlQuery = "select count(*) from tbl_borrow where userId = ? and status = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setInt(1, userId);
+            pst.setString(2, "pending");
+            ResultSet rs = pst.executeQuery();
+            rs.next();
+            if (rs.getInt(1) > 0) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
 }

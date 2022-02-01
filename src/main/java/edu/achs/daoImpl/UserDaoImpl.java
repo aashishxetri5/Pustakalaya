@@ -206,8 +206,9 @@ public class UserDaoImpl implements UserDao {
     }
 
     /**
-     *
-     * @param id
+     * 
+     * 
+     * @param userId
      */
     @Override
     public void banUser(int userId) {

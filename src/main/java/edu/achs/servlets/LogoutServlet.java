@@ -24,6 +24,7 @@ public class LogoutServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         session.invalidate();
+        
         request.setAttribute("scuccessMsg", "Logged out successfully!!");
         response.sendRedirect(request.getContextPath().concat("/home"));
     }
