@@ -26,37 +26,46 @@ public class UpdateUserInfo extends HttpServlet {
         UserDaoImpl udl = new UserDaoImpl();
 
         if (request.getSession().getAttribute("currentUser") != null) {
-            int userId = Integer.parseInt(request.getParameter("userId"));
-            String firstname = request.getParameter("fname").trim();
-            String lastname = request.getParameter("lname").trim();
-            String email = request.getParameter("email").trim();
-            String address = request.getParameter("address").trim();
-            String phNum = request.getParameter("phoneNum").trim();
-            String gender = request.getParameter("gender").trim();
 
-            //Checks if any of the value received are null.
-            if (firstname != null && lastname != null && email != null && address != null && phNum != null && gender != null) {
+            Users user = (Users) request.getSession().getAttribute("currentUser");
 
-                //checking if there has been some descripancies in the values of the field gender 
-                if (gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female") || gender.equalsIgnoreCase("Other")) {
+            if (user.getUserType().equals("Librarian")) {
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                String firstname = request.getParameter("fname").trim();
+                String lastname = request.getParameter("lname").trim();
+                String email = request.getParameter("email").trim();
+                String address = request.getParameter("address").trim();
+                String phNum = request.getParameter("phoneNum").trim();
+                String gender = request.getParameter("gender").trim();
 
-                    //Assigns M for male, F for female, O for other.
-                    gender = (gender.equalsIgnoreCase("Male")) ? "M" : gender.equalsIgnoreCase("Female") ? "F" : "O";
+                //Checks if any of the value received are null.
+                if (firstname != null && lastname != null && email != null && address != null && phNum != null && gender != null) {
 
-                    ///Sends the received data to updateUser() function.
-                    udl.updateUser(new Users(userId, firstname, lastname, gender, address, email, phNum));
+                    //checking if there has been some descripancies in the values of the field gender 
+                    if (gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female") || gender.equalsIgnoreCase("Other")) {
 
-                    request.setAttribute("successMsg", "Update successful!!");
+                        //Assigns M for male, F for female, O for other.
+                        gender = (gender.equalsIgnoreCase("Male")) ? "M" : gender.equalsIgnoreCase("Female") ? "F" : "O";
+
+                        ///Sends the received data to updateUser() function.
+                        udl.updateUser(new Users(userId, firstname, lastname, gender, address, email, phNum));
+
+                        request.setAttribute("successMsg", "Update successful!!");
+                    } else {
+                        request.setAttribute("errorMsg", "Your attempt to alter default values were detected. Please try again!!");
+                    }
+                    request.setAttribute("errorMsg", "Problem updating information. Please try again!!");
                 } else {
-                    request.setAttribute("errorMsg", "Your attempt to alter default values were detected. Please try again!!");
+                    request.setAttribute("errorMsg", "There was a problem registering you. Please try again!!");
                 }
-                request.setAttribute("errorMsg", "Problem updating information. Please try again!!");
+                response.sendRedirect(request.getContextPath() + "/dashboard/profile");
             } else {
-                request.setAttribute("errorMsg", "There was a problem registering you. Please try again!!");
+                request.setAttribute("errorMsg", "Invalid request");
+                response.sendRedirect(request.getContextPath() + "/home");
             }
-            response.sendRedirect(request.getContextPath() + "/dashboard/profile");
         } else {
-            request.setAttribute("errorMsg", "Invalid request");
+            request.setAttribute("errorMsg", "Invalid Request!");
+            response.sendRedirect(request.getContextPath() + "/home");
         }
     }
 

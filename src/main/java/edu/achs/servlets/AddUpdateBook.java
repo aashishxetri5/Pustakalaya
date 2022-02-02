@@ -80,6 +80,9 @@ public class AddUpdateBook extends HttpServlet {
                 request.setAttribute("errorMsg", "Invalid request");
                 response.sendRedirect(request.getContextPath() + "/home");
             }
+        } else {
+            request.setAttribute("errorMsg", "Invalid Request!");
+            response.sendRedirect(request.getContextPath() + "/home");
         }
     }
 
