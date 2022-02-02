@@ -4,6 +4,7 @@
     Author     : Aashish Katwal
 --%>
 <%@page import="edu.achs.daoImpl.BookDaoImpl"%>
+<%@page import="edu.achs.dao.BookDao"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="edu.achs.entities.Books"%>
 <%@page import="java.util.List"%>
@@ -78,7 +79,8 @@
                             List<Books> allBooks = new ArrayList<>();
                             int count;
                             if (request.getRequestURI().contains("/books/all")) {
-                                allBooks = new BookDaoImpl().getAllBooks();
+                                BookDao books = new BookDaoImpl();
+                                allBooks = books.getAllBooks();
                                 count = 1;
                                 for (Books book : allBooks) {
 
@@ -115,10 +117,11 @@
 
                         <% }
                         } else if (request.getRequestURI().contains("/books/borrowed")) {
+                            BookDao books = new BookDaoImpl();
                             if (user.getUserType().equals("Librarian")) {
-                                allBooks = new BookDaoImpl().getAllBorrowedBooks();
+                                allBooks = books.getAllBorrowedBooks();
                             } else if (user.getUserType().equals("Student")) {
-                                allBooks = new BookDaoImpl().getBorrowedBooks(user.getUserId());
+                                allBooks = books.getBorrowedBooks(user.getUserId());
                             }
                             count = 1;
                             for (Books book : allBooks) {
@@ -128,7 +131,7 @@
                             <%
                                 if (user.getUserType().equals("Librarian")) {
                             %>
-                            <td><%=new BookDaoImpl().getBorrowerName(book.getBorrowerId())%></td>
+                            <td><%=books.getBorrowerName(book.getBorrowerId())%></td>
                             <% }%>
                             <td><%=book.getBookTitle()%></td>
                             <td><%=book.getAuthor()%></td>

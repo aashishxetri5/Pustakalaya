@@ -4,6 +4,7 @@
     Author     : Aashish Katwal
 --%>
 
+<%@page import="edu.achs.dao.UserDao"%>
 <%@page import="edu.achs.daoImpl.UserDaoImpl"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="edu.achs.entities.Users"%>
@@ -62,7 +63,8 @@
                         <%
                             List<Users> allUsers = new ArrayList<>();
                             String userType = request.getRequestURI().contains("/members/all") ? "Student" : "Librarian";
-                            allUsers = new UserDaoImpl().getAllMembers(userType);
+                            UserDao users = new UserDaoImpl();
+                            allUsers = users.getAllMembers(userType);
                             int count = 1;
                             for (Users alluser : allUsers) {
                                 if (user.getUserId() == alluser.getUserId()) {

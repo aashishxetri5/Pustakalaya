@@ -4,6 +4,7 @@
     Author     : Aashish Katwal
 --%>
 
+<%@page import="edu.achs.dao.UserDao"%>
 <%@page import="edu.achs.dashboardContents.CountRecords"%>
 <%@page import="edu.achs.daoImpl.BookDaoImpl"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
@@ -36,7 +37,8 @@
                 <h1 class="p-title-heading">Account Information:</h1>
 
                 <%
-                    Users thisUser = new UserDaoImpl().getCurrentUserDetail(user.getUserId());
+                    UserDao currentUser = new UserDaoImpl();
+                    Users thisUser = currentUser.getCurrentUserDetail(user.getUserId());
                 %>
 
                 <div class="labels">

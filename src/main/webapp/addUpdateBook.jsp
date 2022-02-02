@@ -4,6 +4,7 @@
     Author     : Aashish Katwal
 --%>
 
+<%@page import="edu.achs.dao.BookDao"%>
 <%@page import="edu.achs.entities.Books"%>
 <%@page import="edu.achs.daoImpl.BookDaoImpl"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -54,7 +55,8 @@
                     </form>
                     <%
                     } else if (request.getRequestURI().contains("/book/updateBookInfo")) {
-                        Books book = new BookDaoImpl().getDetailsOfBookToBeUpdated(request.getParameter("bookId"), request.getParameter("ISBN"));
+                        BookDao books = new BookDaoImpl();
+                        Books book = books.getDetailsOfBookToBeUpdated(request.getParameter("bookId"), request.getParameter("ISBN"));
                     %>
 
                     <form action="updateBook" method="POST">

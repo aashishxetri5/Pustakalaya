@@ -328,12 +328,8 @@ section#dashboard-section {
     align-items: center;
 }
 
-.last-col  a:first-child{
+.last-col  .fas{
     color: #e9163e !important;
-}
-
-.last-col  a:last-child{
-    color: var(--primaryColor) !important;
 }
 
 .last-col .borrow-btn, .delete-btn{
