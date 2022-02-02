@@ -31,17 +31,17 @@ public class AddUpdateBook extends HttpServlet {
 
             if (user.getUserType().equals("Librarian")) {
 
-                String bookId = request.getParameter("bookId");
-                String title = request.getParameter("bookname");
-                String author = request.getParameter("author");
-                String publisher = request.getParameter("publisher");
-                String edition = request.getParameter("edition");
-                String numOfPages = request.getParameter("numOfPages");
-                String ISBN = request.getParameter("isbn");
-                String genre = request.getParameter("genre");
+                String bookId = request.getParameter("bookId").trim();
+                String title = request.getParameter("bookname").trim();
+                String author = request.getParameter("author").trim();
+                String publisher = request.getParameter("publisher").trim();
+                String edition = request.getParameter("edition").trim();
+                String numOfPages = request.getParameter("numOfPages").trim();
+                String ISBN = request.getParameter("isbn").trim();
+                String genre = request.getParameter("genre").trim();
                 int stock = Integer.parseInt(request.getParameter("stock"));
                 Double price = Double.parseDouble(request.getParameter("price"));
-                String language = request.getParameter("language");
+                String language = request.getParameter("language").trim();
 
                 if (bookId != null && title != null && author != null && publisher != null && edition != null
                         && (numOfPages != "0" && numOfPages != null) && ISBN != null && genre != null && stock != 0 && price != 0.0

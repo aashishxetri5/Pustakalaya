@@ -29,9 +29,9 @@ public class FeedbackAndContact extends HttpServlet {
         OtherServices survey = new OtherServices();
 
         if (request.getParameter("ContactFormSubmission") != null) {
-            String fullname = request.getParameter("fullname");
-            email = request.getParameter("c-email");
-            message = request.getParameter("c-message");
+            String fullname = request.getParameter("fullname").trim();
+            email = request.getParameter("c-email").trim();
+            message = request.getParameter("c-message").trim();
 
             //checking if any of the values are null
             if (fullname != null && email != null && message != null) {
@@ -43,9 +43,9 @@ public class FeedbackAndContact extends HttpServlet {
 
         } else if (request.getParameter("FeedbackFormSubmission") != null) {
             int userId = Integer.parseInt(request.getParameter("userId"));
-            email = request.getParameter("f-email");
-            String username = request.getParameter("username");
-            message = request.getParameter("f-message");
+            email = request.getParameter("f-email").trim();
+            String username = request.getParameter("username").trim();
+            message = request.getParameter("f-message").trim();
 
             //checking if any of the values are null
             if (email != null && username != null && message != null) {

@@ -25,11 +25,9 @@ public class BookRequestServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String bookTitle = request.getParameter("book-title");
-        String author = request.getParameter("author");
-        String genre = request.getParameter("genre");
-
-        System.out.println("GENRE::::: " + genre);
+        String bookTitle = request.getParameter("book-title").trim();
+        String author = request.getParameter("author").trim();
+        String genre = request.getParameter("genre").trim();
 
         if (bookTitle != null && author != null && genre != null) {
             OtherServices otherServ = new OtherServices();

@@ -27,12 +27,12 @@ public class UpdateUserInfo extends HttpServlet {
 
         if (request.getSession().getAttribute("currentUser") != null) {
             int userId = Integer.parseInt(request.getParameter("userId"));
-            String firstname = request.getParameter("fname");
-            String lastname = request.getParameter("lname");
-            String email = request.getParameter("email");
-            String address = request.getParameter("address");
-            String phNum = request.getParameter("phoneNum");
-            String gender = request.getParameter("gender");
+            String firstname = request.getParameter("fname").trim();
+            String lastname = request.getParameter("lname").trim();
+            String email = request.getParameter("email").trim();
+            String address = request.getParameter("address").trim();
+            String phNum = request.getParameter("phoneNum").trim();
+            String gender = request.getParameter("gender").trim();
 
             //Checks if any of the value received are null.
             if (firstname != null && lastname != null && email != null && address != null && phNum != null && gender != null) {

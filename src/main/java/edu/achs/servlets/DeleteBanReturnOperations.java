@@ -34,7 +34,7 @@ public class DeleteBanReturnOperations extends HttpServlet {
 
             if (user.getUserType().equals("Librarian")) {
                 if (request.getRequestURI().contains("/deleteBook")) {
-                    String bookId = request.getParameter("bookId");
+                    String bookId = request.getParameter("bookId").trim();
                     if (new BookDaoImpl().isBookBorrowed(bookId)) {
                         request.setAttribute("errorMsg", "The book is borrowed by member(s).");
                     } else {

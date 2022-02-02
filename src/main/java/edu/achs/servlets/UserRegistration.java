@@ -28,13 +28,13 @@ public class UserRegistration extends HttpServlet {
         GenerateIDs generate = new GenerateIDs();
         UserDaoImpl udl = new UserDaoImpl();
 
-        String firstname = request.getParameter("fname");
-        String lastname = request.getParameter("lname");
-        String email = request.getParameter("email");
-        String address = request.getParameter("address");
-        String phNum = request.getParameter("phoneNum");
-        String gender = request.getParameter("gender");
-        String username = request.getParameter("username");
+        String firstname = request.getParameter("fname").trim();
+        String lastname = request.getParameter("lname").trim();
+        String email = request.getParameter("email").trim();
+        String address = request.getParameter("address").trim();
+        String phNum = request.getParameter("phoneNum").trim();
+        String gender = request.getParameter("gender").trim();
+        String username = request.getParameter("username").trim();
         String password = request.getParameter("password");
 
         //Checking if any of the above fields have received null values.
