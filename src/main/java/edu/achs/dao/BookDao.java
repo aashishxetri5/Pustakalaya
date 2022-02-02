@@ -16,6 +16,8 @@ import java.util.List;
 public interface BookDao {
 
     public void addBook(Books book);
+    
+    public void addStockRecord(String bookId, int stock);
 
     public List<Books> getAllBooks();
 

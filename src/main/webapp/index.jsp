@@ -3,6 +3,7 @@
     Created on : Jan 8, 2022, 4:51:05 PM
     Author     : Aashish Katwal
 --%>
+<%@page import="edu.achs.daoImpl.BorrowDaoImpl"%>
 <%@page import="edu.achs.utility.GenerateDates"%>
 <%@page import="edu.achs.utility.ProfilePictureNameCustomization"%>
 <%@page import="edu.achs.utility.GenerateIDs"%>
@@ -26,6 +27,7 @@
         </section>
 
         <footer>
+            <% new GenerateDates().getIssuedDate(); %>
             <%@include file="Components/Footer.jsp" %>
         </footer>
 

@@ -9,6 +9,11 @@ package edu.achs.dao;
  *
  * @author Aashish Katwal
  */
-public class BorrowDao {
+public interface BorrowDao {
+
+    public boolean canUserBorrowBook(int userId);
     
+    public boolean isBookInStock(String bookId);
+    
+    public void borrowBookProcess(int userId, String bookId);
 }

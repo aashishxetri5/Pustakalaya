@@ -5,7 +5,6 @@
  */
 package edu.achs.utility;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -13,16 +12,25 @@ import java.util.Date;
  * @author Aashish Katwal
  */
 public class GenerateDates {
-
+    
     /**
      * Returns Date of the time this function was called.
      *
      * @return
      */
-    public String getCerrentDate() {
+    public String getIssuedDate() {
         Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("YYYY/MM/DD");
-        System.out.println(formatter.format(date));
-        return formatter.format(date);
+        return ((1900 + date.getYear()) + "-" + (date.getMonth()+1) + "-" + (date.getDay()-1));
+    }
+
+    /**
+     * Returns Date from 10 days of the time this function was called.
+     *
+     * @return
+     */
+    public String getReturnDate() {
+        Date date = new Date();
+
+        return ((1900 + date.getYear()) + "-" + (date.getMonth()+1) + "-" + (date.getDay() + 9));
     }
 }

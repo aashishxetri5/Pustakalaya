@@ -48,10 +48,30 @@ public class BookDaoImpl implements BookDao {
             pst.setString(11, book.getNumOfPages());
             //This inserts the data received above to the respective fields in the table.
             pst.executeUpdate();
-            new DBConnection().getConnection().close();
+            //Calls this function which adds available stock to tbl_bookstock
+            addStockRecord(book.getBookId(), book.getStock());
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     *
+     * @param bookId
+     * @param stock
+     */
+    @Override
+    public void addStockRecord(String bookId, int stock) {
+        try {
+            sqlQuery = "insert into tbl_bookstock values(?, ?)";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, bookId);
+            pst.setInt(2, stock);
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -78,7 +98,6 @@ public class BookDaoImpl implements BookDao {
                 book.setPrice(rs.getDouble("price"));
                 allBooks.add(book);
             }
-            new DBConnection().getConnection().close();
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -114,7 +133,6 @@ public class BookDaoImpl implements BookDao {
                 book.setStatus(rs.getString("status"));
                 allBooks.add(book);
             }
-            new DBConnection().getConnection().close();
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -148,7 +166,6 @@ public class BookDaoImpl implements BookDao {
                 book.setStatus(rs.getString("status"));
                 allBooks.add(book);
             }
-            new DBConnection().getConnection().close();
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -179,7 +196,6 @@ public class BookDaoImpl implements BookDao {
             pst.setString(11, book.getBookId());
             //This inserts the data received above to the respective fields in the table.
             pst.executeUpdate();
-            new DBConnection().getConnection().close();
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -197,7 +213,6 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setString(1, bookId);
             pst.executeUpdate();
-            new DBConnection().getConnection().close();
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -230,7 +245,6 @@ public class BookDaoImpl implements BookDao {
                 System.out.println("GENRE::: " + rs.getString("genre"));
                 allGenres.add(rs.getString("genre"));
             }
-            new DBConnection().getConnection().close();
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -265,7 +279,6 @@ public class BookDaoImpl implements BookDao {
             thisBook.setStock(rs.getInt("stock"));
             thisBook.setPrice(rs.getDouble("price"));
             thisBook.setLanguage(rs.getString("language"));
-            new DBConnection().getConnection().close();
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -289,7 +302,6 @@ public class BookDaoImpl implements BookDao {
             ResultSet rs = pst.executeQuery();
             rs.next();
             fullname = rs.getString("first_name").concat(" ").concat(rs.getString("last_name"));
-            new DBConnection().getConnection().close();
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -344,7 +356,7 @@ public class BookDaoImpl implements BookDao {
         }
         return false;
     }
-    
+
     public boolean isBookBorrowedByUser(int userId) {
         try {
             sqlQuery = "select count(*) from tbl_borrow where userId = ? and status = ?";
@@ -361,5 +373,5 @@ public class BookDaoImpl implements BookDao {
         }
         return false;
     }
-    
+
 }
