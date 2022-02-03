@@ -5,32 +5,32 @@
  */
 package edu.achs.utility;
 
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  *
  * @author Aashish Katwal
  */
 public class GenerateDates {
-    
+
     /**
-     * Returns Date of the time this function was called.
+     * Returns Date of the time this function was called. It converts LocalDate
+     * to SQL date.
      *
      * @return
      */
-    public String getIssuedDate() {
-        Date date = new Date();
-        return ((1900 + date.getYear()) + "-" + (date.getMonth()+1) + "-" + (date.getDay()-1));
+    public Date getIssuedDate() {
+        return Date.valueOf(LocalDate.now());
     }
 
     /**
-     * Returns Date from 10 days of the time this function was called.
+     * Returns Date from 10 days of the time this function was called. It
+     * converts LocalDate to SQL date.
      *
      * @return
      */
-    public String getReturnDate() {
-        Date date = new Date();
-
-        return ((1900 + date.getYear()) + "-" + (date.getMonth()+1) + "-" + (date.getDay() + 9));
+    public Date getReturnDate() {
+        return Date.valueOf(LocalDate.now().plusDays(10));
     }
 }

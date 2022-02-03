@@ -16,4 +16,6 @@ public interface BorrowDao {
     public boolean isBookInStock(String bookId);
     
     public void borrowBookProcess(int userId, String bookId);
+    
+    public void changeNumberOfStock(String bookId);
 }

@@ -39,7 +39,8 @@ public class UpdateUserInfo extends HttpServlet {
                 String gender = request.getParameter("gender").trim();
 
                 //Checks if any of the value received are null.
-                if (firstname != null && lastname != null && email != null && address != null && phNum != null && gender != null) {
+                if (firstname != null && lastname != null && email != null && address != null && phNum != null
+                        && gender != null) {
 
                     //checking if there has been some descripancies in the values of the field gender 
                     if (gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female") || gender.equalsIgnoreCase("Other")) {

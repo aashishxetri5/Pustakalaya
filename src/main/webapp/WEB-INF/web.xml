@@ -121,6 +121,16 @@
     </servlet-mapping>
     
     <servlet>
+        <servlet-name>Change Password</servlet-name>
+        <jsp-file>/changePassword.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Change Password</servlet-name>
+        <url-pattern>/user/changePassword</url-pattern>
+        <url-pattern>/user/changePassword/</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
         <servlet-name>Display Feedbacks</servlet-name>
         <jsp-file>/feedbacks.jsp</jsp-file>
     </servlet>
@@ -129,7 +139,7 @@
         <url-pattern>/dashboard/feedbacks</url-pattern>
         <url-pattern>/dashboard/feedbacks/</url-pattern>
     </servlet-mapping>
-    
+
     <!-- Error Page -->
     <error-page>
         <exception-type>java.lang.Exception</exception-type>

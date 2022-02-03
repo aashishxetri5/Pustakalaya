@@ -107,7 +107,7 @@
                                     <i class="fas fa-trash"></i>
                                 </a>
                                 <%} else if (user.getUserType().equals("Student")) {%>
-                                <a href="${pageContext.request.contextPath}/book/borrow?bookId=<%=book.getBookId()%>&ISBN=<%=book.getISBN()%>" title="Borrow This Book">
+                                <a href="${pageContext.request.contextPath}/book/borrow?bookId=<%=book.getBookId()%>&borrwerId=<%=user.getUserId()%>" title="Borrow This Book">
                                     <button class="borrow-btn">Borrow</button>
                                 </a>
                                 <% } %>

@@ -18,6 +18,21 @@ public class Users {
     public Users() {
     }
 
+    /**
+     *
+     * @param libraryId
+     * @param userId
+     * @param firstName
+     * @param lastName
+     * @param gender
+     * @param username
+     * @param password
+     * @param address
+     * @param email
+     * @param contactNum
+     * @param userType
+     * @param fine
+     */
     public Users(String libraryId, int userId, String firstName, String lastName, String gender, String username, String password,
             String address, String email, String contactNum, String userType, double fine) {
         this.libraryId = libraryId;
@@ -34,6 +49,17 @@ public class Users {
         this.fine = fine;
     }
 
+    /**
+     *
+     * 
+     * @param userId
+     * @param firstName
+     * @param lastName
+     * @param gender
+     * @param address
+     * @param email
+     * @param contactNum
+     */
     public Users(int userId, String firstName, String lastName, String gender, String address, String email, String contactNum) {
         this.userId = userId;
         this.firstName = firstName;
@@ -44,103 +70,194 @@ public class Users {
         this.gender = gender;
     }
 
-    public Users(String email, String username) {
-        this.email = email;
-        this.username = username;
-    }
-
+    /**
+     *
+     * @return
+     */
     public String getLibraryId() {
         return libraryId;
     }
 
+    /**
+     *
+     * @param libraryId
+     */
     public void setLibraryId(String libraryId) {
         this.libraryId = libraryId;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getUserId() {
         return userId;
     }
 
+    /**
+     *
+     * @param userId
+     */
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getFirstName() {
         return firstName;
     }
 
+    /**
+     *
+     * @param firstName
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /**
+     *
+     * @param lastName
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getGender() {
         return gender;
     }
 
+    /**
+     *
+     * @param gender
+     */
     public void setGender(String gender) {
         this.gender = gender;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     *
+     * @param username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     *
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     *
+     * @param address
+     */
     public void setAddress(String address) {
         this.address = address;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     *
+     * @param email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getContactNum() {
         return contactNum;
     }
 
+    /**
+     *
+     * @param contactNum
+     */
     public void setContactNum(String contactNum) {
         this.contactNum = contactNum;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUserType() {
         return userType;
     }
 
+    /**
+     *
+     * @param userType
+     */
     public void setUserType(String userType) {
         this.userType = userType;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getFine() {
         return fine;
     }
 
+    /**
+     *
+     * @param fine
+     */
     public void setFine(double fine) {
         this.fine = fine;
     }

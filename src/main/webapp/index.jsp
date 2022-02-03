@@ -27,7 +27,6 @@
         </section>
 
         <footer>
-            <% new GenerateDates().getIssuedDate(); %>
             <%@include file="Components/Footer.jsp" %>
         </footer>
 

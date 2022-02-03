@@ -116,8 +116,8 @@ public class BookDaoImpl implements BookDao {
     public List<Books> getBorrowedBooks(int userId) {
         try {
             sqlQuery = "select tbl_books.bookId, tbl_books.title, tbl_books.author, tbl_books.publisher, tbl_books.genre, "
-                    + "tbl_borrow.issue_date, tbl_borrow.return_date, tbl_borrow.status from tbl_books inner join tbl_borrow "
-                    + "on userId = ? and tbl_books.bookId = tbl_borrow.bookId order by tbl_borrow.status ASC";
+                    + "tbl_borrow.issue_date, tbl_borrow.return_date, tbl_borrow.return_status from tbl_books inner join tbl_borrow "
+                    + "on userId = ? and tbl_books.bookId = tbl_borrow.bookId order by tbl_borrow.return_status ASC";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             ResultSet rs = pst.executeQuery();
@@ -130,7 +130,7 @@ public class BookDaoImpl implements BookDao {
                 book.setGenre(rs.getString("genre"));
                 book.setIssue_date(rs.getString("issue_date"));
                 book.setReturn_date(rs.getString("return_date"));
-                book.setStatus(rs.getString("status"));
+                book.setStatus(rs.getString("return_status"));
                 allBooks.add(book);
             }
         } catch (SQLException ex) {
@@ -149,8 +149,8 @@ public class BookDaoImpl implements BookDao {
     public List<Books> getAllBorrowedBooks() {
         try {
             sqlQuery = "select tbl_books.bookId, tbl_books.title, tbl_books.author, tbl_books.publisher, tbl_books.genre, "
-                    + "tbl_borrow.userId, tbl_borrow.issue_date, tbl_borrow.return_date, tbl_borrow.status from tbl_books "
-                    + "inner join tbl_borrow on tbl_books.bookId = tbl_borrow.bookId order by tbl_borrow.status ASC";
+                    + "tbl_borrow.userId, tbl_borrow.issue_date, tbl_borrow.return_date, tbl_borrow.return_status from tbl_books "
+                    + "inner join tbl_borrow on tbl_books.bookId = tbl_borrow.bookId order by tbl_borrow.return_status ASC";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -163,7 +163,7 @@ public class BookDaoImpl implements BookDao {
                 book.setGenre(rs.getString("genre"));
                 book.setIssue_date(rs.getString("issue_date"));
                 book.setReturn_date(rs.getString("return_date"));
-                book.setStatus(rs.getString("status"));
+                book.setStatus(rs.getString("return_status"));
                 allBooks.add(book);
             }
         } catch (SQLException ex) {
@@ -359,7 +359,7 @@ public class BookDaoImpl implements BookDao {
 
     public boolean isBookBorrowedByUser(int userId) {
         try {
-            sqlQuery = "select count(*) from tbl_borrow where userId = ? and status = ?";
+            sqlQuery = "select count(*) from tbl_borrow where userId = ? and return_status = ?";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             pst.setString(2, "pending");

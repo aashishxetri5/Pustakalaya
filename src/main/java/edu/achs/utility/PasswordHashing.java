@@ -9,7 +9,7 @@ import java.security.MessageDigest;
 
 /**
  *
- * @author asus
+ * @author Aashish Katwal
  */
 public class PasswordHashing {
 

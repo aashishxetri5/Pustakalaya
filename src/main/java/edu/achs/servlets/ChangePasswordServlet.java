@@ -5,10 +5,6 @@
  */
 package edu.achs.servlets;
 
-import edu.achs.dao.BookDao;
-import edu.achs.dao.BorrowDao;
-import edu.achs.daoImpl.BookDaoImpl;
-import edu.achs.daoImpl.BorrowDaoImpl;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,8 +16,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Aashish Katwal
  */
-@WebServlet(name = "BorrowBook", urlPatterns = {"/book/borrow"})
-public class BorrowBook extends HttpServlet {
+@WebServlet(name = "ChangePasswordServlet", urlPatterns = {"/newPassword"})
+public class ChangePasswordServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,33 +30,6 @@ public class BorrowBook extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        if (request.getSession().getAttribute("currentUser") != null) {
-            String bookId = request.getParameter("bookId");
-            int borrowerId = Integer.parseInt(request.getParameter("borrwerId"));
-
-            BorrowDao bd = new BorrowDaoImpl();
-            BookDaoImpl bdl = new BookDaoImpl();
-
-            if (!bdl.isBookBorrowedByUser(borrowerId)) {
-                if (bd.canUserBorrowBook(borrowerId)) {
-                    if (bd.isBookInStock(bookId)) {
-                        bd.borrowBookProcess(borrowerId, bookId);
-                        request.setAttribute("successMsg", "Book borrowed successfully!");
-                        response.sendRedirect(request.getContextPath() + "/dashboard/books/borrowed");
-                    } else {
-                        request.setAttribute("errorMsg", "Book out of stock");
-                        response.sendRedirect(request.getContextPath() + "/dashboard/books/all");
-                    }
-                } else {
-                    request.setAttribute("errorMsg", "You can not borrow more than 5 books!");
-                    response.sendRedirect(request.getContextPath() + "/dashboard/books/all");
-                }
-            } else {
-                request.setAttribute("errorMsg", "This Book already borrowed!");
-                response.sendRedirect(request.getContextPath() + "/dashboard/books/all");
-            }
-        }
 
     }
 
