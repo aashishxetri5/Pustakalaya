@@ -36,9 +36,9 @@ public class FeedbackAndContact extends HttpServlet {
             //checking if any of the values are null
             if (fullname != null && email != null && message != null) {
                 survey.insertContactInfo(new FeedbacksAndContacts(fullname, email, message));
-                request.setAttribute("successMsg", "Contact request sent successfully!!");
+                request.getSession().setAttribute("successMsg", "Contact request sent successfully!!");
             } else {
-                request.setAttribute("errorMsg", "Could not place the request. Please try again!!");
+                request.getSession().setAttribute("errorMsg", "Could not place the request. Please try again!!");
             }
 
         } else if (request.getParameter("FeedbackFormSubmission") != null) {
@@ -50,9 +50,9 @@ public class FeedbackAndContact extends HttpServlet {
             //checking if any of the values are null
             if (email != null && username != null && message != null) {
                 survey.insertFeedbacks(new FeedbacksAndContacts(userId, email, username, message));
-                request.setAttribute("successMsg", "Feedback sent successfully!!");
+                request.getSession().setAttribute("successMsg", "Feedback sent successfully!!");
             } else {
-                request.setAttribute("errorMsg", "Could not send the feedback. Please try again!!");
+                request.getSession().setAttribute("errorMsg", "Could not send the feedback. Please try again!!");
             }
 
         }

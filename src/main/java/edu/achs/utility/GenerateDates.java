@@ -20,17 +20,7 @@ public class GenerateDates {
      *
      * @return
      */
-    public Date getIssuedDate() {
+    public Date getCurrentDate() {
         return Date.valueOf(LocalDate.now());
-    }
-
-    /**
-     * Returns Date from 10 days of the time this function was called. It
-     * converts LocalDate to SQL date.
-     *
-     * @return
-     */
-    public Date getReturnDate() {
-        return Date.valueOf(LocalDate.now().plusDays(10));
     }
 }

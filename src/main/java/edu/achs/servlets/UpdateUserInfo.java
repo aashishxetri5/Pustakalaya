@@ -51,21 +51,21 @@ public class UpdateUserInfo extends HttpServlet {
                         ///Sends the received data to updateUser() function.
                         udl.updateUser(new Users(userId, firstname, lastname, gender, address, email, phNum));
 
-                        request.setAttribute("successMsg", "Update successful!!");
+                        request.getSession().setAttribute("successMsg", "Update successful!!");
                     } else {
-                        request.setAttribute("errorMsg", "Your attempt to alter default values were detected. Please try again!!");
+                        request.getSession().setAttribute("errorMsg", "Your attempt to alter default values were detected. Please try again!!");
                     }
-                    request.setAttribute("errorMsg", "Problem updating information. Please try again!!");
+                    request.getSession().setAttribute("errorMsg", "Problem updating information. Please try again!!");
                 } else {
-                    request.setAttribute("errorMsg", "There was a problem registering you. Please try again!!");
+                    request.getSession().setAttribute("errorMsg", "There was a problem registering you. Please try again!!");
                 }
                 response.sendRedirect(request.getContextPath() + "/dashboard/profile");
             } else {
-                request.setAttribute("errorMsg", "Invalid request");
+                request.getSession().setAttribute("errorMsg", "Invalid request");
                 response.sendRedirect(request.getContextPath() + "/home");
             }
         } else {
-            request.setAttribute("errorMsg", "Invalid Request!");
+            request.getSession().setAttribute("errorMsg", "Invalid Request!");
             response.sendRedirect(request.getContextPath() + "/home");
         }
     }

@@ -12,7 +12,6 @@ import edu.achs.utility.SaveProfileImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -71,8 +70,6 @@ public class ProfileUploadServlet extends HttpServlet {
                             && !new UserDaoImpl().getProfileImgName(userId).equalsIgnoreCase("Female_Default_pp.png")
                             && !new UserDaoImpl().getProfileImgName(userId).equalsIgnoreCase("Others_Default_pp.png")) {
 
-                        System.out.println("REACHED HERE + " + new UserDaoImpl().getProfileImgName(userId));
-
                         //Deletes the old file so that there will be room for the new img file.
                         Files.delete(Paths.get(request.getRealPath("Images") + File.separator + "ProfilePictures" + File.separator
                                 + new UserDaoImpl().getProfileImgName(userId)));
@@ -82,21 +79,21 @@ public class ProfileUploadServlet extends HttpServlet {
                     new SaveProfileImage().saveImage(temppath, filePart);
 
                     //Move file from tempPP folder to ProfilePictures folder.
-                    Path path = Files.move(Paths.get(temppath), Paths.get(realPath));
+                    Files.move(Paths.get(temppath), Paths.get(realPath));
 
                     //update the profile picture name in database
                     new UserDaoImpl().updateProfilePicture(userId, newCustomFileName);
-                    request.setAttribute("successMsg", "Profile changed successfully!!");
+                    request.getSession().setAttribute("successMsg", "Profile changed successfully!!");
                 } else {
-                    request.setAttribute("errorMsg", "Failed to change profile picture!!");
+                    request.getSession().setAttribute("errorMsg", "Failed to change profile picture!!");
                 }
                 response.sendRedirect(request.getContextPath() + "/dashboard/profile");
             } else {
-                request.setAttribute("errorMsg", "Invalid request");
+                request.getSession().setAttribute("errorMsg", "Invalid request");
                 response.sendRedirect(request.getContextPath() + "/home");
             }
         } else {
-            request.setAttribute("errorMsg", "Invalid Request!");
+            request.getSession().setAttribute("errorMsg", "Invalid Request!");
             response.sendRedirect(request.getContextPath() + "/home");
         }
     }

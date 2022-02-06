@@ -99,18 +99,18 @@ public class UserRegistration extends HttpServlet {
                     // Saves the name of profile to the database.
                     udl.saveProfilePicture(userId, imgFileName);
 
-                    request.setAttribute("successMsg", "You're now successfully registered. Welcome to Pustakalaya!!");
+                    request.getSession().setAttribute("successMsg", "You're now successfully registered. Welcome to Pustakalaya!!");
                     response.sendRedirect(request.getContextPath() + directTo);
                 } else {
-                    request.setAttribute("errorMsg", "Your attempt to alter default values were detected. Please try again!!");
+                    request.getSession().setAttribute("errorMsg", "Your attempt to alter default values were detected. Please try again!!");
                     response.sendRedirect(request.getContextPath() + "/signup");
                 }
             } else {
-                request.setAttribute("errorMsg", "The username already exists. Please use a different one!!");
+                request.getSession().setAttribute("errorMsg", "The username already exists. Please use a different one!!");
                 response.sendRedirect(request.getContextPath() + "/signup");
             }
         } else {
-            request.setAttribute("errorMsg", "There was a problem registering you. Please try again!!");
+            request.getSession().setAttribute("errorMsg", "There was a problem registering you. Please try again!!");
             response.sendRedirect(request.getContextPath() + "/signup");
         }
     }

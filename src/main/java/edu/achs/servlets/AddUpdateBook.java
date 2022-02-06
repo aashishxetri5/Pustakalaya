@@ -44,7 +44,7 @@ public class AddUpdateBook extends HttpServlet {
                 String language = request.getParameter("language").trim();
 
                 if (bookId != null && title != null && author != null && publisher != null && edition != null
-                        && (numOfPages != "0" && numOfPages != null) && ISBN != null && genre != null && stock != 0 && price != 0.0
+                        && (!numOfPages.equals("0")) && ISBN != null && genre != null && stock != 0 && price > 0.0
                         && language != null) {
 
                     BookDaoImpl bdi = new BookDaoImpl();
@@ -54,22 +54,22 @@ public class AddUpdateBook extends HttpServlet {
                         if (!bdi.doesBookidAndIsbnExist(bookId, ISBN)) {
 
                             bdi.addBook(new Books(bookId, stock, numOfPages, author, title, publisher, ISBN, edition, genre, language, price));
-                            request.setAttribute("successMsg", "New book added successfully!!");
+                            request.getSession().setAttribute("successMsg", "New book added successfully!!");
                         } else {
-                            request.setAttribute("errorMsg", "Duplicate Data. Try again!!");
+                            request.getSession().setAttribute("errorMsg", "Duplicate Data. Try again!!");
                         }
 
                     } else if (request.getRequestURI().contains("/updateBook")) {
                         if (!bdi.doesBookidAndIsbnExist(bookId, ISBN)) {
                             bdi.updateBook(new Books(bookId, stock, numOfPages, author, title, publisher, ISBN, edition, genre, language, price));
-                            request.setAttribute("successMsg", "Book updated successfully!!");
+                            request.getSession().setAttribute("successMsg", "Book updated successfully!!");
                         } else {
-                            request.setAttribute("errorMsg", "Duplicate Data. Try again!!");
+                            request.getSession().setAttribute("errorMsg", "Duplicate Data. Try again!!");
                         }
                     }
                     response.sendRedirect(request.getContextPath() + "/dashboard/books/all");
                 } else {
-                    request.setAttribute("errorMsg", "Operation Failed. Please try again!!");
+                    request.getSession().setAttribute("errorMsg", "Operation Failed. Please try again!!");
                     if (request.getRequestURI().contains("/updateBook")) {
                         response.sendRedirect(request.getContextPath() + "/dashboard/books/all");
                     } else {
@@ -77,11 +77,11 @@ public class AddUpdateBook extends HttpServlet {
                     }
                 }
             } else {
-                request.setAttribute("errorMsg", "Invalid request");
+                request.getSession().setAttribute("errorMsg", "Invalid request");
                 response.sendRedirect(request.getContextPath() + "/home");
             }
         } else {
-            request.setAttribute("errorMsg", "Invalid Request!");
+            request.getSession().setAttribute("errorMsg", "Invalid Request!");
             response.sendRedirect(request.getContextPath() + "/home");
         }
     }

@@ -40,14 +40,14 @@ public class SignIn extends HttpServlet {
              */
             if (udl.isValidUser(username, password)) {
                 session.setAttribute("currentUser", udl.getLoggedinUser(username));
-                request.setAttribute("successMsg", "Logged in successfully!!");
+                request.getSession().setAttribute("successMsg", "Logged in successfully!!");
                 response.sendRedirect(request.getContextPath() + "/home");
             } else {
-                request.setAttribute("errorMsg", "Either Username or Password do not match!!");
+                request.getSession().setAttribute("errorMsg", "Either Username or Password do not match!!");
                 response.sendRedirect(request.getContextPath() + "/login");
             }
         } else {
-            request.setAttribute("errorMsg", "Invalid values received. Please try again");
+            request.getSession().setAttribute("errorMsg", "Invalid values received. Please try again");
             response.sendRedirect(request.getContextPath() + "/login");
         }
 

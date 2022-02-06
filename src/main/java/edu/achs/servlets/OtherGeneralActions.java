@@ -8,7 +8,6 @@ package edu.achs.servlets;
 import edu.achs.daoImpl.UserDaoImpl;
 import edu.achs.entities.Users;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,18 +50,18 @@ public class OtherGeneralActions extends HttpServlet {
                             attrMsg = "User Demoted Successfully!!";
                         }
                         new UserDaoImpl().changeRole(userId, newRole);
-                        request.setAttribute("successMsg", attrMsg);
+                        request.getSession().setAttribute("successMsg", attrMsg);
                     } else {
-                        request.setAttribute("errorMsg", "Problem updating role. Please try again later!!");
+                        request.getSession().setAttribute("errorMsg", "Problem updating role. Please try again later!!");
                     }
                     response.sendRedirect(request.getContextPath() + "/dashboard/members/all");
                 }
             } else {
-                request.setAttribute("errorMsg", "Invalid Request!");
+                request.getSession().setAttribute("errorMsg", "Invalid Request!");
                 response.sendRedirect(request.getContextPath() + "/home");
             }
         } else {
-            request.setAttribute("errorMsg", "Invalid Request!");
+            request.getSession().setAttribute("errorMsg", "Invalid Request!");
             response.sendRedirect(request.getContextPath() + "/home");
         }
     }

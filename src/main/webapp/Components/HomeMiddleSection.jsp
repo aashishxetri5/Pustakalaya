@@ -28,15 +28,15 @@
                             <input type="text" name="author" required placeholder="Author" />
 
                             <span class="input-title">Genre</span>
-                            <select name="genre" required>
-                                <option value="Select" disabled selected hidden>
+                            <select name="genre" title="Select a genre" required>
+                                <option title="Select" value="Select" disabled selected hidden>
                                     Select a Genre
                                 </option>
-                                <option value="Comics">Comic</option>
-                                <option value="Horror">Horror</option>
-                                <option value="Adventure">Adventure</option>
-                                <option value="Adventure">Fantasy</option>
-                                <option value="Adventure">Drama</option>
+                                <option title="Comic" value="Comics">Comic</option>
+                                <option title="Horror" value="Horror">Horror</option>
+                                <option title="Adventure" value="Adventure">Adventure</option>
+                                <option title="Fantasy" value="Adventure">Fantasy</option>
+                                <option title="Drama" value="Adventure">Drama</option>
                             </select>
                         </div>
                         <input type="submit" value="Request" class="submit-btn" /><br />

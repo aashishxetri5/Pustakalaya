@@ -36,7 +36,7 @@ public class DeleteBanReturnOperations extends HttpServlet {
                 if (request.getRequestURI().contains("/deleteBook")) {
                     String bookId = request.getParameter("bookId").trim();
                     if (new BookDaoImpl().isBookBorrowed(bookId)) {
-                        request.setAttribute("errorMsg", "The book is borrowed by member(s).");
+                        request.getSession().setAttribute("errorMsg", "The book is borrowed by member(s).");
                     } else {
                         new BookDaoImpl().deleteBook(bookId);
                     }
@@ -54,18 +54,18 @@ public class DeleteBanReturnOperations extends HttpServlet {
                             Files.deleteIfExists(Paths.get(request.getRealPath("Images") + File.separator + "ProfilePictures"
                                     + File.separator + profileImgName));
                         }
-                        request.setAttribute("successMsg", "User Removed Successfully!!");
+                        request.getSession().setAttribute("successMsg", "User Removed Successfully!!");
                     } else {
-                        request.setAttribute("errorMsg", "Could Not remove. User hasn't returned books!!");
+                        request.getSession().setAttribute("errorMsg", "Could Not remove. User hasn't returned books!!");
                     }
                     response.sendRedirect(request.getContextPath() + "/dashboard/members/all");
                 }
             } else {
-                request.setAttribute("errorMsg", "Invalid request");
+                request.getSession().setAttribute("errorMsg", "Invalid request");
                 response.sendRedirect(request.getContextPath() + "/home");
             }
         } else {
-            request.setAttribute("errorMsg", "Invalid Request!");
+            request.getSession().setAttribute("errorMsg", "Invalid Request!");
             response.sendRedirect(request.getContextPath() + "/home");
         }
     }

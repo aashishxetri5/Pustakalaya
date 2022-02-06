@@ -3,6 +3,7 @@
     Created on : Jan 16, 2022, 4:38:26 PM
     Author     : Aashish Katwal
 --%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="edu.achs.daoImpl.BookDaoImpl"%>
 <%@page import="edu.achs.dao.BookDao"%>
 <%@page import="java.util.ArrayList"%>
@@ -58,19 +59,24 @@
                                 <% } %>
                             <th>Book Name</th>
                             <th>Author</th>
-                            <th>Publication</th>
                             <th>Genre</th>
                                 <%
-                                    if (request.getRequestURI().contains("/books/borrowed")) {
+                                    if (request.getRequestURI().contains("/books/all")) {
                                 %>
+                            <th>Publication</th>
+                                <% } %>
 
-                            <th>Issue Date</th>
-                            <th>Return Date</th>
+                            <%if (request.getRequestURI().contains("/books/borrowed")) { %>
+
+                            <th>Issued Date</th>
+                            <th>Returned On</th>
 
                             <%} else {%>
+
                             <th>Language</th>
                             <th>Price</th>
-                                <% } %>
+
+                            <% } %>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -135,10 +141,17 @@
                             <% }%>
                             <td><%=book.getBookTitle()%></td>
                             <td><%=book.getAuthor()%></td>
-                            <td><%=book.getPublisher()%></td>
                             <td><%=book.getGenre()%></td>
                             <td><%=book.getIssue_date()%></td>
-                            <td><%=book.getReturn_date()%></td>
+                            <td>
+                                <%
+                                if(book.getReturn_date() != null){
+                                %>
+                                <%=book.getIssue_date()%>
+                                <% } else { %>
+                                <%="Pending"%>   
+                                <% } %>
+                            </td>
                             <td>
                                 <%
                                     if (book.getStatus().equals("returned")) {
@@ -149,8 +162,8 @@
                                     if (user.getUserType().equals("Librarian")) {
                                 %>
                                 <a href="#"><button class="borrow-btn last-col-btn" title="Request Return">Request</button></a>
-                                <% } else if (user.getUserType().equals("Student")) { %>
-                                <a href="#"><button class="borrow-btn last-col-btn" title="Return Book">Return</button></a>
+                                <% } else if (user.getUserType().equals("Student")) {%>
+                                <a href="${pageContext.request.contextPath}/book/return?bookId=<%=book.getBookId()%>&borrwerId=<%=user.getUserId()%>"><button class="borrow-btn last-col-btn" title="Return Book">Return</button></a>
                                 <% }
                                     }%>
                             </td>

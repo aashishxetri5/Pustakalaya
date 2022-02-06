@@ -5,7 +5,6 @@
  */
 package edu.achs.servlets;
 
-import edu.achs.dao.BookDao;
 import edu.achs.dao.BorrowDao;
 import edu.achs.daoImpl.BookDaoImpl;
 import edu.achs.daoImpl.BorrowDaoImpl;
@@ -20,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Aashish Katwal
  */
-@WebServlet(name = "BorrowBook", urlPatterns = {"/book/borrow"})
+@WebServlet(name = "BorrowBook", urlPatterns = {"/book/borrow", "/book/return"})
 public class BorrowBook extends HttpServlet {
 
     /**
@@ -42,23 +41,39 @@ public class BorrowBook extends HttpServlet {
             BorrowDao bd = new BorrowDaoImpl();
             BookDaoImpl bdl = new BookDaoImpl();
 
-            if (!bdl.isBookBorrowedByUser(borrowerId)) {
-                if (bd.canUserBorrowBook(borrowerId)) {
-                    if (bd.isBookInStock(bookId)) {
-                        bd.borrowBookProcess(borrowerId, bookId);
-                        request.setAttribute("successMsg", "Book borrowed successfully!");
-                        response.sendRedirect(request.getContextPath() + "/dashboard/books/borrowed");
+            if (request.getRequestURI().contains("/book/borrow")) {
+
+                if (!bd.isBookBorrowedByUser(borrowerId, bookId)) {
+                    if (bd.canUserBorrowBook(borrowerId)) {
+                        if (bd.isBookInStock(bookId)) {
+                            bd.borrowBookProcess(borrowerId, bookId);
+                            request.getSession().setAttribute("successMsg", "Book borrowed successfully!");
+                            response.sendRedirect(request.getContextPath() + "/dashboard/books/borrowed");
+                        } else {
+                            request.getSession().setAttribute("errorMsg", "Book out of stock");
+                            response.sendRedirect(request.getContextPath() + "/dashboard/books/all");
+                        }
                     } else {
-                        request.setAttribute("errorMsg", "Book out of stock");
+                        request.getSession().setAttribute("errorMsg", "You can not borrow more than 5 books!");
                         response.sendRedirect(request.getContextPath() + "/dashboard/books/all");
                     }
                 } else {
-                    request.setAttribute("errorMsg", "You can not borrow more than 5 books!");
+                    request.getSession().setAttribute("errorMsg", "This Book already borrowed!");
                     response.sendRedirect(request.getContextPath() + "/dashboard/books/all");
                 }
-            } else {
-                request.setAttribute("errorMsg", "This Book already borrowed!");
-                response.sendRedirect(request.getContextPath() + "/dashboard/books/all");
+            } else if (request.getRequestURI().contains("/book/return")) {
+                try {
+                    if (!bd.hasBookBeenReturned(borrowerId, bookId)) {
+                        bd.returnBookProcess(bookId, borrowerId);
+                        bd.determineFineAmount(borrowerId, bookId);
+                        request.getSession().setAttribute("successMsg", "Book Returned Successfully!!");
+                    } else {
+                        throw new Exception();
+                    }
+                } catch (Exception ex) {
+                    request.getSession().setAttribute("errorMsg", "Problem Returning book!!");
+                }
+                response.sendRedirect(request.getContextPath() + "/dashboard/books/borrowed");
             }
         }
 

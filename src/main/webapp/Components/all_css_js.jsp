@@ -23,3 +23,4 @@
 
 <!--Local JS-->
 <script src="${pageContext.request.contextPath}/JS/MenuToggle.js"></script>
+<script src="${pageContext.request.contextPath}/JS/ToastJS.js"></script>

@@ -32,9 +32,9 @@ public class BookRequestServlet extends HttpServlet {
         if (bookTitle != null && author != null && genre != null) {
             OtherServices otherServ = new OtherServices();
             otherServ.addBookRequest(new Books(author, bookTitle, genre));
-            request.setAttribute("successMsg", "Request submitted Succesfully!!");
+            request.getSession().setAttribute("successMsg", "Request submitted Succesfully!!");
         } else {
-            request.setAttribute("errorMsg", "Failed Submittiting the request!!");
+            request.getSession().setAttribute("errorMsg", "Failed Submittiting the request!!");
         }
 
         response.sendRedirect(request.getContextPath() + "/home");

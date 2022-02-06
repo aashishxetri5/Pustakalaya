@@ -95,7 +95,7 @@ public class CountRecords {
 
     public int getPendingBorrowedBooks(int userId) {
         try {
-            sqlQuery = "select count(*) from tbl_borrow where userId = ? and remaining_status = ?";
+            sqlQuery = "select count(*) from tbl_borrow where userId = ? and return_status = ?";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             pst.setString(2, "pending");
