@@ -60,7 +60,7 @@
                 <%
                     if (user.getUserType().equals("Librarian")) {
                 %>
-                <li class="db-icon" title="Genres">
+                <li class="db-icon" title="Dashboard">
                     <a href="<%=request.getContextPath()%>/dashboard">
                         <i class="fas fa-tachometer-alt"></i>
                         <span>Dashboard</span>
@@ -68,7 +68,7 @@
                 </li>
                 <% }%>
 
-                <li class="db-icon" title="Genres">
+                <li class="db-icon" title="Profile">
                     <a href="<%=request.getContextPath()%>/dashboard/profile">
                         <i class="fas fa-user"></i>
                         <span>Profile</span>

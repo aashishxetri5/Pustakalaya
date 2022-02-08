@@ -95,12 +95,13 @@
             </div>
             <hr id="left-div-hr" />
             <div id="button-group">
-                <button class="update-info-btn" title="Update Information">
-                    <a href="${pageContext.request.contextPath}/updateInfo">Update</a>
-                </button>
-                <button class="p-logout-btn" title="Logout">
-                    <a href="${pageContext.request.contextPath}/logout">Logout</a>
-                </button>
+                <a href="${pageContext.request.contextPath}/updateInfo">
+                    <button class="update-info-btn" title="Update Information">Update</button>
+                </a>
+
+                <a href="${pageContext.request.contextPath}/logout">
+                    <button class="p-logout-btn" title="Logout">Logout</button>
+                </a>
             </div>
         </div>
     </div>

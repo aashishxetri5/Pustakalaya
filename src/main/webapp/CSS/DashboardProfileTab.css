@@ -12,19 +12,21 @@ and open the template in the editor.
     background-color: #fff;
     box-shadow: 0 0 5px 0 #36454f;
     border-radius: 6px;
-    padding: 20px 35px;
 }
 
 .profile-left-div{
-    margin-left: 30px;
+    margin-left: 10px;
     float: left;
     min-width: 52%;
+    padding: 10px 15px;
+    overflow-x: scroll; 
 }
 
 .profile-right-div{
     float: left;
     min-width: 30%;
     margin-left: 20px;
+    padding: 10px 15px;
 }
 
 .profile-tab-dash{
@@ -156,16 +158,22 @@ label[for="pimg-upload"]{
 
     .profile-right-div{        
         width: 50%;
-        margin: 10px 0 20px 30px;
+        margin: 10px 0 20px 10px;
     }
     
     .wrapper-box{
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
     }
     
     #button-group{
         justify-content: space-between;
+    }
+}
+
+@media screen and (max-width: 620px){
+    .profile-right-div{
+        width: 90%;
     }
 }
 

@@ -26,6 +26,7 @@
             if (user.getUserType().equals("Librarian")) {
                 List<FeedbacksAndContacts> feedbacks = new ArrayList<>();
                 feedbacks = new OtherServices().getAllFeedbacks();
+                if (feedbacks != null) {
         %>
         <div class="feedback-wrapper">
             <%
@@ -36,110 +37,16 @@
                 <div class="details-feedback">
                     <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
                     <hr />
-                    <p class="msg-content"><%=feedback.getMessage() %></p>
-                </div>
-            </div>
-            <div class="feedbacks">
-                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
-                <div class="details-feedback">
-                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
-                    <hr />
-                    <p class="msg-content"><%=feedback.getMessage() %></p>
-                </div>
-            </div>
-            <div class="feedbacks">
-                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
-                <div class="details-feedback">
-                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
-                    <hr />
-                    <p class="msg-content"><%=feedback.getMessage() %></p>
-                </div>
-            </div>
-            <div class="feedbacks">
-                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
-                <div class="details-feedback">
-                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
-                    <hr />
-                    <p class="msg-content"><%=feedback.getMessage() %></p>
-                </div>
-            </div>
-            <div class="feedbacks">
-                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
-                <div class="details-feedback">
-                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
-                    <hr />
-                    <p class="msg-content"><%=feedback.getMessage() %></p>
-                </div>
-            </div>
-            <div class="feedbacks">
-                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
-                <div class="details-feedback">
-                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
-                    <hr />
-                    <p class="msg-content"><%=feedback.getMessage() %></p>
-                </div>
-            </div>
-            <div class="feedbacks">
-                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
-                <div class="details-feedback">
-                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
-                    <hr />
-                    <p class="msg-content"><%=feedback.getMessage() %></p>
-                </div>
-            </div>
-            <div class="feedbacks">
-                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
-                <div class="details-feedback">
-                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
-                    <hr />
-                    <p class="msg-content"><%=feedback.getMessage() %></p>
-                </div>
-            </div>
-            <div class="feedbacks">
-                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
-                <div class="details-feedback">
-                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
-                    <hr />
-                    <p class="msg-content"><%=feedback.getMessage() %></p>
-                </div>
-            </div>
-            <div class="feedbacks">
-                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
-                <div class="details-feedback">
-                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
-                    <hr />
-                    <p class="msg-content"><%=feedback.getMessage() %></p>
-                </div>
-            </div>
-            <div class="feedbacks">
-                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
-                <div class="details-feedback">
-                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
-                    <hr />
-                    <p class="msg-content"><%=feedback.getMessage() %></p>
-                </div>
-            </div>
-            <div class="feedbacks">
-                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
-                <div class="details-feedback">
-                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
-                    <hr />
-                    <p class="msg-content"><%=feedback.getMessage() %></p>
-                </div>
-            </div>
-            <div class="feedbacks">
-                <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
-                <div class="details-feedback">
-                    <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
-                    <hr />
-                    <p class="msg-content"><%=feedback.getMessage() %></p>
+                    <p class="msg-content"><%=feedback.getMessage()%></p>
                 </div>
             </div>
             <%
                 }
             %>
         </div>
-        <% } else {%>
+        <% }
+        } else {
+        %>
         <%@include file="Components/RestrictedPage.jsp" %>
         <% } %>
     </div>

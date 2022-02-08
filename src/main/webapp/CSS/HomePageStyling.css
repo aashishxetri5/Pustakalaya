@@ -14,12 +14,16 @@ and open the template in the editor.
     text-decoration: none;
     border: none;
     box-sizing: border-box;
-    font-family: 'News Cycle', sans-serif;
+
 }
 
 :root {
     --navTextColor: #ddd;
     --primaryColor: #273c75;
+}
+
+body{
+    font-family: 'News Cycle', sans-serif;
 }
 
 ul {
