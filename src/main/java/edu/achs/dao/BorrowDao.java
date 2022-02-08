@@ -20,6 +20,8 @@ public interface BorrowDao {
     public void borrowBookProcess(int userId, String bookId);
 
     public void changeNumberOfStock(String bookId, String action);
+    
+    public void updateFrequencyOfBookBorrowed(String bookId);
 
     public boolean isBookBorrowedByUser(int userId, String bookId);
     

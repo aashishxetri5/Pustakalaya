@@ -18,6 +18,8 @@ public interface BookDao {
     public void addBook(Books book);
     
     public void addStockRecord(String bookId, int stock);
+    
+    public void addInBorrowCount(String bookId);
 
     public List<Books> getAllBooks();
 

@@ -94,6 +94,7 @@ public class BorrowDaoImpl implements BorrowDao {
             pst.setString(4, "pending");
             pst.executeUpdate();
             changeNumberOfStock(bookId, "Borrow");
+            updateFrequencyOfBookBorrowed(bookId);
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -126,6 +127,24 @@ public class BorrowDaoImpl implements BorrowDao {
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     *
+     * @param bookId
+     */
+    @Override
+    public void updateFrequencyOfBookBorrowed(String bookId) {
+        try {
+            sqlQuery = "update tbl_borrowcount set borrow_times = borrow_times+1 where bookId = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, bookId);
+            pst.executeUpdate();
+            System.out.println("REACHED HERE");
+        } catch (SQLException ex) {
+            Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**

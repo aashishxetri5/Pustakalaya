@@ -68,10 +68,29 @@ public class BookDaoImpl implements BookDao {
             pst.setString(1, bookId);
             pst.setInt(2, stock);
             pst.executeUpdate();
+            //Calls this function which adds the book in specified table
+            addInBorrowCount(bookId);
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    /**
+     *
+     * @param bookId
+     */
+    @Override
+    public void addInBorrowCount(String bookId) {
+        try {
+            sqlQuery = "insert into tbl_borrowcount values(?, ?)";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, bookId);
+            pst.setInt(2, 0);
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
