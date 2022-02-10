@@ -15,5 +15,6 @@ $(document).ready(function () {
 
     setTimeout(function () {
         $("#snackbar").removeClass("show");
+        $("#snackbar").empty();
     }, 3000);
 });

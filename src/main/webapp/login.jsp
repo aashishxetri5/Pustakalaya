@@ -15,7 +15,12 @@
         <%@include file="Components/all_css_js.jsp" %>
     </head>
     <body class="form-page">
-        <section>
+
+        <%
+            if (request.getSession().getAttribute("currentUser") == null) {
+        %>
+
+        <section class="login-form-section">
             <div class="container">
                 <a href="home" style="display: inline-block">
                     <img src="${pageContext.request.contextPath}/Images/LogoAndBg/Logo.png" alt="Logo" title="Pustakalaya" />
@@ -45,5 +50,12 @@
                 </div>
             </div> 
         </section>
+        <%        
+            } else {
+                response.sendRedirect(request.getContextPath() + "/home");
+            }
+            
+
+        %>
     </body>
 </html>

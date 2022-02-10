@@ -15,24 +15,26 @@
         <%@include file="Components/all_css_js.jsp" %>
     </head>
     <body class="form-page">
-        <div class="container">
-            <a href="home" style="display: inline-block">
-                <img src="${pageContext.request.contextPath}/Images/LogoAndBg/Logo.png" alt="Logo" title="Pustakalaya" />
-            </a>
-            <div class="major-form">
-                <form action="ContactSubmit" method="POST">
-                    <h3 class="form-title">Lets Talk</h3>
-                    <div class="input-area">
-                        <span class="input-title">Fullname</span>
-                        <input type="text" name="fullname" placeholder="Full name" class="cf-inp" />
-                        <span class="input-title">Email</span>
-                        <input type="email" name="c-email" placeholder="Email" class="cf-inp" required />
-                        <span class="input-title">Message</span>
-                        <textarea name="c-message" cols="30" rows="10" placeholder="Message" class="cf-inp" required></textarea>
-                        <input type="submit" name="ContactFormSubmission" value="Send" class="submit-btn"/>
-                    </div>
-                </form>
+        <section class="login-form-section">
+            <div class="container">
+                <a href="home" style="display: inline-block">
+                    <img src="${pageContext.request.contextPath}/Images/LogoAndBg/Logo.png" alt="Logo" title="Pustakalaya" />
+                </a>
+                <div class="major-form">
+                    <form action="ContactSubmit" method="POST">
+                        <h3 class="form-title">Lets Talk</h3>
+                        <div class="input-area">
+                            <span class="input-title">Fullname</span>
+                            <input type="text" name="fullname" placeholder="Full name" class="cf-inp" />
+                            <span class="input-title">Email</span>
+                            <input type="email" name="c-email" placeholder="Email" class="cf-inp" required />
+                            <span class="input-title">Message</span>
+                            <textarea name="c-message" cols="30" rows="10" placeholder="Message" class="cf-inp" required></textarea>
+                            <input type="submit" name="ContactFormSubmission" value="Send" class="submit-btn"/>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
+        </section>
     </body>
 </html>

@@ -31,7 +31,7 @@
                 } else {
         %>
 
-        <section>
+        <section class="login-form-section">
             <div class="container">
                 <div class="major-form">
                     <%                

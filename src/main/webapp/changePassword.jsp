@@ -16,12 +16,25 @@
     </head>
     <body>
         <%@include file="Components/PageDashboard.jsp" %> 
-        
-        <h1>Change password</h1>
-        
+
+
+        <div class="container">
+            <div class="major-form">
+                <form action="#" method="POST">
+                    <h3 class="form-title">Change Password</h3>
+                    <div class="input-area">
+                        <input type="password" placeholder="Old Password" name="oldPassword" required />
+                        <input type="password" placeholder="Type New Password" name="newPassword" required />
+                        <input type="password" placeholder="Retype Password" name="retypedPassword" required />
+                    </div>
+                    <input type="submit" class="submit-btn" value="Log In" /><br />
+                </form>
+            </div>
+        </div> 
+
     </div>
 </section>
-<% } %>
+<% }%>
 </body>
 </html>
 
