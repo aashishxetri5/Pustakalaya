@@ -27,18 +27,7 @@
         </section>
 
         <%@include file="Components/NotificationToast.jsp" %>
-
-        <%            
-            if (request.getSession().getAttribute("successMsg") != null) {
-                System.out.println("MSG IS: " + (String) request.getSession().getAttribute("successMsg"));
-                request.getSession().removeAttribute("successMsg");
-            } else if (request.getSession().getAttribute("errorMsg") != null) {
-                System.out.println("MSG IS: " + (String) request.getSession().getAttribute("errorMsg"));
-                
-                request.getSession().removeAttribute("errorMsg");
-            }
-        %>
-
+        
         <footer>
             <%@include file="Components/Footer.jsp" %>
         </footer>

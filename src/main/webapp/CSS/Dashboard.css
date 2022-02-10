@@ -157,7 +157,6 @@ section#dashboard-section {
 
 .sidebar-nav ul li:hover {
     background-color: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
 }
 
@@ -189,7 +188,7 @@ section#dashboard-section {
 /* Main contents */
 .main-container {
     width: 90%;
-    margin: 15px 15px 0 0;
+    margin: 15px 15px 0 10px;
     padding: 4px;
 }
 

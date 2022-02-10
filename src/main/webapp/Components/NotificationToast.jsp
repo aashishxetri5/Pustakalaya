@@ -1,16 +1,21 @@
 
 <%
-    String msg = "", className = "";
-    if (request.getAttribute("successMsg") != null) {
-        msg = (String) request.getAttribute("successMsg");
-        className = "show";
-    } else if (request.getAttribute("errorMsg") != null) {
-        msg = (String) request.getAttribute("errorMsg");
-        className = "show";
+    if (request.getSession().getAttribute("successMsg") != null) {
+%>
+
+<input type="text" name="valueOfToast" class="ToastMsg" value="<%=request.getSession().getAttribute("successMsg")%>" hidden>
+
+<%request.getSession().removeAttribute("successMsg");
+} else if (request.getSession().getAttribute("errorMsg") != null) {
+%>
+
+<input type="text" name="valueOfToast" class="ToastMsg" value="<%=request.getSession().getAttribute("errorMsg")%>" hidden>
+
+<%
     }
+    request.getSession().removeAttribute("errorMsg");
+
 %>
 
 <!-- The actual snackbar -->
-<div id="snackbar">
-    
-</div>
+<div id="snackbar"> </div>
