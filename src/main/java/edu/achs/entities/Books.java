@@ -11,13 +11,11 @@ package edu.achs.entities;
  */
 public class Books {
 
-//  private int numOfTimesBorrowed;
-    
-    private int stock, borrowerId;
+    private int stock, borrowerId, numOfTimesBorrowed;
     private String bookId, numOfPages, author, bookTitle, publisher, ISBN, edition, genre, language,
             issue_date, return_date, status;
     private double price;
-    
+
     public Books() {
     }
 
@@ -124,13 +122,22 @@ public class Books {
         this.stock = stock;
     }
 
-//    public int getNumOfTimesBorrowed() {
-//        return numOfTimesBorrowed;
-//    }
-//
-//    public void setNumOfTimesBorrowed(int numOfTimesBorrowed) {
-//        this.numOfTimesBorrowed = numOfTimesBorrowed;
-//    }
+    /**
+     *
+     * @return
+     */
+    public int getNumOfTimesBorrowed() {
+        return numOfTimesBorrowed;
+    }
+
+    /**
+     *
+     * @param numOfTimesBorrowed
+     */
+    public void setNumOfTimesBorrowed(int numOfTimesBorrowed) {
+        this.numOfTimesBorrowed = numOfTimesBorrowed;
+    }
+
     /**
      *
      * @return

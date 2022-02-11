@@ -4,6 +4,8 @@
     Author     : Aashish Katwal
 --%>
 
+<%@page import="edu.achs.entities.Books"%>
+<%@page import="edu.achs.dashboardContents.PopularBooks"%>
 <%@page import="edu.achs.dashboardContents.CountRecords"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
@@ -69,24 +71,27 @@
                             <th>Book Name</th>
                             <th>Author</th>
                             <th>Publication</th>
-                            <th>Language</th>
+                            <th>Edition</th>
                             <th>Genre</th>
-                            <th>Price</th>
+                            <th>Language</th>
+                            <th>Borrow By:</th>
                         </tr>
                     </thead>
                     <tbody>
                         <%
-                            for (int i = 0; i < 6; i++) {
-
+                            List<Books> popularBooks = new PopularBooks().getPopularBooks();
+                            int count = 1;
+                            for (Books book : popularBooks) {
                         %>
                         <tr>
-                            <td><%=i + 1%></td>
-                            <td>Rich Dad, Poor DadRich Dad, Poor Dad</td>
-                            <td>Q</td>
-                            <td>ABC</td>
-                            <td>English</td>
-                            <td>Fantasy</td>
-                            <td>Rs. 804</td>
+                            <td><%=count++%></td>
+                            <td><%=book.getBookTitle()%></td>
+                            <td><%=book.getAuthor() %></td>
+                            <td><%=book.getPublisher() %></td>
+                            <td><%=book.getEdition() %></td>
+                            <td><%=book.getGenre() %></td>
+                            <td><%=book.getLanguage() %></td>
+                            <td><%=book.getNumOfTimesBorrowed()%> People</td>
                         </tr>
                         <%}%>
                     </tbody>
