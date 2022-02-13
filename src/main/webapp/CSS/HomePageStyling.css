@@ -323,51 +323,44 @@ input#submit-btn:hover{
 
 
 /* Toast CSS */
-/* The snackbar - position it at the bottom and in the middle of the screen */
-#snackbar {
-    display: none; /*Hidden by default. Visible on click */
-    min-width: 250px; /* Set a default minimum width */
-    margin-left: -125px; /* Divide value of min-width by 2 */
-    background-color: #333; /* Black background color */
-    color: #fff; /* White text color */
-    text-align: center; /* Centered text */
-    border-radius: 2px; /* Rounded borders */
-    padding: 16px; /* Padding */
-    position: fixed; /* Sit on top of the screen */
-    z-index: 1; /* Add a z-index if needed */
-    left: 50%; /* Center the snackbar */
-    bottom: 30px; /* 30px from the bottom */
+/* The notification toast - position it at the bottom left of the screen */
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 15px;
+    width: 300px;
+    font-size: 0.9rem;
+    text-align: left;
+    border-radius: 6px;
 }
 
-/* Show the snackbar when clicking on a button (class added with JavaScript) */
-
-#snackbar.show {
-    display: block; /*Show the snackbar */
-    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
-    However, delay the fade out process for 2.5 seconds */
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+.msg,
+.notification {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-/* Animations to fade the snackbar in and out */
-@-webkit-keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
+.notification {
+    background-color: #fff;
+    gap: 20px;
+    padding: 1.2rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-@keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
+.message{
+    margin-left: .5rem;
 }
 
-@-webkit-keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
+.toast .fas {
+    font-size: 1.2rem;
+    cursor: pointer;
 }
 
-@keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
+.circle-i {
+    color: red;
 }
 
 /*responsive*/

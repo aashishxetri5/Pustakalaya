@@ -20,7 +20,9 @@
             if (request.getSession().getAttribute("currentUser") == null) {
         %>
 
-        <section class="login-form-section">
+        <%@include file="Components/NotificationToast.jsp" %>
+        
+        <section class="major-form-section">
             <div class="container">
                 <a href="home" style="display: inline-block">
                     <img src="${pageContext.request.contextPath}/Images/LogoAndBg/Logo.png" alt="Logo" title="Pustakalaya" />

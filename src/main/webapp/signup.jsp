@@ -31,7 +31,7 @@
                 } else {
         %>
 
-        <section class="login-form-section">
+        <section class="major-form-section">
             <div class="container">
                 <div class="major-form">
                     <%                
@@ -76,7 +76,7 @@
                 Users cUser = new UserDaoImpl().getCurrentUserDetail(user.getUserId());
         %>
 
-        <section>
+        <section class="major-form-section">
             <div class="container">
                 <div class="major-form">
                     <form action="updateInformation" method="POST">

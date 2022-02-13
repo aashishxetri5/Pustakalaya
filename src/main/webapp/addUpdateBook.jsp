@@ -19,7 +19,7 @@
     </head>
     <body class="form-page">
         <%@include file="Components/PreventUnloggedUsers.jsp" %>
-        <section>
+        <section class="major-form-section">
             <div class="container">
                 <a href="home" style="display: inline-block">
                     <img src="${pageContext.request.contextPath}/Images/LogoAndBg/Logo.png" alt="Logo" title="Pustakalaya" />

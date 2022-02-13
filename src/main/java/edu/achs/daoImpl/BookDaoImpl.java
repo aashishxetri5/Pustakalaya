@@ -83,7 +83,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public void addInBorrowCount(String bookId) {
         try {
-            sqlQuery = "insert into tbl_borrowcount values(?, ?)";
+            sqlQuery = "insert into tbl_borrowcount(bookId, borrow_times) values(?, ?)";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setString(1, bookId);
             pst.setInt(2, 0);

@@ -5,6 +5,7 @@
  */
 package edu.achs.servlets;
 
+import edu.achs.dao.BookDao;
 import edu.achs.daoImpl.BookDaoImpl;
 import edu.achs.entities.Books;
 import edu.achs.entities.Users;
@@ -47,21 +48,21 @@ public class AddUpdateBook extends HttpServlet {
                         && (!numOfPages.equals("0")) && ISBN != null && genre != null && stock != 0 && price > 0.0
                         && language != null) {
 
-                    BookDaoImpl bdi = new BookDaoImpl();
+                    BookDao bd = new BookDaoImpl();
                     //Checking if new Book is to be added or existing book is to be updated.
                     if (request.getRequestURI().contains("/addBook")) {
 
-                        if (!bdi.doesBookidAndIsbnExist(bookId, ISBN)) {
+                        if (!new BookDaoImpl().doesBookidAndIsbnExist(bookId, ISBN)) {
 
-                            bdi.addBook(new Books(bookId, stock, numOfPages, author, title, publisher, ISBN, edition, genre, language, price));
+                            bd.addBook(new Books(bookId, stock, numOfPages, author, title, publisher, ISBN, edition, genre, language, price));
                             request.getSession().setAttribute("successMsg", "New book added successfully!!");
                         } else {
                             request.getSession().setAttribute("errorMsg", "Duplicate Data. Try again!!");
                         }
 
                     } else if (request.getRequestURI().contains("/updateBook")) {
-                        if (!bdi.doesBookidAndIsbnExist(bookId, ISBN)) {
-                            bdi.updateBook(new Books(bookId, stock, numOfPages, author, title, publisher, ISBN, edition, genre, language, price));
+                        if (!new BookDaoImpl().doesBookidAndIsbnExist(bookId, ISBN)) {
+                            bd.updateBook(new Books(bookId, stock, numOfPages, author, title, publisher, ISBN, edition, genre, language, price));
                             request.getSession().setAttribute("successMsg", "Book updated successfully!!");
                         } else {
                             request.getSession().setAttribute("errorMsg", "Duplicate Data. Try again!!");

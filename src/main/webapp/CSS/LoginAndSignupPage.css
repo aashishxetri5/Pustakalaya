@@ -13,7 +13,7 @@ body.form-page{
     background-image: url('../Images/LogoAndBg/lib_background.png');
 }
 
-.login-form-section{
+.major-form-section{
     display: flex;
     justify-content: center;
     align-items: center;
