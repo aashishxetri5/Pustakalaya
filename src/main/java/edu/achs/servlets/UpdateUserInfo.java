@@ -53,7 +53,7 @@ public class UpdateUserInfo extends HttpServlet {
 
                         request.getSession().setAttribute("successMsg", "Update successful!!");
                     } else {
-                        request.getSession().setAttribute("errorMsg", "Your attempt to alter default values were detected. Please try again!!");
+                        request.getSession().setAttribute("errorMsg", "Operation failed. Please try again!!");
                     }
                     request.getSession().setAttribute("errorMsg", "Problem updating information. Please try again!!");
                 } else {

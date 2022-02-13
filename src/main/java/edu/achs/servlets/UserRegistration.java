@@ -7,7 +7,7 @@ package edu.achs.servlets;
 
 import edu.achs.daoImpl.UserDaoImpl;
 import edu.achs.entities.Users;
-import edu.achs.utility.GenerateIDs;
+import edu.achs.utility.Generators;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +25,7 @@ public class UserRegistration extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        GenerateIDs generate = new GenerateIDs();
+        Generators generate = new Generators();
         UserDaoImpl udl = new UserDaoImpl();
 
         String firstname = request.getParameter("fname").trim();
@@ -99,18 +99,18 @@ public class UserRegistration extends HttpServlet {
                     // Saves the name of profile to the database.
                     udl.saveProfilePicture(userId, imgFileName);
 
-                    request.getSession().setAttribute("successMsg", "You're now successfully registered. Welcome to Pustakalaya!!");
+                    request.getSession().setAttribute("successMsg", "Registration successfull. Welcome to Pustakalaya!!");
                     response.sendRedirect(request.getContextPath() + directTo);
                 } else {
-                    request.getSession().setAttribute("errorMsg", "Your attempt to alter default values were detected. Please try again!!");
+                    request.getSession().setAttribute("errorMsg", "Operation failed. Please try again!!");
                     response.sendRedirect(request.getContextPath() + "/signup");
                 }
             } else {
-                request.getSession().setAttribute("errorMsg", "The username already exists. Please use a different one!!");
+                request.getSession().setAttribute("errorMsg", "Duplicate username. Please use a different one!!");
                 response.sendRedirect(request.getContextPath() + "/signup");
             }
         } else {
-            request.getSession().setAttribute("errorMsg", "There was a problem registering you. Please try again!!");
+            request.getSession().setAttribute("errorMsg", "Operation Failed. Please try again!!");
             response.sendRedirect(request.getContextPath() + "/signup");
         }
     }

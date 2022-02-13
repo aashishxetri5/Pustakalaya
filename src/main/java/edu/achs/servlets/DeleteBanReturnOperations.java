@@ -56,7 +56,7 @@ public class DeleteBanReturnOperations extends HttpServlet {
                         }
                         request.getSession().setAttribute("successMsg", "User Removed Successfully!!");
                     } else {
-                        request.getSession().setAttribute("errorMsg", "Could Not remove. User hasn't returned books!!");
+                        request.getSession().setAttribute("errorMsg", "Operation failed. User hasn't returned books!!");
                     }
                     response.sendRedirect(request.getContextPath() + "/dashboard/members/all");
                 }

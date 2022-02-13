@@ -24,18 +24,20 @@ public class PopularBooks {
     /**
      * Fetches the popular books from the DB on the basis of borrow count.
      *
+     * @param numberOfRecords
      * @return
      */
-    public List<Books> getPopularBooks() {
+    public List<Books> getPopularBooks(int numberOfRecords) {
 
         List<Books> popularBooks = new ArrayList<>();
 
         try {
             String sqlQuery = "select tbl_books.title, tbl_books.author, tbl_books.publisher, tbl_books.edition, "
                     + "tbl_books.genre, tbl_books.language, tbl_borrowcount.borrow_times from tbl_books inner join "
-                    + "tbl_borrowcount where tbl_books.bookId = tbl_borrowcount.bookId order by tbl_borrowcount.borrow_times "
-                    + "desc limit 6";
+                    + "tbl_borrowcount where tbl_books.bookId = tbl_borrowcount.bookId and tbl_borrowcount.borrow_times > 0 "
+                    + "order by tbl_borrowcount.borrow_times desc limit ?";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setInt(1, numberOfRecords);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 Books book = new Books();

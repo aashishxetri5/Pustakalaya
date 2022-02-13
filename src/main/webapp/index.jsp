@@ -6,7 +6,7 @@
 <%@page import="edu.achs.daoImpl.BorrowDaoImpl"%>
 <%@page import="edu.achs.utility.GenerateDates"%>
 <%@page import="edu.achs.utility.ProfilePictureNameCustomization"%>
-<%@page import="edu.achs.utility.GenerateIDs"%>
+<%@page import="edu.achs.utility.Generators"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" errorPage="pageNotFound.jsp"%>
 <!DOCTYPE html>
 <html lang="en">

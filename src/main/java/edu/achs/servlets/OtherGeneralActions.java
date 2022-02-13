@@ -52,7 +52,7 @@ public class OtherGeneralActions extends HttpServlet {
                         new UserDaoImpl().changeRole(userId, newRole);
                         request.getSession().setAttribute("successMsg", attrMsg);
                     } else {
-                        request.getSession().setAttribute("errorMsg", "Problem updating role. Please try again later!!");
+                        request.getSession().setAttribute("errorMsg", "Operation Failed. Please try again!!");
                     }
                     response.sendRedirect(request.getContextPath() + "/dashboard/members/all");
                 }

@@ -38,7 +38,7 @@ public class FeedbackAndContact extends HttpServlet {
                 survey.insertContactInfo(new FeedbacksAndContacts(fullname, email, message));
                 request.getSession().setAttribute("successMsg", "Contact request sent successfully!!");
             } else {
-                request.getSession().setAttribute("errorMsg", "Could not place the request. Please try again!!");
+                request.getSession().setAttribute("errorMsg", "Operation failed. Please try again!!");
             }
 
         } else if (request.getParameter("FeedbackFormSubmission") != null) {
@@ -52,7 +52,7 @@ public class FeedbackAndContact extends HttpServlet {
                 survey.insertFeedbacks(new FeedbacksAndContacts(userId, email, username, message));
                 request.getSession().setAttribute("successMsg", "Feedback sent successfully!!");
             } else {
-                request.getSession().setAttribute("errorMsg", "Could not send the feedback. Please try again!!");
+                request.getSession().setAttribute("errorMsg", "Operation failed. Please try again!!");
             }
 
         }

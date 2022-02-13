@@ -11,7 +11,7 @@ import java.util.Random;
  *
  * @author Aashish Katwal
  */
-public class GenerateIDs {
+public class Generators {
 
     Random randNum = new Random();
 
@@ -35,5 +35,14 @@ public class GenerateIDs {
     public String generateLibraryId() {
         String libId = "PST_" + Integer.toString((randNum.nextInt(600000 - 500000) + 500000));
         return libId;
+    }
+
+    public char[] generateSALT() {
+        String saltSymbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!#$%&*";
+        char[] SALT = new char[15];
+        for (int i = 0; i < 15; i++) {
+            SALT[i] = saltSymbols.charAt(randNum.nextInt(saltSymbols.length()));
+        }
+        return SALT;
     }
 }

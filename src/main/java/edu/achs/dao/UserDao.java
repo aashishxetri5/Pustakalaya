@@ -40,6 +40,8 @@ public interface UserDao {
 
     public int getUserID(String username);
 
+    public boolean doesSaltExist(String SALT);
+    
     public boolean isDuplicateUserID(int generatedId);
 
     public boolean isDuplicateLibraryID(String generatedId);

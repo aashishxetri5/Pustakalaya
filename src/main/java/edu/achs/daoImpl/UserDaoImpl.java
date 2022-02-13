@@ -8,6 +8,7 @@ package edu.achs.daoImpl;
 import edu.achs.dao.UserDao;
 import edu.achs.entities.Users;
 import edu.achs.utility.DBConnection;
+import edu.achs.utility.Generators;
 import edu.achs.utility.PasswordHashing;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -65,13 +66,21 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void addLoginCredentials(int userId, String username, String password, String userType) {
         try {
-            sqlQuery = "insert into tbl_userlogindetails values (?,?,?,?,?)";
+            String SALT;
+            while (true) {
+                SALT = String.valueOf(new Generators().generateSALT());
+                if (!doesSaltExist(String.valueOf(new Generators().generateSALT()))) {
+                    break;
+                }
+            }
+            sqlQuery = "insert into tbl_userlogindetails values (?,?,?,?,?,?)";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             pst.setString(2, username);
-            pst.setString(3, new PasswordHashing().hashPassword(password));
-            pst.setString(4, userType);
-            pst.setString(5, "active");
+            pst.setString(3, new PasswordHashing().hashPassword(password.concat(SALT)));
+            pst.setString(4, SALT);
+            pst.setString(5, userType);
+            pst.setString(6, "active");
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -206,8 +215,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @param userId
      */
     @Override
@@ -246,7 +255,7 @@ public class UserDaoImpl implements UserDao {
             sqlQuery = "select count(*) from tbl_userlogindetails where username = ? and password = ? and account_status = ?";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setString(1, username);
-            pst.setString(2, pwdHash.hashPassword(password));
+            pst.setString(2, pwdHash.hashPassword(password.concat(getSalt(username))));
             pst.setString(3, "active");
             ResultSet rs = pst.executeQuery();
             rs.next();
@@ -311,6 +320,43 @@ public class UserDaoImpl implements UserDao {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return id;
+    }
+
+    /**
+     * Checks if the generated SALT already exists
+     *
+     * @param SALT
+     * @return
+     */
+    @Override
+    public boolean doesSaltExist(String SALT) {
+        try {
+            sqlQuery = "select count(*) from tbl_userlogindetails where pSALT = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, SALT);
+            ResultSet rs = pst.executeQuery();
+            rs.next();
+            if (rs.getInt(1) > 0) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public String getSalt(String username) {
+        try {
+            sqlQuery = "select pSALT from tbl_userlogindetails where username = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, username);
+            ResultSet rs = pst.executeQuery();
+            rs.next();
+            return rs.getString("pSALT");
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
     }
 
     /**

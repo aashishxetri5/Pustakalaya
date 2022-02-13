@@ -36,18 +36,17 @@ public class SignIn extends HttpServlet {
              * the user with the given credentials, information about him/her is
              * stored in the session and login is approved. Else, invalid login
              * message is sent.
-             *
              */
             if (udl.isValidUser(username, password)) {
                 session.setAttribute("currentUser", udl.getLoggedinUser(username));
                 request.getSession().setAttribute("successMsg", "Logged in successfully!!");
                 response.sendRedirect(request.getContextPath() + "/home");
             } else {
-                request.getSession().setAttribute("errorMsg", "Either Username or Password do not match!!");
+                request.getSession().setAttribute("errorMsg", "Invalid Credentails. Please try again!!");
                 response.sendRedirect(request.getContextPath() + "/login");
             }
         } else {
-            request.getSession().setAttribute("errorMsg", "Invalid values received. Please try again");
+            request.getSession().setAttribute("errorMsg", "Invalid values. Please try again!!");
             response.sendRedirect(request.getContextPath() + "/login");
         }
 
