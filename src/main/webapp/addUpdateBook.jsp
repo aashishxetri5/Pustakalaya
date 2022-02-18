@@ -4,6 +4,8 @@
     Author     : Aashish Katwal
 --%>
 
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.Map"%>
 <%@page import="edu.achs.dao.BookDao"%>
 <%@page import="edu.achs.entities.Books"%>
 <%@page import="edu.achs.daoImpl.BookDaoImpl"%>
@@ -38,14 +40,25 @@
                             <input type="text" name="numOfPages" class="short-field" placeholder="Number of pages" required />
                             <input type="text" name="isbn" placeholder="ISBN" required />
                             <select name="genre" class="short-field" title="Genre" required>
-                                <option value="Select" disabled selected hidden>
+                                <option title="Select" value="Select" disabled selected hidden>
                                     Select a Genre
                                 </option>
-                                <option value="Comics">Comic</option>
-                                <option value="Horror">Horror</option>
-                                <option value="Adventure">Adventure</option>
-                                <option value="Adventure">Fantasy</option>
-                                <option value="Adventure">Drama</option>
+                                <%
+                                    BookDao bd = new BookDaoImpl();
+                                    Map<Integer, String> genres = bd.getAllGenres();
+
+                                    if (genres != null) {
+                                        Iterator allGenre = genres.values().iterator();
+                                        while (allGenre.hasNext()) {
+                                            String value = (String) allGenre.next();
+                                %>
+                                <option title="<%=value%>" value="<%=value%>">
+                                    <%=value%>
+                                </option>
+                                <%
+                                        }
+                                    }
+                                %>
                             </select>
                             <input type="text" name="stock" class="short-field" placeholder="Stock" required />
                             <input type="text" name="price" class="short-field" placeholder="Price" required />
@@ -70,14 +83,25 @@
                             <input type="text" name="numOfPages" class="short-field" placeholder="Number of pages" value="<%=book.getNumOfPages()%>" required />
                             <input type="text" name="isbn" placeholder="ISBN" value="<%=book.getISBN()%>" required />
                             <select name="genre" class="short-field" title="Genre" required>
-                                <option value="Select" disabled selected hidden>
+                                <option title="Select" value="Select" disabled selected hidden>
                                     Select a Genre
                                 </option>
-                                <option value="Comics">Comic</option>
-                                <option value="Horror">Horror</option>
-                                <option value="Adventure">Adventure</option>
-                                <option value="Adventure">Fantasy</option>
-                                <option value="Adventure">Drama</option>
+                                <%
+                                    BookDao bd = new BookDaoImpl();
+                                    Map<Integer, String> genres = bd.getAllGenres();
+
+                                    if (genres != null) {
+                                        Iterator allGenre = genres.values().iterator();
+                                        while (allGenre.hasNext()) {
+                                            String value = (String) allGenre.next();
+                                %>
+                                <option title="<%=value%>" value="<%=value%>">
+                                    <%=value%>
+                                </option>
+                                <%
+                                        }
+                                    }
+                                %>
                             </select>
                             <input type="text" name="stock" class="short-field" placeholder="Stock" value="<%=book.getStock()%>" required />
                             <input type="text" name="price" class="short-field" placeholder="Price" value="<%=book.getPrice()%>" required />

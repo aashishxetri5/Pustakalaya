@@ -1,3 +1,8 @@
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.Set"%>
+<%@page import="java.util.Map"%>
+<%@page import="edu.achs.daoImpl.BookDaoImpl"%>
+<%@page import="edu.achs.dao.BookDao"%>
 <%@page import="edu.achs.utility.PasswordHashing" %>
 
 <div class="mainpage-content-wrapper">
@@ -32,11 +37,22 @@
                                 <option title="Select" value="Select" disabled selected hidden>
                                     Select a Genre
                                 </option>
-                                <option title="Comic" value="Comics">Comic</option>
-                                <option title="Horror" value="Horror">Horror</option>
-                                <option title="Adventure" value="Adventure">Adventure</option>
-                                <option title="Fantasy" value="Adventure">Fantasy</option>
-                                <option title="Drama" value="Adventure">Drama</option>
+                                <%
+                                    BookDao bd = new BookDaoImpl();
+                                    Map<Integer, String> genres = bd.getAllGenres();
+
+                                    if (genres != null) {
+                                        Iterator allGenre = genres.values().iterator();
+                                        while (allGenre.hasNext()) {
+                                            String value = (String) allGenre.next();
+                                %>
+                                <option title="<%=value%>" value="<%=value%>">
+                                    <%=value%>
+                                </option>
+                                <%
+                                        }
+                                    }
+                                %>
                             </select>
                         </div>
                         <input type="submit" value="Request" class="submit-btn" /><br />
