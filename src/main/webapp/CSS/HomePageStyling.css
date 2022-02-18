@@ -13,6 +13,7 @@ and open the template in the editor.
     padding: 0;
     text-decoration: none;
     border: none;
+    outline: none;
     box-sizing: border-box;
 
 }

@@ -5,8 +5,9 @@
  */
 package edu.achs.servlets;
 
+import edu.achs.dao.BookDao;
+import edu.achs.daoImpl.BookDaoImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,26 +18,35 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Aashish Katwal
  */
-@WebServlet(name = "DashboardContentDelivery", urlPatterns = {"/dashboard/genres", "/dashboard/seachBook",
-    "/dashboard/books/requests"})
+@WebServlet(name = "DashboardContentDelivery", urlPatterns = {"/dashboard/seachBook", "/dashboard/books/requests",
+    "/dashboard/newGenre", "/genre/delete"})
 public class DashboardContentDelivery extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DashboardContentDelivery</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet DashboardContentDelivery at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
 
-            out.println("Hey");
+        BookDao bd = new BookDaoImpl();
+        if (request.getRequestURI().contains("/newGenre") && request.getParameter("addNewGenre") != null) {
+            String genre = request.getParameter("genreTitle");
+            if (!bd.doesGenreExist(genre)) {
+                bd.addNewGenre(genre);
+                request.getSession().setAttribute("successMsg", "Genre added successfully!");
+            } else {
+                request.getSession().setAttribute("successMsg", "Operation failed. Genre already exists!");
+            }
+            response.sendRedirect(request.getContextPath() + "/dashboard/genres");
+        } else if (request.getRequestURI().contains("/genre/delete")) {
+            int genreId = Integer.parseInt(request.getParameter("genreId"));
+            bd.removeGenre(genreId);
+            request.getSession().setAttribute("successMsg", "Genre removed successfully!");
+            response.sendRedirect(request.getContextPath() + "/dashboard/genres");
+
+        } else if (false) {
+
+        } else if (false) {
+
+        } else {
+            request.getSession().setAttribute("successMsg", "Operation failed. Please try again!");
         }
     }
 

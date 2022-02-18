@@ -120,6 +120,18 @@
         <url-pattern>/dashboard/books/borrowed/</url-pattern>
     </servlet-mapping>
     
+    <!-- genres.jsp page -->
+    <servlet>
+        <servlet-name>Genres</servlet-name>
+        <jsp-file>/genres.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Genres</servlet-name>
+        <url-pattern>/dashboard/genres</url-pattern>
+        <url-pattern>/dashboard/genres/</url-pattern>
+    </servlet-mapping>
+    
+    <!-- ChangePassword.jsp page -->
     <servlet>
         <servlet-name>Change Password</servlet-name>
         <jsp-file>/changePassword.jsp</jsp-file>
@@ -130,6 +142,7 @@
         <url-pattern>/user/changePassword/</url-pattern>
     </servlet-mapping>
     
+    <!-- feedbacks.jsp page -->
     <servlet>
         <servlet-name>Display Feedbacks</servlet-name>
         <jsp-file>/feedbacks.jsp</jsp-file>

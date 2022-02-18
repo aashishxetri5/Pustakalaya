@@ -366,10 +366,10 @@ section#dashboard-section {
     cursor: wait;
 }
 
-/**/
+/*Feedbacks*/
 
 .feedback-wrapper{
-    height: 83vh;
+    max-height: 83vh;
     background-color: #eee;
     overflow-y: scroll;
     padding: 15px;
@@ -408,6 +408,33 @@ section#dashboard-section {
     padding: 9px 25px;
     font-family: 'Poppins';
 }
+
+/*Genres*/
+
+.genre-container{
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.genre-left, .genre-right{
+    background-color: #fff;
+    min-width: 400px;
+    border-radius: 6px;
+    box-shadow: 0 0 5px 0 #36454f;
+    padding: 20px;
+}
+
+.genre-container *{
+    background: #fff;
+}
+
+.genre-right{
+    min-height: 40vh;
+    max-height: 75vh;
+    overflow-y: scroll;
+}
+
 
 /* tablets */
 @media screen and (max-width: 819px) {

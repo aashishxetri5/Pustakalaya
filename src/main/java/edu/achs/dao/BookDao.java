@@ -6,8 +6,8 @@
 package edu.achs.dao;
 
 import edu.achs.entities.Books;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -16,9 +16,9 @@ import java.util.List;
 public interface BookDao {
 
     public void addBook(Books book);
-    
+
     public void addStockRecord(String bookId, int stock);
-    
+
     public void addInBorrowCount(String bookId);
 
     public List<Books> getAllBooks();
@@ -35,7 +35,13 @@ public interface BookDao {
 
     public List<Books> getSearchedBookDetail(String bookTitle);
 
-    public ArrayList<String> getAllGenres();
+    public void addNewGenre(String genre);
+
+    public boolean doesGenreExist(String genre);
+
+    public Map<Integer, String> getAllGenres();
+
+    public void removeGenre(int id);
 
     public String getBorrowerName(int userId);
 }

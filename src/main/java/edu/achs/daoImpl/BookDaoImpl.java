@@ -12,7 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -249,25 +251,72 @@ public class BookDaoImpl implements BookDao {
     }
 
     /**
+     *
+     * @param genre
+     */
+    @Override
+    public void addNewGenre(String genre) {
+        try {
+            sqlQuery = "insert into tbl_genres(genre) values (?)";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, genre);
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public boolean doesGenreExist(String genre) {
+        try {
+            sqlQuery = "select count(*) from tbl_genres where genre = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, genre);
+            ResultSet rs = pst.executeQuery();
+            rs.next();
+            if (rs.getInt(1) > 0) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    /**
      * Fetches all the genres from the database.
      *
      * @return
      */
     @Override
-    public ArrayList<String> getAllGenres() {
-        ArrayList<String> allGenres = new ArrayList<>();
+    public Map<Integer, String> getAllGenres() {
+        Map<Integer, String> allGenres = new HashMap<>();
         try {
-            sqlQuery = "select distinct(genre) from tbl_books";
+            sqlQuery = "select * from tbl_genres";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                System.out.println("GENRE::: " + rs.getString("genre"));
-                allGenres.add(rs.getString("genre"));
+                allGenres.put(rs.getInt("id"), rs.getString("genre"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allGenres;
+    }
+
+    /**
+     *
+     * @param id
+     */
+    @Override
+    public void removeGenre(int id) {
+        try {
+            sqlQuery = "delete from tbl_genres where id = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setInt(1, id);
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
