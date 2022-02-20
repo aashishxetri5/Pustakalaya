@@ -22,16 +22,16 @@
 
         <div class="middle-nav-dashboard">
             <div class="search">
-                <form action="dashboard/searchBook">
+                <form action="<%=request.getContextPath()%>/dashboard/searchBook">
                     <input
                         type="text"
                         class="searchbox"
                         name="searchKeyword"
-                        placeholder="Type your keyword"
+                        placeholder="author: authorName, book: bookName"
                         autocomplete="off"
                         required
                         />
-                    <button type="submit"> <i class="fas fa-search"></i> </button>
+                    <button type="submit" title="Search"> <i class="fas fa-search"></i> </button>
                 </form>
             </div>
         </div>

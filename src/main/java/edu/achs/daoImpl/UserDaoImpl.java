@@ -252,14 +252,15 @@ public class UserDaoImpl implements UserDao {
     public boolean isValidUser(String username, String password) {
         PasswordHashing pwdHash = new PasswordHashing();
         try {
-            sqlQuery = "select count(*) from tbl_userlogindetails where username = ? and password = ? and account_status = ?";
+            sqlQuery = "select username, password from tbl_userlogindetails where (username = ? and password = ? and account_status = ?)";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setString(1, username);
-            pst.setString(2, pwdHash.hashPassword(password.concat(getSalt(username))));
+            String dbPassword = pwdHash.hashPassword(password.concat(getSalt(username)));
+            pst.setString(2, dbPassword);
             pst.setString(3, "active");
             ResultSet rs = pst.executeQuery();
             rs.next();
-            if (rs.getInt(1) == 1) {
+            if (rs.getString("username").equals(username) && rs.getString("password").equals(dbPassword)) {
                 return true;
             }
         } catch (SQLException e) {
