@@ -7,6 +7,7 @@ package edu.achs.servlets;
 
 import edu.achs.dao.BookDao;
 import edu.achs.daoImpl.BookDaoImpl;
+import edu.achs.daoImpl.OtherServices;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,12 +42,11 @@ public class DashboardContentDelivery extends HttpServlet {
             request.getSession().setAttribute("successMsg", "Genre removed successfully!");
             response.sendRedirect(request.getContextPath() + "/dashboard/genres");
 
+        } else if (request.getRequestURI().contains("/dashboard/books/requests")) {
+            request.getSession().setAttribute("Requested Books", new OtherServices().getRequestedBooks());
+            response.sendRedirect(request.getContextPath() + "/dashboard/books/request");
         } else if (false) {
 
-        } else if (false) {
-
-        } else {
-            request.getSession().setAttribute("successMsg", "Operation failed. Please try again!");
         }
     }
 

@@ -131,6 +131,17 @@
         <url-pattern>/dashboard/genres/</url-pattern>
     </servlet-mapping>
     
+    <!-- bookRequest.jsp page -->
+    <servlet>
+        <servlet-name>Book Requests</servlet-name>
+        <jsp-file>/bookRequest.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Book Requests</servlet-name>
+        <url-pattern>/dashboard/books/request</url-pattern>
+        <url-pattern>/dashboard/books/request/</url-pattern>
+    </servlet-mapping>
+    
     <!-- ChangePassword.jsp page -->
     <servlet>
         <servlet-name>Change Password</servlet-name>

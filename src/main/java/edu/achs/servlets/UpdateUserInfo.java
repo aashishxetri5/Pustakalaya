@@ -27,50 +27,43 @@ public class UpdateUserInfo extends HttpServlet {
 
         if (request.getSession().getAttribute("currentUser") != null) {
 
-            Users user = (Users) request.getSession().getAttribute("currentUser");
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            String firstname = request.getParameter("fname").trim();
+            String lastname = request.getParameter("lname").trim();
+            String email = request.getParameter("email").trim();
+            String address = request.getParameter("address").trim();
+            String phNum = request.getParameter("phoneNum").trim();
+            String gender = request.getParameter("gender").trim();
 
-            if (user.getUserType().equals("Librarian")) {
-                int userId = Integer.parseInt(request.getParameter("userId"));
-                String firstname = request.getParameter("fname").trim();
-                String lastname = request.getParameter("lname").trim();
-                String email = request.getParameter("email").trim();
-                String address = request.getParameter("address").trim();
-                String phNum = request.getParameter("phoneNum").trim();
-                String gender = request.getParameter("gender").trim();
+            //Checks if any of the value received are null.
+            if (firstname != null && lastname != null && email != null && address != null && phNum != null
+                    && gender != null) {
 
-                //Checks if any of the value received are null.
-                if (firstname != null && lastname != null && email != null && address != null && phNum != null
-                        && gender != null) {
+                //checking if there has been some descripancies in the values of the field gender 
+                if (gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female") || gender.equalsIgnoreCase("Other")) {
 
-                    //checking if there has been some descripancies in the values of the field gender 
-                    if (gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female") || gender.equalsIgnoreCase("Other")) {
+                    //Assigns M for male, F for female, O for other.
+                    gender = (gender.equalsIgnoreCase("Male")) ? "M" : gender.equalsIgnoreCase("Female") ? "F" : "O";
 
-                        //Assigns M for male, F for female, O for other.
-                        gender = (gender.equalsIgnoreCase("Male")) ? "M" : gender.equalsIgnoreCase("Female") ? "F" : "O";
+                    ///Sends the received data to updateUser() function.
+                    udl.updateUser(new Users(userId, firstname, lastname, gender, address, email, phNum));
 
-                        ///Sends the received data to updateUser() function.
-                        udl.updateUser(new Users(userId, firstname, lastname, gender, address, email, phNum));
-
-                        request.getSession().setAttribute("successMsg", "Update successful!!");
-                    } else {
-                        request.getSession().setAttribute("errorMsg", "Operation failed. Please try again!!");
-                    }
-                    request.getSession().setAttribute("errorMsg", "Problem updating information. Please try again!!");
+                    request.getSession().setAttribute("successMsg", "Update successful!!");
                 } else {
-                    request.getSession().setAttribute("errorMsg", "There was a problem registering you. Please try again!!");
+                    request.getSession().setAttribute("errorMsg", "Operation failed. Please try again!!");
                 }
-                response.sendRedirect(request.getContextPath() + "/dashboard/profile");
+                request.getSession().setAttribute("errorMsg", "Problem updating information. Please try again!!");
             } else {
-                request.getSession().setAttribute("errorMsg", "Invalid request");
-                response.sendRedirect(request.getContextPath() + "/home");
+                request.getSession().setAttribute("errorMsg", "There was a problem registering you. Please try again!!");
             }
+            response.sendRedirect(request.getContextPath() + "/dashboard/profile");
         } else {
-            request.getSession().setAttribute("errorMsg", "Invalid Request!");
+            request.getSession().setAttribute("errorMsg", "Invalid request");
             response.sendRedirect(request.getContextPath() + "/home");
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

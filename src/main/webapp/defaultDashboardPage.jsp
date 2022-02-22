@@ -98,54 +98,55 @@
                 </table>
             </div>
         </div>
+
+        <%
+        } else if (user.getUserType().equals("Student")) {
+        %>
+
+
+        <div class="recent">
+            <div class="tabular">
+                <!--<h3>Popular Picks</h3>-->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>S.N.</th>
+                            <th>Book Name</th>
+                            <th>Author</th>
+                            <th>Publication</th>
+                            <th>Edition</th>
+                            <th>Genre</th>
+                            <th>Language</th>
+                            <th>Borrow By:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                            List<Books> popularBooks = new PopularBooks().getPopularBooks(10);
+                            int count = 1;
+                            for (Books book : popularBooks) {
+                        %>
+                        <tr>
+                            <td><%=count++%></td>
+                            <td><%=book.getBookTitle()%></td>
+                            <td><%=book.getAuthor()%></td>
+                            <td><%=book.getPublisher()%></td>
+                            <td><%=book.getEdition()%></td>
+                            <td><%=book.getGenre()%></td>
+                            <td><%=book.getLanguage()%></td>
+                            <td><%=book.getNumOfTimesBorrowed()%> People</td>
+                        </tr>
+                        <%}%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <%
+                }
+            }
+        %>
     </div>
 </section>
-<%
-} else if (user.getUserType().equals("Student")) {
-%>
-
-
-<div class="recent">
-    <div class="tabular">
-        <!--<h3>Popular Picks</h3>-->
-        <table>
-            <thead>
-                <tr>
-                    <th>S.N.</th>
-                    <th>Book Name</th>
-                    <th>Author</th>
-                    <th>Publication</th>
-                    <th>Edition</th>
-                    <th>Genre</th>
-                    <th>Language</th>
-                    <th>Borrow By:</th>
-                </tr>
-            </thead>
-            <tbody>
-                <%
-                    List<Books> popularBooks = new PopularBooks().getPopularBooks(10);
-                    int count = 1;
-                    for (Books book : popularBooks) {
-                %>
-                <tr>
-                    <td><%=count++%></td>
-                    <td><%=book.getBookTitle()%></td>
-                    <td><%=book.getAuthor()%></td>
-                    <td><%=book.getPublisher()%></td>
-                    <td><%=book.getEdition()%></td>
-                    <td><%=book.getGenre()%></td>
-                    <td><%=book.getLanguage()%></td>
-                    <td><%=book.getNumOfTimesBorrowed()%> People</td>
-                </tr>
-                <%}%>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<%
-        }
-    }
-%>
 </body>
 </html>

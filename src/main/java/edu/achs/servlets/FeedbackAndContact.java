@@ -42,7 +42,7 @@ public class FeedbackAndContact extends HttpServlet {
             }
 
         } else if (request.getParameter("FeedbackFormSubmission") != null) {
-            int userId = Integer.parseInt(request.getParameter("userId"));
+            int userId = Integer.parseInt(request.getParameter("userID"));
             email = request.getParameter("f-email").trim();
             String username = request.getParameter("username").trim();
             message = request.getParameter("f-message").trim();

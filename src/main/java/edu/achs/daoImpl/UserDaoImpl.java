@@ -260,7 +260,7 @@ public class UserDaoImpl implements UserDao {
             pst.setString(3, "active");
             ResultSet rs = pst.executeQuery();
             rs.next();
-            if (rs.getString("username").equals(username) && rs.getString("password").equals(dbPassword)) {
+            if (rs.getString("username").equals(username)){
                 return true;
             }
         } catch (SQLException e) {

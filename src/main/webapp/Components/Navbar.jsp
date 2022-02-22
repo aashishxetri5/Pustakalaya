@@ -10,8 +10,8 @@
 
     <ul class="center-nav nav">
         <li class="center-nav-links"><a href="home">Home</a></li> <!-- /home -->
-        <li class="center-nav-links"><a href="books">Books</a></li> <!-- /books/all -->
-        <li class="center-nav-links"><a href="blog">Blog</a></li> <!-- /blog-->
+        <li class="center-nav-links"><a href="#">Books</a></li> <!-- /books/all -->
+        <li class="center-nav-links"><a href="#">Blog</a></li> <!-- /blog-->
             <%
                 if (session.getAttribute("currentUser") != null) {
             %>

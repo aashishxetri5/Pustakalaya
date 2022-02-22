@@ -67,8 +67,8 @@ public class OtherServices {
      * @param book
      */
     public void addBookRequest(Books book) {
-        sqlQuery = "insert into tbl_bookRequest values(?,?,?, ?)";
         try {
+            sqlQuery = "insert into tbl_bookRequest (book_name, author, genre, isListed) values(?,?,?,?)";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setString(1, book.getBookTitle());
             pst.setString(2, book.getAuthor());
@@ -78,6 +78,27 @@ public class OtherServices {
         } catch (SQLException ex) {
             Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public List<Books> getRequestedBooks() {
+        List<Books> requestedBooks = new ArrayList<>();
+        try {
+            sqlQuery = "select * from tbl_bookRequest order by tbl_bookrequest.isListed asc";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Books book = new Books();
+                book.setBookId(String.valueOf(rs.getInt("id")));
+                book.setBookTitle(rs.getString("book_name"));
+                book.setAuthor(rs.getString("author"));
+                book.setGenre(rs.getString("genre"));
+                book.setStatus(String.valueOf(rs.getBoolean("isListed")));
+                requestedBooks.add(book);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return requestedBooks;
     }
 
     /**

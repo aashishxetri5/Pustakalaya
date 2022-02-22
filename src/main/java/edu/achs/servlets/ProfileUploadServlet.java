@@ -6,7 +6,6 @@
 package edu.achs.servlets;
 
 import edu.achs.daoImpl.UserDaoImpl;
-import edu.achs.entities.Users;
 import edu.achs.utility.ProfilePictureNameCustomization;
 import edu.achs.utility.SaveProfileImage;
 import java.io.File;
@@ -36,64 +35,57 @@ public class ProfileUploadServlet extends HttpServlet {
 
         if (request.getSession().getAttribute("currentUser") != null) {
 
-            Users user = (Users) request.getSession().getAttribute("currentUser");
+            int userId = Integer.parseInt(request.getParameter("userId"));
 
-            if (user.getUserType().equals("Librarian")) {
-                int userId = Integer.parseInt(request.getParameter("userId"));
+            Part filePart = request.getPart("newProfileImg");
+            
+            /**
+             * Checks if the file size is greater than 1MB. The profile is
+             * changed only when the maximum limit is reached.
+             *
+             */
+            if (filePart.getSize() <= (1024 * 1024)) {
 
-                Part filePart = request.getPart("newProfileImg");
+                String filename = filePart.getSubmittedFileName();
+
+                //This variable stores a custom generated name returned by this function.
+                String newCustomFileName = new ProfilePictureNameCustomization().customizeProfilePictureName(userId, filename);
+
+                //Path of TempPPs folder. This saves the uploaded file to TempPPs folder.
+                String temppath = request.getRealPath("Images") + File.separator + "TempPPs" + File.separator + filename;
 
                 /**
-                 * Checks if the file size is greater than 1MB. The profile is
-                 * changed only when the maximum limit is reached.
-                 *
+                 * Path of ProfilePictures folder. This is where the uploaded
+                 * file will be moved to from TempPPs folder along with a custom
+                 * image name.
                  */
-                if (filePart.getSize() <= (1024 * 1024)) {
+                String realPath = request.getRealPath("Images") + File.separator + "ProfilePictures" + File.separator + newCustomFileName;
 
-                    String filename = filePart.getSubmittedFileName();
+                //Checks if the current image name is that of a default img file name
+                if (!new UserDaoImpl().getProfileImgName(userId).equalsIgnoreCase("Male_Default_pp.png")
+                        && !new UserDaoImpl().getProfileImgName(userId).equalsIgnoreCase("Female_Default_pp.png")
+                        && !new UserDaoImpl().getProfileImgName(userId).equalsIgnoreCase("Others_Default_pp.png")) {
 
-                    //This variable stores a custom generated name returned by this function.
-                    String newCustomFileName = new ProfilePictureNameCustomization().customizeProfilePictureName(userId, filename);
-
-                    //Path of TempPPs folder. This saves the uploaded file to TempPPs folder.
-                    String temppath = request.getRealPath("Images") + File.separator + "TempPPs" + File.separator + filename;
-
-                    /**
-                     * Path of ProfilePictures folder. This is where the
-                     * uploaded file will be moved to from TempPPs folder along
-                     * with a custom image name.
-                     */
-                    String realPath = request.getRealPath("Images") + File.separator + "ProfilePictures" + File.separator + newCustomFileName;
-
-                    //Checks if the current image name is that of a default img file name
-                    if (!new UserDaoImpl().getProfileImgName(userId).equalsIgnoreCase("Male_Default_pp.png")
-                            && !new UserDaoImpl().getProfileImgName(userId).equalsIgnoreCase("Female_Default_pp.png")
-                            && !new UserDaoImpl().getProfileImgName(userId).equalsIgnoreCase("Others_Default_pp.png")) {
-
-                        //Deletes the old file so that there will be room for the new img file.
-                        Files.delete(Paths.get(request.getRealPath("Images") + File.separator + "ProfilePictures" + File.separator
-                                + new UserDaoImpl().getProfileImgName(userId)));
-                    }
-
-                    //Save profile picture to the tempPPs folder
-                    new SaveProfileImage().saveImage(temppath, filePart);
-
-                    //Move file from tempPP folder to ProfilePictures folder.
-                    Files.move(Paths.get(temppath), Paths.get(realPath));
-
-                    //update the profile picture name in database
-                    new UserDaoImpl().updateProfilePicture(userId, newCustomFileName);
-                    request.getSession().setAttribute("successMsg", "Profile changed successfully!!");
-                } else {
-                    request.getSession().setAttribute("errorMsg", "Failed to change profile picture!!");
+                    //Deletes the old file so that there will be room for the new img file.
+                    Files.delete(Paths.get(request.getRealPath("Images") + File.separator + "ProfilePictures" + File.separator
+                            + new UserDaoImpl().getProfileImgName(userId)));
                 }
-                response.sendRedirect(request.getContextPath() + "/dashboard/profile");
+
+                //Save profile picture to the tempPPs folder
+                new SaveProfileImage().saveImage(temppath, filePart);
+
+                //Move file from tempPP folder to ProfilePictures folder.
+                Files.move(Paths.get(temppath), Paths.get(realPath));
+
+                //update the profile picture name in database
+                new UserDaoImpl().updateProfilePicture(userId, newCustomFileName);
+                request.getSession().setAttribute("successMsg", "Profile changed successfully!!");
             } else {
-                request.getSession().setAttribute("errorMsg", "Invalid request");
-                response.sendRedirect(request.getContextPath() + "/home");
+                request.getSession().setAttribute("errorMsg", "Size Exceeded. Max. size is 1MB!!");
             }
+            response.sendRedirect(request.getContextPath() + "/dashboard/profile");
         } else {
-            request.getSession().setAttribute("errorMsg", "Invalid Request!");
+            request.getSession().setAttribute("errorMsg", "Invalid request");
             response.sendRedirect(request.getContextPath() + "/home");
         }
     }
