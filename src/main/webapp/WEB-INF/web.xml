@@ -138,8 +138,8 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Book Requests</servlet-name>
-        <url-pattern>/dashboard/books/request</url-pattern>
-        <url-pattern>/dashboard/books/request/</url-pattern>
+        <url-pattern>/dashboard/books/requests</url-pattern>
+        <url-pattern>/dashboard/books/requests/</url-pattern>
     </servlet-mapping>
     
     <!-- ChangePassword.jsp page -->

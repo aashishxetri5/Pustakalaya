@@ -4,6 +4,7 @@
     Author     : Aashish Katwal
 --%>
 
+<%@page import="edu.achs.daoImpl.OtherServices"%>
 <%@page import="edu.achs.entities.Books"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -35,7 +36,7 @@
                     </thead>
                     <tbody>
                         <%
-                            List<Books> reqBooks = (List<Books>) request.getSession().getAttribute("Requested Books");
+                            List<Books> reqBooks = new OtherServices().getRequestedBooks();
                             if (reqBooks != null) {
                                 int count = 1;
                                 for (Books book : reqBooks) {

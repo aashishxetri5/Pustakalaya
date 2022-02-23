@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Aashish Katwal
  */
-@WebServlet(name = "DashboardContentDelivery", urlPatterns = {"/dashboard/seachBook", "/dashboard/books/requests",
+@WebServlet(name = "DashboardContentDelivery", urlPatterns = {"/dashboard/seachBook", "/requestedBook/markAvailable",
     "/dashboard/newGenre", "/genre/delete"})
 public class DashboardContentDelivery extends HttpServlet {
 
@@ -31,7 +31,7 @@ public class DashboardContentDelivery extends HttpServlet {
             String genre = request.getParameter("genreTitle");
             if (!bd.doesGenreExist(genre)) {
                 bd.addNewGenre(genre);
-                request.getSession().setAttribute("successMsg", "Genre added successfully!");
+                request.getSession().setAttribute("successMsg", "Genre added successfully!!");
             } else {
                 request.getSession().setAttribute("successMsg", "Operation failed. Genre already exists!");
             }
@@ -39,14 +39,15 @@ public class DashboardContentDelivery extends HttpServlet {
         } else if (request.getRequestURI().contains("/genre/delete")) {
             int genreId = Integer.parseInt(request.getParameter("genreId"));
             bd.removeGenre(genreId);
-            request.getSession().setAttribute("successMsg", "Genre removed successfully!");
+            request.getSession().setAttribute("successMsg", "Genre removed successfully!!");
             response.sendRedirect(request.getContextPath() + "/dashboard/genres");
 
-        } else if (request.getRequestURI().contains("/dashboard/books/requests")) {
-            request.getSession().setAttribute("Requested Books", new OtherServices().getRequestedBooks());
-            response.sendRedirect(request.getContextPath() + "/dashboard/books/request");
-        } else if (false) {
-
+        } else if (request.getRequestURI().contains("/requestedBook/markAvailable")) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            new OtherServices().markAsAvailable(id);
+            request.getSession().setAttribute("successMsg", "Marked available succesfully!!");
+            response.sendRedirect((request.getContextPath() + "/dashboard/books/requests"));
+                    
         }
     }
 

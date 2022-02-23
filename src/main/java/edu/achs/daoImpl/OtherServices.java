@@ -80,6 +80,10 @@ public class OtherServices {
         }
     }
 
+    /**
+     * Retrieves all the requested books from the DB.
+     * @return 
+     */
     public List<Books> getRequestedBooks() {
         List<Books> requestedBooks = new ArrayList<>();
         try {
@@ -101,6 +105,22 @@ public class OtherServices {
         return requestedBooks;
     }
 
+    /**
+     * 
+     * @param id 
+     */
+    public void markAsAvailable(int id){
+        try {
+            sqlQuery = "update tbl_bookRequest set isListed = ? where id = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setBoolean(1, true);
+            pst.setInt(2, id);
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * Fetches and returns all the feedbacks received
      *
