@@ -51,4 +51,6 @@ public interface UserDao {
     public String getProfileImgName(int userId);
     
     public void changeRole(int userId, String newRole);
+    
+    public void setNewPassword(String newPassword, String username, int userId);
 }

@@ -5,6 +5,7 @@
  */
 package edu.achs.servlets;
 
+import edu.achs.dao.UserDao;
 import edu.achs.daoImpl.UserDaoImpl;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -24,7 +25,7 @@ public class SignIn extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        UserDaoImpl udl = new UserDaoImpl();
+        UserDao udl = new UserDaoImpl();
         HttpSession session = request.getSession();
 
         String username = request.getParameter("username");

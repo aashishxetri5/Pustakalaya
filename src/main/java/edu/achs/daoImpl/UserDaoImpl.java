@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * @author Aashish Katwal
  */
 public class UserDaoImpl implements UserDao {
-
+    
     String sqlQuery = "";
     boolean isUnique;
 
@@ -228,11 +228,11 @@ public class UserDaoImpl implements UserDao {
             PreparedStatement prepDltLoginCr = new DBConnection().getConnection().prepareStatement(deleteLoginDetails);
             PreparedStatement prepDltuserDetail = new DBConnection().getConnection().prepareStatement(deleteUserDetails);
             PreparedStatement prepDltProfileImg = new DBConnection().getConnection().prepareStatement(deleteProfileImg);
-
+            
             prepDltLoginCr.setInt(1, userId);
             prepDltProfileImg.setInt(1, userId);
             prepDltuserDetail.setInt(1, userId);
-
+            
             prepDltLoginCr.executeUpdate();
             prepDltProfileImg.executeUpdate();
             prepDltuserDetail.executeUpdate();
@@ -260,7 +260,7 @@ public class UserDaoImpl implements UserDao {
             pst.setString(3, "active");
             ResultSet rs = pst.executeQuery();
             rs.next();
-            if (rs.getString("username").equals(username)){
+            if (rs.getString("username").equals(username)) {
                 return true;
             }
         } catch (SQLException e) {
@@ -346,6 +346,12 @@ public class UserDaoImpl implements UserDao {
         return false;
     }
 
+    /**
+     * Fetches SALT of a user from the database based on the username.
+     *
+     * @param username
+     * @return
+     */
     public String getSalt(String username) {
         try {
             sqlQuery = "select pSALT from tbl_userlogindetails where username = ?";
@@ -390,7 +396,7 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public boolean isDuplicateUserID(int generatedID) {
-
+        
         try {
             sqlQuery = "select userId from tbl_userdetails where userId = ?";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
@@ -469,7 +475,7 @@ public class UserDaoImpl implements UserDao {
     /**
      *
      * @param userId
-     * @param userType
+     * @param newRole
      */
     @Override
     public void changeRole(int userId, String newRole) {
@@ -478,6 +484,42 @@ public class UserDaoImpl implements UserDao {
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setString(1, newRole);
             pst.setInt(2, userId);
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public boolean isThisPasswordValid(String username, String oldPassword) {
+        try {
+            sqlQuery = "select password from tbl_userlogindetails where username = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, username);
+            ResultSet rs = pst.executeQuery();
+            rs.next();
+            if (rs.getString("password").equals(new PasswordHashing().hashPassword(oldPassword.concat(getSalt(username))))) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param newPassword
+     * @param username
+     * @param userId
+     */
+    @Override
+    public void setNewPassword(String newPassword, String username, int userId) {
+        try {
+            sqlQuery = "update tbl_userlogindetails set password = ? where userId = ? and username = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, new PasswordHashing().hashPassword(newPassword.concat(getSalt(username))));
+            pst.setInt(2, userId);
+            pst.setString(3, username);
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);

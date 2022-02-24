@@ -20,14 +20,15 @@
 
         <div class="container">
             <div class="major-form">
-                <form action="#" method="POST">
+                <form id="changePass" action="passwordChange" method="POST">
                     <h3 class="form-title">Change Password</h3>
                     <div class="input-area">
                         <input type="password" placeholder="Old Password" name="oldPassword" required />
-                        <input type="password" placeholder="Type New Password" name="newPassword" required />
-                        <input type="password" placeholder="Retype Password" name="retypedPassword" required />
+                        <input type="password" placeholder="Type New Password" name="newPassword" id="newP" required />
+                        <input type="password" placeholder="Retype Password" name="retypedPassword" id="re-NewPass" required />
+                        <p id="errmsg" style="color: #BA2D0B; font-size: .9rem; font-weight: bold;"></p>
                     </div>
-                    <input type="submit" class="submit-btn" value="Log In" /><br />
+                    <input type="submit" class="submit-btn" value="Change Password" /><br />
                 </form>
             </div>
         </div> 
@@ -35,6 +36,9 @@
     </div>
 </section>
 <% }%>
+
+<script src="${pageContext.request.contextPath}/JS/checkPassword.js"></script>
+
 </body>
 </html>
 

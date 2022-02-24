@@ -5,6 +5,8 @@
  */
 package edu.achs.servlets;
 
+import edu.achs.daoImpl.UserDaoImpl;
+import edu.achs.entities.Users;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Aashish Katwal
  */
-@WebServlet(name = "ChangePasswordServlet", urlPatterns = {"/newPassword"})
+@WebServlet(name = "ChangePasswordServlet", urlPatterns = {"/user/passwordChange"})
 public class ChangePasswordServlet extends HttpServlet {
 
     /**
@@ -30,6 +32,27 @@ public class ChangePasswordServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        if (request.getSession().getAttribute("currentUser") != null) {
+            System.out.println("REACHED!!!");
+            Users user = (Users) request.getSession().getAttribute("currentUser");
+            String currentPass = request.getParameter("oldPassword");
+            String newPass = request.getParameter("newPassword");
+            String reNewPass = request.getParameter("retypedPassword");
+
+            String username = user.getUsername();
+
+            if (newPass.equals(reNewPass) && new UserDaoImpl().isThisPasswordValid(username, currentPass)) {
+                new UserDaoImpl().setNewPassword(newPass, username, user.getUserId());
+                request.getSession().invalidate();
+                request.getSession().setAttribute("successMsg", "Password Changed Successfully!!");
+            } else {
+                request.getSession().setAttribute("errorMsg", "Passwords do not match!!");
+            }
+            response.sendRedirect(request.getContextPath() + "/home");
+        } else {
+            System.out.println("NO user is logged in");
+        }
 
     }
 
