@@ -426,13 +426,25 @@ input#submit-btn:hover{
         max-width: 400px;
     }
 
+    .row{
+        flex-direction: column;
+    }
+
     .f-col{
-        width: 50% !important;
+        width: 50%;
         margin-bottom: 30px;
+    }
+
+    .f-col:first-child {
+        width: 100%;
+    }
+
+    .f-col h4 {
+        margin-bottom: 20px;   
     }
 }
 @media(max-width: 574px){
-    .footer-col{
+    .f-col{
         width: 100%;
     }
 }

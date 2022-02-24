@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * @author Aashish Katwal
  */
 public class UserDaoImpl implements UserDao {
-    
+
     String sqlQuery = "";
     boolean isUnique;
 
@@ -228,11 +228,11 @@ public class UserDaoImpl implements UserDao {
             PreparedStatement prepDltLoginCr = new DBConnection().getConnection().prepareStatement(deleteLoginDetails);
             PreparedStatement prepDltuserDetail = new DBConnection().getConnection().prepareStatement(deleteUserDetails);
             PreparedStatement prepDltProfileImg = new DBConnection().getConnection().prepareStatement(deleteProfileImg);
-            
+
             prepDltLoginCr.setInt(1, userId);
             prepDltProfileImg.setInt(1, userId);
             prepDltuserDetail.setInt(1, userId);
-            
+
             prepDltLoginCr.executeUpdate();
             prepDltProfileImg.executeUpdate();
             prepDltuserDetail.executeUpdate();
@@ -396,7 +396,7 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public boolean isDuplicateUserID(int generatedID) {
-        
+
         try {
             sqlQuery = "select userId from tbl_userdetails where userId = ?";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
@@ -473,7 +473,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     /**
-     *
+     * Changes role. (Promotion/Demotion)
+     * 
      * @param userId
      * @param newRole
      */
@@ -489,7 +490,15 @@ public class UserDaoImpl implements UserDao {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    /**
+     * Checks if the current/old password entered by the user is a valid one
+     * i.e. matches with the real old password.
+     *
+     * @param username
+     * @param oldPassword
+     * @return
+     */
     public boolean isThisPasswordValid(String username, String oldPassword) {
         try {
             sqlQuery = "select password from tbl_userlogindetails where username = ?";
@@ -507,6 +516,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     /**
+     * Updates the old Password with the new one after hashing.
      *
      * @param newPassword
      * @param username

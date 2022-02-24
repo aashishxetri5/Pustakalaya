@@ -11,8 +11,10 @@
                         name="contact-email"
                         placeholder="Email Address"
                         id="contact-email"
+                        disabled 
                         />
-                    <input type="submit" name="submitContactEmail" id="submit-btn" value="Submit" />
+                    <!-- Remove 'disabled' it later-->
+                    <input type="submit" name="submitContactEmail" id="submit-btn" value="Submit" disabled/> <!-- Remove it later-->
                 </form>
             </div>
         </div>
@@ -34,8 +36,6 @@
             <ul>
                 <li><a href="#">Books</a></li>
                 <li><a href="#">Blog</a></li>
-                <li><a href="#">Link 2</a></li>
-                <li><a href="#">Link 3</a></li>
             </ul>
         </div>
 
