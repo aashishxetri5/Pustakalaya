@@ -314,7 +314,7 @@ section#dashboard-section {
     padding: 0.7rem;
 }
 
-.add-newbook, .borrow-btn, .delete-btn, .update-info-btn, .p-logout-btn{
+.add-new-btn, .borrow-btn, .delete-btn, .update-info-btn, .p-logout-btn{
     background-color: #e9163e;
     color: #fff;
     font-family: "Poppins", sans-serif;
@@ -324,7 +324,7 @@ section#dashboard-section {
     cursor: pointer;
 }
 
-.add-newbook, .delete-btn, .update-info-btn, .p-logout-btn{
+.add-new-btn, .delete-btn, .update-info-btn, .p-logout-btn{
     padding: 0 15px;
     font-size: 16px;
     line-height: 40px;

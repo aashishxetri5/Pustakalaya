@@ -27,10 +27,10 @@
             if (user.getUserType().equals("Librarian")) {
         %>
 
-        <div class="booktop-div" style="margin-bottom: 15px;">
+        <div class="top-btn-div" style="margin-bottom: 15px;">
 
             <button class="addBook" title="Add New Librarian">
-                <a href="<%=request.getContextPath()%>/librarian/new" class="add-newbook">Add Librarian</a>
+                <a href="<%=request.getContextPath()%>/librarian/new" class="add-new-btn">Add Librarian</a>
             </button>
 
             <div class="dropdown-bm-tab">

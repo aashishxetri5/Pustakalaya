@@ -164,6 +164,28 @@
         <url-pattern>/dashboard/feedbacks/</url-pattern>
     </servlet-mapping>
 
+    <!-- notices.jsp page -->
+    <servlet>
+        <servlet-name>Notices</servlet-name>
+        <jsp-file>/notices.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Notices</servlet-name>
+        <url-pattern>/dashboard/notices</url-pattern>
+        <url-pattern>/dashboard/notices/</url-pattern>
+    </servlet-mapping>
+
+ <!-- notices.jsp page -->
+    <servlet>
+        <servlet-name>Notice form</servlet-name>
+        <jsp-file>/publishNoticeTemplate.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Notice form</servlet-name>
+        <url-pattern>/notice/new</url-pattern>
+        <url-pattern>/notice/new/</url-pattern>
+    </servlet-mapping>
+
     <!-- Error Page -->
     <error-page>
         <exception-type>java.lang.Exception</exception-type>

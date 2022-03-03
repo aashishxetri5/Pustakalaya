@@ -47,6 +47,8 @@ public class DashboardContentDelivery extends HttpServlet {
             new OtherServices().markAsAvailable(id);
             request.getSession().setAttribute("successMsg", "Marked available succesfully!!");
             response.sendRedirect((request.getContextPath() + "/dashboard/books/requests"));
+        } else if (request.getRequestURI().contains("/notice/new")) {
+            
         }
     }
 

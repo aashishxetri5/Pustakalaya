@@ -31,7 +31,7 @@
             %>
 
             <button class="addBook" title="Add New Book">
-                <a href="<%=request.getContextPath()%>/newbook" class="add-newbook">Add New Book</a>
+                <a href="<%=request.getContextPath()%>/newbook" class="add-new-btn">Add New Book</a>
             </button>
 
             <% }%>
