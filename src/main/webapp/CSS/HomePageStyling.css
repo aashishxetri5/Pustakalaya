@@ -70,7 +70,7 @@ a{
     height: 43px;
 }
 
-.center-nav-links a:hover, footer a:hover{
+.center-nav-links a:hover, .right-nav li:last-child a:hover, footer a:hover{
     color: #fff;
 }
 

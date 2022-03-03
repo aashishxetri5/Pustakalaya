@@ -9,13 +9,13 @@
     </ul>
 
     <ul class="center-nav nav">
-        <li class="center-nav-links"><a href="home">Home</a></li> <!-- /home -->
-        <li class="center-nav-links"><a href="#">Books</a></li> <!-- /books/all -->
-        <li class="center-nav-links"><a href="#">Blog</a></li> <!-- /blog-->
+        <li class="center-nav-links"><a href="home" title="Home">Home</a></li> <!-- /home -->
+        <li class="center-nav-links"><a href="#" title="Books">Books</a></li> <!-- /books/all -->
+        <li class="center-nav-links"><a href="#" title="Blog">Blog</a></li> <!-- /blog-->
             <%
                 if (session.getAttribute("currentUser") != null) {
             %>
-        <li class="center-nav-links"><a href="feedback">Feedback</a></li> <!-- /feedback -->
+        <li class="center-nav-links"><a href="feedback" title="Feedback">Feedback</a></li> <!-- /feedback -->
             <%
                 }
             %>
@@ -26,8 +26,8 @@
         if (currentUser == null) {
     %>            
     <ul class="right-nav nav">
-        <li><a href="login">Login</a></li>
-        <li><a href="signup">Signup</a></li>
+        <li><a href="login" title="Login">Login</a></li>
+        <li><a href="signup" title="Signup">Signup</a></li>
     </ul>
     <%
     } else {
