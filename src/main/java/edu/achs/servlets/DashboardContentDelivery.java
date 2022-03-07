@@ -8,6 +8,7 @@ package edu.achs.servlets;
 import edu.achs.dao.BookDao;
 import edu.achs.daoImpl.BookDaoImpl;
 import edu.achs.daoImpl.OtherServices;
+import edu.achs.entities.FeedbacksAndContacts;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Aashish Katwal
  */
 @WebServlet(name = "DashboardContentDelivery", urlPatterns = {"/dashboard/seachBook", "/requestedBook/markAvailable",
-    "/dashboard/newGenre", "/genre/delete"})
+    "/dashboard/newGenre", "/genre/delete", "/notice/newNotice"})
 public class DashboardContentDelivery extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -47,8 +48,13 @@ public class DashboardContentDelivery extends HttpServlet {
             new OtherServices().markAsAvailable(id);
             request.getSession().setAttribute("successMsg", "Marked available succesfully!!");
             response.sendRedirect((request.getContextPath() + "/dashboard/books/requests"));
-        } else if (request.getRequestURI().contains("/notice/new")) {
-            
+        } else if (request.getRequestURI().contains("/notice/newNotice")) {
+            String title = request.getParameter("notice-title");
+//            String notice_to = request.getParameter("noticeFor");
+            String message = request.getParameter("notice-message");
+            new OtherServices().insertNotice(new FeedbacksAndContacts(title, message));
+            request.getSession().setAttribute("successMsg", "Notice Uploaded Successfully!!");
+            response.sendRedirect((request.getContextPath() + "/dashboard/notices"));
         }
     }
 

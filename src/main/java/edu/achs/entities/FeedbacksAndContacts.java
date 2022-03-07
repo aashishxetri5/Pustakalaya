@@ -5,14 +5,17 @@
  */
 package edu.achs.entities;
 
+import java.sql.Date;
+
 /**
  *
  * @author Aashish Katwal
  */
 public class FeedbacksAndContacts {
 
-    private int userId;
-    private String fullname, email, username, message;
+    private int userId, id;
+    private String fullname, email, username, message, title;
+    private Date date;
 
     public FeedbacksAndContacts() {
     }
@@ -45,6 +48,16 @@ public class FeedbacksAndContacts {
         this.message = message;
     }
 
+    /**
+     * 
+     * @param title
+     * @param message 
+     */
+    public FeedbacksAndContacts(String title, String message){
+        this.title = title;
+        this.message = message;
+    }
+    
     /**
      *
      * @return
@@ -125,4 +138,37 @@ public class FeedbacksAndContacts {
         this.message = message;
     }
 
+    /**
+     *
+     * @param title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public Date getDate() {
+        return date;
+    }
+
+    /**
+     * 
+     * @param date 
+     */
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    
 }

@@ -24,8 +24,8 @@ import java.util.logging.Logger;
  */
 public class UserDaoImpl implements UserDao {
 
-    String sqlQuery = "";
-    boolean isUnique;
+    private String sqlQuery = "";
+    private boolean isUnique;
 
     /**
      * Adds the information of the user into the database.
@@ -474,7 +474,7 @@ public class UserDaoImpl implements UserDao {
 
     /**
      * Changes role. (Promotion/Demotion)
-     * 
+     *
      * @param userId
      * @param newRole
      */

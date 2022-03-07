@@ -22,8 +22,8 @@ import java.util.logging.Logger;
  */
 public class BorrowDaoImpl implements BorrowDao {
 
-    String sqlQuery = "";
-    final double FINE_RATE = 50.0;
+    private String sqlQuery = "";
+    private final double FINE_RATE = 50.0;
 
     /**
      * This function returns true if a user has borrowed less than 5 books which

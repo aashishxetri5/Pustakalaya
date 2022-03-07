@@ -9,7 +9,7 @@
 $(document).ready(function () {
     var msg = $(".ToastMsg").val();
     var notificationMarkup = "<div class='notification'><div class='msg'><div class='icon'>" +
-            "<i class='fas fa-exclamation-circle circle-i'></i></div><div class='message'> " + msg +
+            "<i class='fas fa-exclamation-circle'></i></div><div class='message'> " + msg +
             "</div></div><div class='cross'><i class='fas fa-times closeToast'></i></div></div>";
     if (msg !== undefined) {
         $(".toast").append(notificationMarkup);

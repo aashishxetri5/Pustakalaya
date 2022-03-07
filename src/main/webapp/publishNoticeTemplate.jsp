@@ -24,7 +24,7 @@
         %>
         <section class="major-form-section">
             <div class="container">
-                <a href="home" style="display: inline-block">
+                <a href="/home" style="display: inline-block">
                     <img src="${pageContext.request.contextPath}/Images/LogoAndBg/Logo.png" alt="Logo" title="Pustakalaya" />
                 </a>
                 <div class="major-form">
@@ -32,9 +32,15 @@
                         <h3 class="form-title">New Notice</h3>
                         <div class="input-area">
                             <span class="input-title">Title</span>
-                            <input type="text" name="notice-title" placeholder="Title of Notice" class="cf-inp" required />
+                            <input type="text" name="notice-title" placeholder="Title of Notice" title="Title of Notice" class="cf-inp" autocomplete="off" required />
+<!--                            <span class="input-title">For whom</span>
+                            <select class="cf-inp" title="Whom is this notice for?" name="noticeFor" required>
+                                <option title="Select" value="select" disabled selected hidden>Select whom is this notice for</option>
+                                <option title="Memebers"> Members </option>
+                                <option title="For All"> All </option>
+                            </select>-->
                             <span class="input-title">Notice</span>
-                            <textarea name="notice-message" cols="30" rows="10" placeholder="Message in notice" class="cf-inp" required></textarea>
+                            <textarea title="Message" name="notice-message" cols="30" rows="10" placeholder="Message in notice" class="cf-inp" required></textarea>
                             <input type="submit" name="ContactFormSubmission" value="Send" class="submit-btn"/>
                         </div>
                     </form>

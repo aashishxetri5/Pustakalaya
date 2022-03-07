@@ -28,13 +28,13 @@
                 feedbacks = new OtherServices().getAllFeedbacks();
                 if (feedbacks != null) {
         %>
-        <div class="feedback-wrapper">
+        <div class="nf-wrapper">
             <%
                 for (FeedbacksAndContacts feedback : feedbacks) {
             %>
-            <div class="feedbacks">
+            <div class="nf">
                 <button class="accordion-feedback">From: @<%=feedback.getUsername()%></button>
-                <div class="details-feedback">
+                <div class="details-nf">
                     <p class="email-fd"><strong> Email: <%=feedback.getEmail()%> </strong></p>
                     <hr />
                     <p class="msg-content"><%=feedback.getMessage()%></p>

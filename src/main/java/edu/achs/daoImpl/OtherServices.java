@@ -8,6 +8,7 @@ package edu.achs.daoImpl;
 import edu.achs.entities.Books;
 import edu.achs.entities.FeedbacksAndContacts;
 import edu.achs.utility.DBConnection;
+import edu.achs.utility.GenerateDates;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ import java.util.logging.Logger;
  */
 public class OtherServices {
 
-    String sqlQuery;
+    private String sqlQuery;
 
     /**
      * Inserts the data obtained from contact form and saves it in database
@@ -82,7 +83,8 @@ public class OtherServices {
 
     /**
      * Retrieves all the requested books from the DB.
-     * @return 
+     *
+     * @return
      */
     public List<Books> getRequestedBooks() {
         List<Books> requestedBooks = new ArrayList<>();
@@ -106,10 +108,10 @@ public class OtherServices {
     }
 
     /**
-     * 
-     * @param id 
+     *
+     * @param id
      */
-    public void markAsAvailable(int id){
+    public void markAsAvailable(int id) {
         try {
             sqlQuery = "update tbl_bookRequest set isListed = ? where id = ?";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
@@ -120,7 +122,7 @@ public class OtherServices {
             Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * Fetches and returns all the feedbacks received
      *
@@ -143,6 +145,46 @@ public class OtherServices {
             Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allFeedbacks;
+    }
+
+    /**
+     *
+     * @param fac
+     */
+    public void insertNotice(FeedbacksAndContacts fac) {
+        try {
+            sqlQuery = "insert into tbl_notices (title, message, pub_date) values(?,?,?)";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setString(1, fac.getTitle());
+            pst.setString(2, fac.getMessage());
+            pst.setDate(3, new GenerateDates().getCurrentDate());
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public List<FeedbacksAndContacts> getAllNotices() {
+        List<FeedbacksAndContacts> allNotices = new ArrayList<>();
+        try {
+            sqlQuery = "select * from tbl_notices order by pub_date desc";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()) {
+                FeedbacksAndContacts fac = new FeedbacksAndContacts();
+                fac.setTitle(rs.getString("title"));
+                fac.setMessage(rs.getString("message"));
+                fac.setDate(rs.getDate("pub_date"));
+                allNotices.add(fac);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return allNotices;
     }
 
 }

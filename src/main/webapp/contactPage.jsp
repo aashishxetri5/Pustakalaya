@@ -15,7 +15,7 @@
         <%@include file="Components/all_css_js.jsp" %>
     </head>
     <body class="form-page">
-        <section class="login-form-section">
+        <section class="major-form-section">
             <div class="container">
                 <a href="home" style="display: inline-block">
                     <img src="${pageContext.request.contextPath}/Images/LogoAndBg/Logo.png" alt="Logo" title="Pustakalaya" />

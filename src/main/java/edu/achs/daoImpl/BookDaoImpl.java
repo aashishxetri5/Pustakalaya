@@ -24,8 +24,8 @@ import java.util.logging.Logger;
  */
 public class BookDaoImpl implements BookDao {
 
-    String sqlQuery = "";
-    List<Books> allBooks = new ArrayList<>();
+    private String sqlQuery = "";
+    private List<Books> allBooks = new ArrayList<>();
 
     /**
      * Inserts information of a new book to the database

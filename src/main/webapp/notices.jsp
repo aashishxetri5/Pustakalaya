@@ -4,6 +4,10 @@
     Author     : Aashish Katwal
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="edu.achs.entities.FeedbacksAndContacts"%>
+<%@page import="edu.achs.daoImpl.OtherServices"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -11,7 +15,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Dashboard | Notices</title>
-        
+
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/Images/LogoAndBg/Favicon.png">
         <%@include file="Components/all_css_js.jsp" %>
     </head>
@@ -25,6 +29,37 @@
             <button class="addNotice" title="Add New Librarian">
                 <a href="<%=request.getContextPath()%>/notice/new" class="add-new-btn">New Notice</a>
             </button>
+        </div>
+
+        <%
+            if (user.getUserType().equals("Librarian")) {
+                List<FeedbacksAndContacts> notices = new ArrayList<>();
+                notices = new OtherServices().getAllNotices();
+                if (notices != null) {
+        %>
+        <div class="nf-wrapper">
+            <%
+                for (FeedbacksAndContacts notice : notices) {
+            %>
+            <div class="nf">
+                <div class="accordion-feedback">
+                    <button><strong>Title:</strong> <%=notice.getTitle()%></button>
+                    <div class="action">
+                        <a href="${pageContext.request.contextPath}/notice/delete?noticeId=<%=notice.getId()%>" title="Delete Book">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="details-nf">
+                    <hr />
+                    <p class="msg-content"><%=notice.getMessage()%></p>
+                </div>
+            </div>
+            <%
+                        }
+                    }
+                }
+            %>
         </div>
 
         <% } %>

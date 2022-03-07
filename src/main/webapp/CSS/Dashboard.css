@@ -368,28 +368,27 @@ section#dashboard-section {
 
 /*Feedbacks*/
 
-.feedback-wrapper{
+.nf-wrapper{
     max-height: 83vh;
-    background-color: #eee;
+    /*background-color: #eee;*/
     overflow-y: scroll;
     padding: 15px;
-    box-shadow: 0px 2px 7px rgb(0 0 0 / 30%);
+    /*box-shadow: 0px 2px 7px rgb(0 0 0 / 30%);*/
 }
 
-.feedbacks{
+.nf{
     margin-bottom: 10px;
     box-shadow: 0px 2px 7px rgb(0 0 0 / 30%);
 }
 
-.accordion-feedback {
+.accordion-feedback button{
     font-family: 'Poppins';
     background-color: #fff;
     color: #444;
-    padding: 18px;
+    padding: 14px;
     width: 100%;
     text-align: left;
     font-size: 16px;
-    font-weight: 600;
     cursor: pointer;
     transition: 0.4s;
 }
@@ -398,7 +397,7 @@ section#dashboard-section {
     background-color: #f1f1f1; 
 }
 
-.details-feedback {
+.details-nf {
     display: none;
     background-color: white;
     overflow: hidden;
