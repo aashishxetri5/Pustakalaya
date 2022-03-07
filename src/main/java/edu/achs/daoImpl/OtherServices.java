@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * @author Aashish Katwal
  */
 public class OtherServices {
-
+    
     private String sqlQuery;
 
     /**
@@ -165,8 +165,8 @@ public class OtherServices {
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public List<FeedbacksAndContacts> getAllNotices() {
         List<FeedbacksAndContacts> allNotices = new ArrayList<>();
@@ -174,8 +174,9 @@ public class OtherServices {
             sqlQuery = "select * from tbl_notices order by pub_date desc";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             ResultSet rs = pst.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 FeedbacksAndContacts fac = new FeedbacksAndContacts();
+                fac.setId(rs.getInt("id"));
                 fac.setTitle(rs.getString("title"));
                 fac.setMessage(rs.getString("message"));
                 fac.setDate(rs.getDate("pub_date"));
@@ -186,5 +187,5 @@ public class OtherServices {
         }
         return allNotices;
     }
-
+    
 }

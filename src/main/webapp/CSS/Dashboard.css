@@ -381,16 +381,22 @@ section#dashboard-section {
     box-shadow: 0px 2px 7px rgb(0 0 0 / 30%);
 }
 
-.accordion-feedback button{
-    font-family: 'Poppins';
+.accordion-nf{
+    width: 100%;
     background-color: #fff;
     color: #444;
-    padding: 14px;
-    width: 100%;
+    padding: 14px 40px 14px 14px;
+    font-family: 'Poppins';
     text-align: left;
-    font-size: 16px;
-    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
     transition: 0.4s;
+    cursor: pointer;
+}
+
+.accordion-nf button{
+    background: none;
+    font-size: 16px;
 }
 
 .active-fd{
@@ -403,7 +409,7 @@ section#dashboard-section {
     overflow: hidden;
 }
 
-.email-fd, .msg-content{
+.email-fd, .pub-date, .msg-content{
     padding: 9px 25px;
     font-family: 'Poppins';
 }

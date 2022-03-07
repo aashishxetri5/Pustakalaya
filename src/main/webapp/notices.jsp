@@ -42,15 +42,16 @@
                 for (FeedbacksAndContacts notice : notices) {
             %>
             <div class="nf">
-                <div class="accordion-feedback">
+                <div class="accordion-nf">
                     <button><strong>Title:</strong> <%=notice.getTitle()%></button>
                     <div class="action">
-                        <a href="${pageContext.request.contextPath}/notice/delete?noticeId=<%=notice.getId()%>" title="Delete Book">
-                            <i class="fas fa-trash"></i>
+                        <a href="${pageContext.request.contextPath}/notice/delete?noticeId=<%=notice.getId()%>" title="Delete Notice">
+                            <i class="fas fa-trash" style="color: #BA2D0B;"></i>
                         </a>
                     </div>
                 </div>
                 <div class="details-nf">
+                    <p class="pub-date"> Published On: <%=notice.getDate()%> </p>
                     <hr />
                     <p class="msg-content"><%=notice.getMessage()%></p>
                 </div>

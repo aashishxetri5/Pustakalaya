@@ -21,7 +21,7 @@ $(document).ready(function () {
 
 
 $(document).ready(function () {
-    $(".accordion-feedback").click(function () {
+    $(".accordion-nf").click(function () {
         $(this).toggleClass("active-fd");
         var panel = this.nextElementSibling;
         if (panel.style.display === "block") {

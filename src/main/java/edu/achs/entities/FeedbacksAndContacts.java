@@ -49,21 +49,37 @@ public class FeedbacksAndContacts {
     }
 
     /**
-     * 
+     *
      * @param title
-     * @param message 
+     * @param message
      */
-    public FeedbacksAndContacts(String title, String message){
+    public FeedbacksAndContacts(String title, String message) {
         this.title = title;
         this.message = message;
     }
-    
+
     /**
      *
      * @return
      */
     public int getUserId() {
         return userId;
+    }
+
+    /**
+     *
+     * @param id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getId() {
+        return id;
     }
 
     /**
@@ -155,20 +171,19 @@ public class FeedbacksAndContacts {
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public Date getDate() {
         return date;
     }
 
     /**
-     * 
-     * @param date 
+     *
+     * @param date
      */
     public void setDate(Date date) {
         this.date = date;
     }
 
-    
 }
