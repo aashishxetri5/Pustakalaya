@@ -18,6 +18,26 @@ and open the template in the editor.
 
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #194480;
+  border-radius: 12px;
+  transition: 0.3s ease-in-out;
+}
+
+::-webkit-scrollbar-track {
+  background: #ddd;
+}
+
+::-webkit-scrollbar-track:hover {
+  background-color: rgba(0, 0, 0, 0.35);
+  background-blend-mode: overlay;
+}
+
 :root {
     --navTextColor: #ddd;
     --primaryColor: #273c75;

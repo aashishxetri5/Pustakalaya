@@ -370,10 +370,10 @@ section#dashboard-section {
 
 .nf-wrapper{
     max-height: 83vh;
-    /*background-color: #eee;*/
+    background-color: #eee;
     overflow-y: scroll;
     padding: 15px;
-    /*box-shadow: 0px 2px 7px rgb(0 0 0 / 30%);*/
+    box-shadow: 0px 2px 3px rgb(0 0 0 / 20%);
 }
 
 .nf{
