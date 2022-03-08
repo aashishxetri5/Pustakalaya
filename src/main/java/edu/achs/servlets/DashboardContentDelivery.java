@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Aashish Katwal
  */
 @WebServlet(name = "DashboardContentDelivery", urlPatterns = {"/dashboard/seachBook", "/requestedBook/markAvailable",
-    "/dashboard/newGenre", "/genre/delete", "/notice/newNotice"})
+    "/dashboard/newGenre", "/genre/delete", "/notice/newNotice", "/notice/delete"})
 public class DashboardContentDelivery extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -55,6 +55,11 @@ public class DashboardContentDelivery extends HttpServlet {
             new OtherServices().insertNotice(new FeedbacksAndContacts(title, message));
             request.getSession().setAttribute("successMsg", "Notice Uploaded Successfully!!");
             response.sendRedirect((request.getContextPath() + "/dashboard/notices"));
+        } else if (request.getRequestURI().contains("/notice/delete")) {
+            int id = Integer.parseInt(request.getParameter("noticeId"));
+            new OtherServices().deleteNotice(id);
+            request.getSession().setAttribute("successMsg", "Notice deleted successfully!!");
+            response.sendRedirect(request.getContextPath() + "/dashboard/notices");
         }
     }
 

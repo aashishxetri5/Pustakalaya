@@ -188,4 +188,20 @@ public class OtherServices {
         return allNotices;
     }
     
+    
+    /**
+     * 
+     * @param id 
+     */
+    public void deleteNotice(int id) {
+        try {
+            sqlQuery = "delete from tbl_notices where id = ?";
+            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            pst.setInt(1, id);
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }
