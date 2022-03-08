@@ -380,10 +380,6 @@ input#submit-btn:hover{
     cursor: pointer;
 }
 
-.circle-i {
-    color: red;
-}
-
 /*responsive*/
 @media(max-width: 767px){
 

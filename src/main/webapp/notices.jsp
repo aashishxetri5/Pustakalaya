@@ -31,11 +31,10 @@
             </button>
         </div>
 
-        <%
-            if (user.getUserType().equals("Librarian")) {
-                List<FeedbacksAndContacts> notices = new ArrayList<>();
-                notices = new OtherServices().getAllNotices();
-                if (notices != null) {
+        <% }
+            List<FeedbacksAndContacts> notices = new ArrayList<>();
+            notices = new OtherServices().getAllNotices();
+            if (notices != null) {
         %>
         <div class="nf-wrapper">
             <%
@@ -44,11 +43,13 @@
             <div class="nf">
                 <div class="accordion-nf">
                     <button><strong>Title:</strong> <%=notice.getTitle()%></button>
+                    <% if (user.getUserType().equals("Librarian")) { %>
                     <div class="action">
                         <a href="${pageContext.request.contextPath}/notice/delete?noticeId=<%=notice.getId()%>" title="Delete Notice">
                             <i class="fas fa-trash" style="color: #BA2D0B;"></i>
                         </a>
                     </div>
+                    <% } %>
                 </div>
                 <div class="details-nf">
                     <p class="pub-date"> Published On: <%=notice.getDate()%> </p>
@@ -57,13 +58,10 @@
                 </div>
             </div>
             <%
-                        }
                     }
                 }
             %>
         </div>
-
-        <% } %>
     </div>
 </section>
 <% }%>

@@ -9,10 +9,18 @@
 $(document).ready(function () {
     var msg = $(".ToastMsg").val();
     var notificationMarkup = "<div class='notification'><div class='msg'><div class='icon'>" +
-            "<i class='fas fa-exclamation-circle'></i></div><div class='message'> " + msg +
+            "<i class='n-icon'></i></div><div class='message'> " + msg +
             "</div></div><div class='cross'><i class='fas fa-times closeToast'></i></div></div>";
     if (msg !== undefined) {
         $(".toast").append(notificationMarkup);
+    }
+
+    if( $(".succ").val() !== undefined){
+        $(".n-icon").addClass("fas fa-check-circle");
+        $(".n-icon").css("color", "#00A400");
+    } else if( $(".err").val() !== undefined){
+        $(".n-icon").addClass("fas fa-exclamation-circle");
+        $(".n-icon").css("color", "#BA2D0B");
     }
 
 //Closes the notification toast when clicked on the cross sign.

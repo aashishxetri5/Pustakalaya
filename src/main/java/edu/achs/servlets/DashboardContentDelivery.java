@@ -9,6 +9,7 @@ import edu.achs.dao.BookDao;
 import edu.achs.daoImpl.BookDaoImpl;
 import edu.achs.daoImpl.OtherServices;
 import edu.achs.entities.FeedbacksAndContacts;
+import edu.achs.entities.Users;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,38 +29,49 @@ public class DashboardContentDelivery extends HttpServlet {
             throws ServletException, IOException {
 
         BookDao bd = new BookDaoImpl();
-        if (request.getRequestURI().contains("/newGenre") && request.getParameter("addNewGenre") != null) {
-            String genre = request.getParameter("genreTitle");
-            if (!bd.doesGenreExist(genre)) {
-                bd.addNewGenre(genre);
-                request.getSession().setAttribute("successMsg", "Genre added successfully!!");
-            } else {
-                request.getSession().setAttribute("successMsg", "Operation failed. Genre already exists!");
-            }
-            response.sendRedirect(request.getContextPath() + "/dashboard/genres");
-        } else if (request.getRequestURI().contains("/genre/delete")) {
-            int genreId = Integer.parseInt(request.getParameter("genreId"));
-            bd.removeGenre(genreId);
-            request.getSession().setAttribute("successMsg", "Genre removed successfully!!");
-            response.sendRedirect(request.getContextPath() + "/dashboard/genres");
+        if (request.getSession().getAttribute("currentUser") != null) {
+            if (request.getRequestURI().contains("/newGenre") && request.getParameter("addNewGenre") != null) {
+                String genre = request.getParameter("genreTitle");
+                if (!bd.doesGenreExist(genre)) {
+                    bd.addNewGenre(genre);
+                    request.getSession().setAttribute("successMsg", "Genre added successfully!!");
+                } else {
+                    request.getSession().setAttribute("successMsg", "Operation failed. Genre already exists!");
+                }
+                response.sendRedirect(request.getContextPath() + "/dashboard/genres");
+            } else if (request.getRequestURI().contains("/genre/delete")) {
+                int genreId = Integer.parseInt(request.getParameter("genreId"));
+                bd.removeGenre(genreId);
+                request.getSession().setAttribute("successMsg", "Genre removed successfully!!");
+                response.sendRedirect(request.getContextPath() + "/dashboard/genres");
 
-        } else if (request.getRequestURI().contains("/requestedBook/markAvailable")) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            new OtherServices().markAsAvailable(id);
-            request.getSession().setAttribute("successMsg", "Marked available succesfully!!");
-            response.sendRedirect((request.getContextPath() + "/dashboard/books/requests"));
-        } else if (request.getRequestURI().contains("/notice/newNotice")) {
-            String title = request.getParameter("notice-title");
+            } else if (request.getRequestURI().contains("/requestedBook/markAvailable")) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                new OtherServices().markAsAvailable(id);
+                request.getSession().setAttribute("successMsg", "Marked available succesfully!!");
+                response.sendRedirect((request.getContextPath() + "/dashboard/books/requests"));
+            } else if (request.getRequestURI().contains("/notice/newNotice")) {
+                String title = request.getParameter("notice-title");
 //            String notice_to = request.getParameter("noticeFor");
-            String message = request.getParameter("notice-message");
-            new OtherServices().insertNotice(new FeedbacksAndContacts(title, message));
-            request.getSession().setAttribute("successMsg", "Notice Uploaded Successfully!!");
-            response.sendRedirect((request.getContextPath() + "/dashboard/notices"));
-        } else if (request.getRequestURI().contains("/notice/delete")) {
-            int id = Integer.parseInt(request.getParameter("noticeId"));
-            new OtherServices().deleteNotice(id);
-            request.getSession().setAttribute("successMsg", "Notice deleted successfully!!");
-            response.sendRedirect(request.getContextPath() + "/dashboard/notices");
+                String message = request.getParameter("notice-message");
+                new OtherServices().insertNotice(new FeedbacksAndContacts(title, message));
+                request.getSession().setAttribute("successMsg", "Notice Uploaded Successfully!!");
+                response.sendRedirect((request.getContextPath() + "/dashboard/notices"));
+            } else if (request.getRequestURI().contains("/notice/delete")) {
+                Users cUser = (Users) request.getSession().getAttribute("currentUser");
+                if (cUser.getUserType().equals("Librarian")) {
+                    int id = Integer.parseInt(request.getParameter("noticeId"));
+                    new OtherServices().deleteNotice(id);
+                    request.getSession().setAttribute("successMsg", "Notice deleted successfully!!");
+                    response.sendRedirect(request.getContextPath() + "/dashboard/notices");
+                } else {
+                    request.getSession().setAttribute("errorMsg", "Something went wrong. Please try again!!");
+                    response.sendRedirect(request.getContextPath() + "/home");
+                }
+            }
+        } else {
+            request.getSession().setAttribute("errorMsg", "Something went wrong. Please try again!!");
+            response.sendRedirect(request.getContextPath() + "/home");
         }
     }
 

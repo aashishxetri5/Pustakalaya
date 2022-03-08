@@ -414,6 +414,12 @@ section#dashboard-section {
     font-family: 'Poppins';
 }
 
+.pub-date{
+    font-size: 11px;
+    color: rgba(0, 0, 0, .5);
+    font-weight: 500;
+}
+
 /*Genres*/
 
 .genre-container{
