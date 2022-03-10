@@ -11,6 +11,7 @@ import edu.achs.utility.SaveProfileImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,7 +39,7 @@ public class ProfileUploadServlet extends HttpServlet {
             int userId = Integer.parseInt(request.getParameter("userId"));
 
             Part filePart = request.getPart("newProfileImg");
-            
+
             /**
              * Checks if the file size is greater than 1MB. The profile is
              * changed only when the maximum limit is reached.
@@ -67,8 +68,12 @@ public class ProfileUploadServlet extends HttpServlet {
                         && !new UserDaoImpl().getProfileImgName(userId).equalsIgnoreCase("Others_Default_pp.png")) {
 
                     //Deletes the old file so that there will be room for the new img file.
-                    Files.delete(Paths.get(request.getRealPath("Images") + File.separator + "ProfilePictures" + File.separator
-                            + new UserDaoImpl().getProfileImgName(userId)));
+                    try {
+                        Files.delete(Paths.get(request.getRealPath("Images") + File.separator + "ProfilePictures" + File.separator
+                                + new UserDaoImpl().getProfileImgName(userId)));
+                    } catch (NoSuchFileException ex) {
+
+                    }
                 }
 
                 //Save profile picture to the tempPPs folder
