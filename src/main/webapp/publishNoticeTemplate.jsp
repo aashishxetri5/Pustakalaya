@@ -16,8 +16,8 @@
         <%@include file="Components/all_css_js.jsp" %>
     </head>
     <body class="form-page">
-        <%
-            if (request.getSession().getAttribute("currentUser") != null) {
+        <%@include file="Components/PreventUnloggedUsers.jsp" %>
+        <%            if (request.getSession().getAttribute("currentUser") != null) {
                 Users user = (Users) request.getSession().getAttribute("currentUser");
                 if (user.getUserType().equals("Librarian")) {
 
@@ -33,12 +33,6 @@
                         <div class="input-area">
                             <span class="input-title">Title</span>
                             <input type="text" name="notice-title" placeholder="Title of Notice" title="Title of Notice" class="cf-inp" autocomplete="off" required />
-<!--                            <span class="input-title">For whom</span>
-                            <select class="cf-inp" title="Whom is this notice for?" name="noticeFor" required>
-                                <option title="Select" value="select" disabled selected hidden>Select whom is this notice for</option>
-                                <option title="Memebers"> Members </option>
-                                <option title="For All"> All </option>
-                            </select>-->
                             <span class="input-title">Notice</span>
                             <textarea title="Message" name="notice-message" cols="30" rows="10" placeholder="Message in notice" class="cf-inp" required></textarea>
                             <input type="submit" name="ContactFormSubmission" value="Send" class="submit-btn"/>
@@ -48,14 +42,16 @@
             </div>
         </section>
         <%                } else {
+                        response.sendRedirect(request.getContextPath() + "/home");
+                        request.getSession().setAttribute("errorMsg", "Access blocked!! You're not authorized");
+                    }
+                } else {
                     response.sendRedirect(request.getContextPath() + "/home");
                     request.getSession().setAttribute("errorMsg", "Access blocked!! You're not authorized");
                 }
-            } else {
-                response.sendRedirect(request.getContextPath() + "/home");
-                request.getSession().setAttribute("errorMsg", "Access blocked!! You're not authorized");
             }
         %>
+
     </body>
 </html>
 

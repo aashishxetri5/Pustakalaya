@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Aashish Katwal
  */
-@WebServlet(name = "DashboardContentDelivery", urlPatterns = {"/dashboard/seachBook", "/requestedBook/markAvailable",
-    "/dashboard/newGenre", "/genre/delete", "/notice/newNotice", "/notice/delete"})
+@WebServlet(name = "DashboardContentDelivery", urlPatterns = {"/requestedBook/markAvailable", "/dashboard/newGenre",
+    "/genre/delete", "/notice/newNotice", "/notice/delete"})
 public class DashboardContentDelivery extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -39,6 +39,7 @@ public class DashboardContentDelivery extends HttpServlet {
                     request.getSession().setAttribute("successMsg", "Operation failed. Genre already exists!");
                 }
                 response.sendRedirect(request.getContextPath() + "/dashboard/genres");
+
             } else if (request.getRequestURI().contains("/genre/delete")) {
                 int genreId = Integer.parseInt(request.getParameter("genreId"));
                 bd.removeGenre(genreId);
@@ -49,14 +50,15 @@ public class DashboardContentDelivery extends HttpServlet {
                 int id = Integer.parseInt(request.getParameter("id"));
                 new OtherServices().markAsAvailable(id);
                 request.getSession().setAttribute("successMsg", "Marked available succesfully!!");
-                response.sendRedirect((request.getContextPath() + "/dashboard/books/requests"));
+                response.sendRedirect(request.getContextPath() + "/dashboard/books/requests");
+
             } else if (request.getRequestURI().contains("/notice/newNotice")) {
                 String title = request.getParameter("notice-title");
-//            String notice_to = request.getParameter("noticeFor");
                 String message = request.getParameter("notice-message");
                 new OtherServices().insertNotice(new FeedbacksAndContacts(title, message));
-                request.getSession().setAttribute("successMsg", "Notice Uploaded Successfully!!");
-                response.sendRedirect((request.getContextPath() + "/dashboard/notices"));
+                request.getSession().setAttribute("successMsg", "Notice uploaded successfully!!");
+                response.sendRedirect(request.getContextPath() + "/dashboard/notices");
+
             } else if (request.getRequestURI().contains("/notice/delete")) {
                 Users cUser = (Users) request.getSession().getAttribute("currentUser");
                 if (cUser.getUserType().equals("Librarian")) {

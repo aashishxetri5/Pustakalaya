@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * @author Aashish Katwal
  */
 public class OtherServices {
-    
+
     private String sqlQuery;
 
     /**
@@ -187,11 +187,10 @@ public class OtherServices {
         }
         return allNotices;
     }
-    
-    
+
     /**
-     * 
-     * @param id 
+     *
+     * @param id
      */
     public void deleteNotice(int id) {
         try {
@@ -203,5 +202,5 @@ public class OtherServices {
             Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }
