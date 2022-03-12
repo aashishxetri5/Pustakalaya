@@ -62,17 +62,18 @@ public class BorrowBook extends HttpServlet {
                     response.sendRedirect(request.getContextPath() + "/dashboard/books/all");
                 }
             } else if (request.getRequestURI().contains("/book/return")) {
-                try {
-                    if (!bd.hasBookBeenReturned(borrowerId, bookId)) {
-                        bd.returnBookProcess(bookId, borrowerId);
-                        bd.determineFineAmount(borrowerId, bookId);
-                        request.getSession().setAttribute("successMsg", "Book Returned Successfully!!");
-                    } else {
-                        throw new Exception();
-                    }
-                } catch (Exception ex) {
+//                try {
+                if (!bd.hasBookBeenReturned(borrowerId, bookId)) {
+                    bd.returnBookProcess(bookId, borrowerId);
+                    bd.determineFineAmount(borrowerId, bookId);
+                    request.getSession().setAttribute("successMsg", "Book Returned Successfully!!");
+                } else {
+//                        throw new Exception();
                     request.getSession().setAttribute("errorMsg", "Problem Returning book!!");
                 }
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
                 response.sendRedirect(request.getContextPath() + "/dashboard/books/borrowed");
             }
         }

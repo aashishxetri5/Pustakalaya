@@ -259,9 +259,11 @@ public class UserDaoImpl implements UserDao {
             pst.setString(2, dbPassword);
             pst.setString(3, "active");
             ResultSet rs = pst.executeQuery();
-            rs.next();
-            if (rs.getString("username").equals(username)) {
-                return true;
+            if (rs != null) {
+                rs.next();
+                if (rs.getString("username").equals(username)) {
+                    return true;
+                }
             }
         } catch (SQLException e) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, e);

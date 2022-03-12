@@ -67,9 +67,11 @@ public class BorrowDaoImpl implements BorrowDao {
             pst.setString(1, bookId);
             pst.setString(2, bookId);
             ResultSet rs = pst.executeQuery();
-            rs.next();
-            if (rs.getInt("remaining_stock") <= rs.getInt("stock") && rs.getInt("remaining_stock") != 0) {
-                return true;
+            if (rs != null) {
+                rs.next();
+                if (rs.getInt("remaining_stock") <= rs.getInt("stock") && rs.getInt("remaining_stock") != 0) {
+                    return true;
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -140,7 +142,6 @@ public class BorrowDaoImpl implements BorrowDao {
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setString(1, bookId);
             pst.executeUpdate();
-            System.out.println("REACHED HERE");
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -181,14 +182,16 @@ public class BorrowDaoImpl implements BorrowDao {
     @Override
     public boolean hasBookBeenReturned(int userId, String bookId) {
         try {
-            sqlQuery = "select return_status from tbl_borrow where userId = ? and bookId = ?";
+            sqlQuery = "select return_status from tbl_borrow where userId = ? and bookId = ? and return_date is null";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             pst.setString(2, bookId);
             ResultSet rs = pst.executeQuery();
-            rs.next();
-            if (rs.getString("return_status").equals("returned")) {
-                return true;
+            if (rs != null) {
+                rs.next();
+                if (rs.getString("return_status").equals("returned")) {
+                    return true;
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -210,7 +213,9 @@ public class BorrowDaoImpl implements BorrowDao {
             pst.setInt(1, userId);
             pst.setString(2, bookId);
             ResultSet rs = pst.executeQuery();
-            rs.next();
+            if (rs != null) {
+                rs.next();
+            }
             return LocalDate.parse(rs.getDate("issue_date").toString());
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
