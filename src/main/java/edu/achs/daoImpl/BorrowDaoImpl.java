@@ -67,8 +67,7 @@ public class BorrowDaoImpl implements BorrowDao {
             pst.setString(1, bookId);
             pst.setString(2, bookId);
             ResultSet rs = pst.executeQuery();
-            if (rs != null) {
-                rs.next();
+            if (rs.next()) {
                 if (rs.getInt("remaining_stock") <= rs.getInt("stock") && rs.getInt("remaining_stock") != 0) {
                     return true;
                 }
@@ -115,17 +114,17 @@ public class BorrowDaoImpl implements BorrowDao {
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setString(1, bookId);
             ResultSet rs = pst.executeQuery();
-            rs.next();
-
-            sqlQuery = "update tbl_bookstock set remaining_stock = ? where bookId = ?";
-            pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
-            if (action.equals("Borrow")) {
-                pst.setInt(1, rs.getInt("remaining_stock") - 1);
-            } else if (action.equals("Return")) {
-                pst.setInt(1, rs.getInt("remaining_stock") + 1);
+            if (rs.next()) {
+                sqlQuery = "update tbl_bookstock set remaining_stock = ? where bookId = ?";
+                pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+                if (action.equals("Borrow")) {
+                    pst.setInt(1, rs.getInt("remaining_stock") - 1);
+                } else if (action.equals("Return")) {
+                    pst.setInt(1, rs.getInt("remaining_stock") + 1);
+                }
+                pst.setString(2, bookId);
+                pst.executeUpdate();
             }
-            pst.setString(2, bookId);
-            pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -174,6 +173,9 @@ public class BorrowDaoImpl implements BorrowDao {
     }
 
     /**
+     * Checks if the book being returned is already returned. Returns 'true' if
+     * book has already been returned and 'false' if book has not been returned
+     * yet.
      *
      * @param userId
      * @param bookId
@@ -187,8 +189,7 @@ public class BorrowDaoImpl implements BorrowDao {
             pst.setInt(1, userId);
             pst.setString(2, bookId);
             ResultSet rs = pst.executeQuery();
-            if (rs != null) {
-                rs.next();
+            if (rs.next()) {
                 if (rs.getString("return_status").equals("returned")) {
                     return true;
                 }
@@ -213,10 +214,9 @@ public class BorrowDaoImpl implements BorrowDao {
             pst.setInt(1, userId);
             pst.setString(2, bookId);
             ResultSet rs = pst.executeQuery();
-            if (rs != null) {
-                rs.next();
+            if (rs.next()) {
+                return LocalDate.parse(rs.getDate("issue_date").toString());
             }
-            return LocalDate.parse(rs.getDate("issue_date").toString());
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

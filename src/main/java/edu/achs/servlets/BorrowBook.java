@@ -6,7 +6,6 @@
 package edu.achs.servlets;
 
 import edu.achs.dao.BorrowDao;
-import edu.achs.daoImpl.BookDaoImpl;
 import edu.achs.daoImpl.BorrowDaoImpl;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -39,10 +38,12 @@ public class BorrowBook extends HttpServlet {
             int borrowerId = Integer.parseInt(request.getParameter("borrwerId"));
 
             BorrowDao bd = new BorrowDaoImpl();
-            BookDaoImpl bdl = new BookDaoImpl();
 
             if (request.getRequestURI().contains("/book/borrow")) {
-
+                /**
+                 * 
+                 * 
+                 */
                 if (!bd.isBookBorrowedByUser(borrowerId, bookId)) {
                     if (bd.canUserBorrowBook(borrowerId)) {
                         if (bd.isBookInStock(bookId)) {
@@ -62,20 +63,22 @@ public class BorrowBook extends HttpServlet {
                     response.sendRedirect(request.getContextPath() + "/dashboard/books/all");
                 }
             } else if (request.getRequestURI().contains("/book/return")) {
-//                try {
-                if (!bd.hasBookBeenReturned(borrowerId, bookId)) {
+                /**
+                 * Checks if the book being returned is already returned. If yes, 
+                 * 
+                 */
+                if (bd.hasBookBeenReturned(borrowerId, bookId) == true) {
                     bd.returnBookProcess(bookId, borrowerId);
                     bd.determineFineAmount(borrowerId, bookId);
                     request.getSession().setAttribute("successMsg", "Book Returned Successfully!!");
                 } else {
-//                        throw new Exception();
                     request.getSession().setAttribute("errorMsg", "Problem Returning book!!");
                 }
-//                } catch (Exception ex) {
-//                    ex.printStackTrace();
-//                }
                 response.sendRedirect(request.getContextPath() + "/dashboard/books/borrowed");
             }
+        } else {
+            request.getSession().setAttribute("errorMsg", "Invalid Request. Please sign in!!");
+            response.sendRedirect(request.getContextPath() + "/home");
         }
 
     }

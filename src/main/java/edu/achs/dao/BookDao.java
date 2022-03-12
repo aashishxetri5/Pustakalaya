@@ -33,8 +33,6 @@ public interface BookDao {
 
     public void deleteBook(String bookId);
 
-    public List<Books> getSearchedBookDetail(String bookTitle);
-
     public void addNewGenre(String genre);
 
     public boolean doesGenreExist(String genre);

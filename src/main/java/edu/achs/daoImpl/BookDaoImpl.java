@@ -240,17 +240,6 @@ public class BookDaoImpl implements BookDao {
     }
 
     /**
-     * Returns the detail of the book that is searched.
-     *
-     * @param bookTitle
-     * @return
-     */
-    @Override
-    public List<Books> getSearchedBookDetail(String bookTitle) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    /**
      *
      * @param genre
      */
@@ -368,8 +357,9 @@ public class BookDaoImpl implements BookDao {
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             ResultSet rs = pst.executeQuery();
-            rs.next();
-            fullname = rs.getString("first_name").concat(" ").concat(rs.getString("last_name"));
+            if (rs.next()) {
+                fullname = rs.getString("first_name").concat(" ").concat(rs.getString("last_name"));
+            }
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
