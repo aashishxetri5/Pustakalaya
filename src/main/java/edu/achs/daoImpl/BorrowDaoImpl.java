@@ -53,7 +53,7 @@ public class BorrowDaoImpl implements BorrowDao {
 
     /**
      * Checks if the book is in stock. Returns true if in stock and false if
-     * not. This function called when user clicks borrow button
+     * not. This function called when user clicks borrow button.
      *
      * @param bookId
      * @return
@@ -102,7 +102,8 @@ public class BorrowDaoImpl implements BorrowDao {
     }
 
     /**
-     * Reduces available stock of book by 1 when a book is borrowed.
+     * Reduces available stock of book by 1 when a book is borrowed and
+     * increases by 1 when a book is returned.
      *
      * @param bookId
      * @param action
@@ -177,6 +178,8 @@ public class BorrowDaoImpl implements BorrowDao {
      * book has already been returned and 'false' if book has not been returned
      * yet.
      *
+     *
+     *
      * @param userId
      * @param bookId
      * @return
@@ -184,20 +187,24 @@ public class BorrowDaoImpl implements BorrowDao {
     @Override
     public boolean hasBookBeenReturned(int userId, String bookId) {
         try {
-            sqlQuery = "select return_status from tbl_borrow where userId = ? and bookId = ? and return_date is null";
+            sqlQuery = "select count(*) from tbl_borrow where userId = ? and bookId = ? and return_date "
+                    + "is null and return_status = 'pending'";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             pst.setString(2, bookId);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                if (rs.getString("return_status").equals("returned")) {
-                    return true;
+                System.out.println("I reached inside next: ");
+                if (rs.getInt(1) > 0) {
+                    System.out.println("I reached inside compare if");
+                    return false;
                 }
             }
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        System.out.println("I reached end return");
+        return true;
     }
 
     /**
@@ -252,7 +259,8 @@ public class BorrowDaoImpl implements BorrowDao {
     @Override
     public void determineFineAmount(int borrowerId, String bookId) {
         try {
-            Period interval = Period.between(getIssuedDate(borrowerId, bookId), LocalDate.parse(new GenerateDates().getCurrentDate().toString()));
+            Period interval = Period.between(getIssuedDate(borrowerId, bookId),
+                    LocalDate.parse(new GenerateDates().getCurrentDate().toString()));
 
             sqlQuery = "update tbl_userdetails set fine = ? where userId = ?";
             PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
@@ -263,7 +271,7 @@ public class BorrowDaoImpl implements BorrowDao {
             }
             pst.setInt(2, borrowerId);
             pst.executeUpdate();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

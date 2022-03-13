@@ -113,7 +113,7 @@
                                     <i class="fas fa-trash"></i>
                                 </a>
                                 <%} else if (user.getUserType().equals("Student")) {%>
-                                <a href="${pageContext.request.contextPath}/book/borrow?bookId=<%=book.getBookId()%>&borrwerId=<%=user.getUserId()%>" title="Borrow This Book">
+                                <a href="${pageContext.request.contextPath}/book/borrow?bookId=<%=book.getBookId()%>&borrowerId=<%=user.getUserId()%>" title="Borrow This Book">
                                     <button class="borrow-btn">Borrow</button>
                                 </a>
                                 <% } %>
@@ -163,7 +163,7 @@
                                 %>
                                 <a href="#"><button class="borrow-btn last-col-btn" title="Request Return">Request</button></a>
                                 <% } else if (user.getUserType().equals("Student")) {%>
-                                <a href="${pageContext.request.contextPath}/book/return?bookId=<%=book.getBookId()%>&borrwerId=<%=user.getUserId()%>"><button class="borrow-btn last-col-btn" title="Return Book">Return</button></a>
+                                <a href="${pageContext.request.contextPath}/book/return?bookId=<%=book.getBookId()%>&borrowerId=<%=user.getUserId()%>"><button class="borrow-btn last-col-btn" title="Return Book">Return</button></a>
                                 <% }
                                     }%>
                             </td>

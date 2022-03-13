@@ -35,14 +35,14 @@ public class BorrowBook extends HttpServlet {
 
         if (request.getSession().getAttribute("currentUser") != null) {
             String bookId = request.getParameter("bookId");
-            int borrowerId = Integer.parseInt(request.getParameter("borrwerId"));
+            int borrowerId = Integer.parseInt(request.getParameter("borrowerId"));
 
             BorrowDao bd = new BorrowDaoImpl();
 
             if (request.getRequestURI().contains("/book/borrow")) {
                 /**
-                 * 
-                 * 
+                 *
+                 *
                  */
                 if (!bd.isBookBorrowedByUser(borrowerId, bookId)) {
                     if (bd.canUserBorrowBook(borrowerId)) {
@@ -64,10 +64,11 @@ public class BorrowBook extends HttpServlet {
                 }
             } else if (request.getRequestURI().contains("/book/return")) {
                 /**
-                 * Checks if the book being returned is already returned. If yes, 
-                 * 
+                 * Checks if the book being returned is already returned. If
+                 * yes,
+                 *
                  */
-                if (bd.hasBookBeenReturned(borrowerId, bookId) == true) {
+                if (!bd.hasBookBeenReturned(borrowerId, bookId)) {
                     bd.returnBookProcess(bookId, borrowerId);
                     bd.determineFineAmount(borrowerId, bookId);
                     request.getSession().setAttribute("successMsg", "Book Returned Successfully!!");
