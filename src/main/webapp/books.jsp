@@ -54,17 +54,10 @@
                                     if (request.getRequestURI().contains("books/borrowed") && user.getUserType().equals("Librarian")) {
                                 %>
                             <th>Borrower</th>
-                                <% } else if (request.getRequestURI().contains("books/all")) {%>
-                            <th>Book Id</th>
                                 <% } %>
                             <th>Book Name</th>
                             <th>Author</th>
                             <th>Genre</th>
-                                <%
-                                    if (request.getRequestURI().contains("/books/all")) {
-                                %>
-                            <th>Publication</th>
-                                <% } %>
 
                             <%if (request.getRequestURI().contains("/books/borrowed")) { %>
 
@@ -93,10 +86,8 @@
                         %>
                         <tr>
                             <td><%=count++%></td>
-                            <td><%=book.getBookId()%></td>
                             <td><%=book.getBookTitle()%></td>
                             <td><%=book.getAuthor()%></td>
-                            <td><%=book.getPublisher()%></td>
                             <td><%=book.getGenre()%></td>
                             <td><%=book.getLanguage()%></td>
                             <td>Rs. <%=book.getPrice()%></td>
@@ -145,10 +136,10 @@
                             <td><%=book.getIssue_date()%></td>
                             <td>
                                 <%
-                                if(book.getReturn_date() != null){
+                                    if (book.getReturn_date() != null) {
                                 %>
                                 <%=book.getIssue_date()%>
-                                <% } else { %>
+                                <% } else {%>
                                 <%="Pending"%>   
                                 <% } %>
                             </td>

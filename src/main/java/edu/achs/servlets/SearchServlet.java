@@ -5,8 +5,9 @@
  */
 package edu.achs.servlets;
 
+import edu.achs.dao.SearchDao;
+import edu.achs.daoImpl.SearchDaoImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author asus
  */
-@WebServlet(name = "SearchServlet", urlPatterns = {"/SearchServlet"})
+@WebServlet(name = "SearchServlet", urlPatterns = {"/dashboard/searchBook"})
 public class SearchServlet extends HttpServlet {
 
     /**
@@ -31,19 +32,32 @@ public class SearchServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SearchServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SearchServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        if (request.getSession().getAttribute("currentUser") != null) {
+            SearchDao sd = new SearchDaoImpl();
+
+            String searchQuery = request.getParameter("searchKeyword").trim();
+            request.getSession().setAttribute("searchQ", searchQuery);
+            String splittedQuery[] = searchQuery.split(":"); // gives {author, `someQuery`} or {book, `someQuery`} or {`someQuery`};
+
+            if (splittedQuery.length > 1) {
+                searchQuery = splittedQuery[splittedQuery.length - 1].trim();
+            }
+
+            if (splittedQuery[0].equalsIgnoreCase("author")) {
+                request.getSession().setAttribute("searchResult", sd.getBooksByAuthor(searchQuery));
+            } else if (splittedQuery[0].equalsIgnoreCase("book")) {
+                request.getSession().setAttribute("searchResult", sd.getBooksByBookName(searchQuery));
+            } else {
+                request.getSession().setAttribute("searchResult", sd.getBooksByBookName(searchQuery));
+            }
+            response.sendRedirect(request.getContextPath() + "/dashboard/searchResults");
+
+        } else {
+            request.getSession().setAttribute("errorMsg", "Unauthorized. Please login first!!");
+            response.sendRedirect(request.getContextPath() + "/login");
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

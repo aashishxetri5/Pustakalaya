@@ -178,8 +178,6 @@ public class BorrowDaoImpl implements BorrowDao {
      * book has already been returned and 'false' if book has not been returned
      * yet.
      *
-     *
-     *
      * @param userId
      * @param bookId
      * @return
@@ -194,16 +192,13 @@ public class BorrowDaoImpl implements BorrowDao {
             pst.setString(2, bookId);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                System.out.println("I reached inside next: ");
                 if (rs.getInt(1) > 0) {
-                    System.out.println("I reached inside compare if");
                     return false;
                 }
             }
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("I reached end return");
         return true;
     }
 

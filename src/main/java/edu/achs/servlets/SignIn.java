@@ -25,7 +25,7 @@ public class SignIn extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        UserDao udl = new UserDaoImpl();
+        UserDao ud = new UserDaoImpl();
         HttpSession session = request.getSession();
 
         String username = request.getParameter("username");
@@ -38,8 +38,8 @@ public class SignIn extends HttpServlet {
              * stored in the session and login is approved. Else, invalid login
              * message is sent.
              */
-            if (udl.isValidUser(username, password)) {
-                session.setAttribute("currentUser", udl.getLoggedinUser(username));
+            if (ud.isValidUser(username, password)) {
+                session.setAttribute("currentUser", ud.getLoggedinUser(username));
                 request.getSession().setAttribute("successMsg", "Logged in successfully!!");
                 response.sendRedirect(request.getContextPath() + "/home");
             } else {

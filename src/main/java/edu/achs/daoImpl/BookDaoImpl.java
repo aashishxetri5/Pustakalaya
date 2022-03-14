@@ -112,7 +112,6 @@ public class BookDaoImpl implements BookDao {
                 book.setBookId(rs.getString("bookId"));
                 book.setBookTitle(rs.getString("title"));
                 book.setAuthor(rs.getString("author"));
-                book.setPublisher(rs.getString("publisher"));
                 book.setGenre(rs.getString("genre"));
                 book.setISBN(rs.getString("isbn"));
                 book.setLanguage(rs.getString("language"));

@@ -175,7 +175,7 @@
         <url-pattern>/dashboard/notices/</url-pattern>
     </servlet-mapping>
 
- <!-- notices.jsp page -->
+    <!-- notices.jsp page -->
     <servlet>
         <servlet-name>Notice form</servlet-name>
         <jsp-file>/publishNoticeTemplate.jsp</jsp-file>
@@ -184,6 +184,17 @@
         <servlet-name>Notice form</servlet-name>
         <url-pattern>/notice/new</url-pattern>
         <url-pattern>/notice/new/</url-pattern>
+    </servlet-mapping>
+ 
+    <!-- searchedResult.jsp page -->
+    <servlet>
+        <servlet-name>Searched Results</servlet-name>
+        <jsp-file>/searchResults.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Searched Results</servlet-name>
+        <url-pattern>/dashboard/searchResults</url-pattern>
+        <url-pattern>/dashboard/searchResults/</url-pattern>
     </servlet-mapping>
 
     <!-- Error Page -->
