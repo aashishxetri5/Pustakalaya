@@ -22,5 +22,5 @@ A Library Management System using JSP/Servlet, JDBC. It has Admin (Librarian) an
 + Promote a member to Librarian and demote a librarian to normal member
 + View feedbacks, notices and book requests.
 ---
-### See the glimpses of the project [here] (https://github.com/aashishxetri5/Pustakalaya/tree/main/Glimpes)
-### See a short video of it [here] (https://www.facebook.com/100008924349017/videos/645726906717458/)
+### See the glimpses of the project [here](https://github.com/aashishxetri5/Pustakalaya/tree/main/Glimpes)
+### See a short video of it [here](https://www.facebook.com/100008924349017/videos/645726906717458/)
