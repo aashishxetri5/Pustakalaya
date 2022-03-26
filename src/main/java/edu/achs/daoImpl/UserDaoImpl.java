@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author Aashish Katwal
  */
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl extends DBConnection implements UserDao {
 
     private String sqlQuery = "";
     private boolean isUnique;
@@ -36,7 +36,7 @@ public class UserDaoImpl implements UserDao {
     public void addUser(Users user) {
         try {
             sqlQuery = "insert into tbl_userdetails values (?,?,?,?,?,?,?,?,?)";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, user.getUserId());
             pst.setString(2, user.getLibraryId());
             pst.setString(3, user.getFirstName());
@@ -49,6 +49,12 @@ public class UserDaoImpl implements UserDao {
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         addLoginCredentials(user.getUserId(), user.getUsername(), user.getPassword(), user.getUserType());
     }
@@ -74,7 +80,7 @@ public class UserDaoImpl implements UserDao {
                 }
             }
             sqlQuery = "insert into tbl_userlogindetails values (?,?,?,?,?,?)";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             pst.setString(2, username);
             pst.setString(3, new PasswordHashing().hashPassword(password.concat(SALT)));
@@ -84,6 +90,13 @@ public class UserDaoImpl implements UserDao {
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }
 
@@ -98,12 +111,19 @@ public class UserDaoImpl implements UserDao {
     public void saveProfilePicture(int userId, String imageFileName) {
         try {
             sqlQuery = "insert into tbl_userprofileimgs values (?, ?)";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             pst.setString(2, imageFileName);
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }
 
@@ -117,12 +137,19 @@ public class UserDaoImpl implements UserDao {
     public void updateProfilePicture(int userId, String imageFileName) {
         try {
             sqlQuery = "update tbl_userprofileimgs set profileImgName = ? where userId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, imageFileName);
             pst.setInt(2, userId);
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }
 
@@ -141,7 +168,7 @@ public class UserDaoImpl implements UserDao {
                     + "tbl_userdetails.contactNum, tbl_userdetails.fine from tbl_userdetails inner join "
                     + "tbl_userlogindetails on tbl_userdetails.userId = tbl_userlogindetails.userId and "
                     + "tbl_userlogindetails.userType = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, userType);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -158,9 +185,16 @@ public class UserDaoImpl implements UserDao {
                 user.setUserType(userType);
                 allUsers.add(user);
             }
-            new DBConnection().getConnection().close();
+            getConnection().close();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         return allUsers;
     }
@@ -176,16 +210,23 @@ public class UserDaoImpl implements UserDao {
         Users currentUser = new Users();
         try {
             sqlQuery = "select * from tbl_userlogindetails where username = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, uname);
             ResultSet rs = pst.executeQuery();
             rs.next();
             currentUser.setUserId(rs.getInt("userId"));
             currentUser.setUsername(rs.getString("username"));
             currentUser.setUserType(rs.getString("userType"));
-            new DBConnection().getConnection().close();
+            getConnection().close();
         } catch (SQLException e) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         return currentUser;
     }
@@ -200,7 +241,7 @@ public class UserDaoImpl implements UserDao {
         try {
             sqlQuery = "update tbl_userdetails set first_name = ?, last_name = ?, email = ?, address = ?, contactNum = ?,"
                     + "gender = ? where userId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, user.getFirstName());
             pst.setString(2, user.getLastName());
             pst.setString(3, user.getEmail());
@@ -211,6 +252,13 @@ public class UserDaoImpl implements UserDao {
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }
 
@@ -225,9 +273,9 @@ public class UserDaoImpl implements UserDao {
             String deleteLoginDetails = "delete from tbl_userlogindetails where userId = ?";
             String deleteUserDetails = "delete from tbl_userdetails where userId = ?";
             String deleteProfileImg = "delete from tbl_userprofileimgs where userId = ?";
-            PreparedStatement prepDltLoginCr = new DBConnection().getConnection().prepareStatement(deleteLoginDetails);
-            PreparedStatement prepDltuserDetail = new DBConnection().getConnection().prepareStatement(deleteUserDetails);
-            PreparedStatement prepDltProfileImg = new DBConnection().getConnection().prepareStatement(deleteProfileImg);
+            PreparedStatement prepDltLoginCr = getConnection().prepareStatement(deleteLoginDetails);
+            PreparedStatement prepDltuserDetail = getConnection().prepareStatement(deleteUserDetails);
+            PreparedStatement prepDltProfileImg = getConnection().prepareStatement(deleteProfileImg);
 
             prepDltLoginCr.setInt(1, userId);
             prepDltProfileImg.setInt(1, userId);
@@ -238,6 +286,13 @@ public class UserDaoImpl implements UserDao {
             prepDltuserDetail.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }
 
@@ -253,7 +308,7 @@ public class UserDaoImpl implements UserDao {
         PasswordHashing pwdHash = new PasswordHashing();
         try {
             sqlQuery = "select username, password from tbl_userlogindetails where (username = ? and password = ? and account_status = ?)";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, username);
             String dbPassword = pwdHash.hashPassword(password.concat(getSalt(username)));
             pst.setString(2, dbPassword);
@@ -266,6 +321,13 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         return false;
     }
@@ -281,7 +343,7 @@ public class UserDaoImpl implements UserDao {
         Users user = new Users();
         try {
             sqlQuery = "select * from tbl_userdetails where userId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             ResultSet rs = pst.executeQuery();
             rs.next();
@@ -296,6 +358,13 @@ public class UserDaoImpl implements UserDao {
             user.setFine(rs.getDouble("fine"));
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         return user;
     }
@@ -311,15 +380,22 @@ public class UserDaoImpl implements UserDao {
         int id = 0;
         try {
             sqlQuery = "select userId from tbl_userlogindetails where username = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 id = rs.getInt("userId");
             }
-            new DBConnection().getConnection().close();
+            getConnection().close();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         return id;
     }
@@ -334,7 +410,7 @@ public class UserDaoImpl implements UserDao {
     public boolean doesSaltExist(String SALT) {
         try {
             sqlQuery = "select count(*) from tbl_userlogindetails where pSALT = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, SALT);
             ResultSet rs = pst.executeQuery();
             rs.next();
@@ -343,6 +419,13 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         return false;
     }
@@ -356,13 +439,20 @@ public class UserDaoImpl implements UserDao {
     public String getSalt(String username) {
         try {
             sqlQuery = "select pSALT from tbl_userlogindetails where username = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
             rs.next();
             return rs.getString("pSALT");
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         return "";
     }
@@ -378,12 +468,19 @@ public class UserDaoImpl implements UserDao {
     public boolean isUniqueUsername(String username) {
         try {
             sqlQuery = "select username from tbl_userlogindetails where username = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
             isUnique = checkUniqueness(rs);
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         return isUnique;
     }
@@ -400,12 +497,19 @@ public class UserDaoImpl implements UserDao {
 
         try {
             sqlQuery = "select userId from tbl_userdetails where userId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, generatedID);
             ResultSet rs = pst.executeQuery();
             isUnique = checkUniqueness(rs);
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         return isUnique;
     }
@@ -421,12 +525,19 @@ public class UserDaoImpl implements UserDao {
     public boolean isDuplicateLibraryID(String generatedID) {
         try {
             sqlQuery = "select libraryId from tbl_userdetails where libraryId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, generatedID);
             ResultSet rs = pst.executeQuery();
             isUnique = checkUniqueness(rs);
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         return isUnique;
     }
@@ -462,13 +573,20 @@ public class UserDaoImpl implements UserDao {
     public String getProfileImgName(int userId) {
         try {
             sqlQuery = "select profileImgName from tbl_userprofileimgs where userId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             ResultSet rs = pst.executeQuery();
             rs.next();
             return rs.getString("profileImgName");
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         return "null";
     }
@@ -483,12 +601,19 @@ public class UserDaoImpl implements UserDao {
     public void changeRole(int userId, String newRole) {
         try {
             sqlQuery = "update tbl_userlogindetails set userType = ? where userId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, newRole);
             pst.setInt(2, userId);
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }
 
@@ -503,7 +628,7 @@ public class UserDaoImpl implements UserDao {
     public boolean isThisPasswordValid(String username, String oldPassword) {
         try {
             sqlQuery = "select password from tbl_userlogindetails where username = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
             rs.next();
@@ -512,6 +637,13 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         return false;
     }
@@ -527,13 +659,20 @@ public class UserDaoImpl implements UserDao {
     public void setNewPassword(String newPassword, String username, int userId) {
         try {
             sqlQuery = "update tbl_userlogindetails set password = ? where userId = ? and username = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, new PasswordHashing().hashPassword(newPassword.concat(getSalt(username))));
             pst.setInt(2, userId);
             pst.setString(3, username);
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }
 }

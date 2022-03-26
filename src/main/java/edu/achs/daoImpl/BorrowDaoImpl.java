@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author Aashish Katwal
  */
-public class BorrowDaoImpl implements BorrowDao {
+public class BorrowDaoImpl extends DBConnection implements BorrowDao {
 
     private String sqlQuery = "";
     private final double FINE_RATE = 50.0;
@@ -37,7 +37,7 @@ public class BorrowDaoImpl implements BorrowDao {
     public boolean canUserBorrowBook(int userId) {
         try {
             sqlQuery = "select count(*) from tbl_borrow where userId = ? and return_status = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             pst.setString(2, "pending");
             ResultSet rs = pst.executeQuery();
@@ -47,6 +47,12 @@ public class BorrowDaoImpl implements BorrowDao {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return true;
     }
@@ -63,7 +69,7 @@ public class BorrowDaoImpl implements BorrowDao {
         try {
             sqlQuery = "select tbl_books.stock, tbl_bookstock.remaining_stock from tbl_books inner join tbl_bookstock where "
                     + "tbl_books.bookId =? and tbl_bookstock.bookId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, bookId);
             pst.setString(2, bookId);
             ResultSet rs = pst.executeQuery();
@@ -74,6 +80,12 @@ public class BorrowDaoImpl implements BorrowDao {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return false;
     }
@@ -88,7 +100,7 @@ public class BorrowDaoImpl implements BorrowDao {
     public void borrowBookProcess(int userId, String bookId) {
         try {
             sqlQuery = "insert into tbl_borrow (userId, bookId, issue_date, return_status) values (?, ?, ?, ?)";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             pst.setString(2, bookId);
             pst.setDate(3, new GenerateDates().getCurrentDate());
@@ -98,6 +110,12 @@ public class BorrowDaoImpl implements BorrowDao {
             updateFrequencyOfBookBorrowed(bookId);
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -112,12 +130,12 @@ public class BorrowDaoImpl implements BorrowDao {
     public void changeNumberOfStock(String bookId, String action) {
         try {
             sqlQuery = "select remaining_stock from tbl_bookstock where bookId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, bookId);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 sqlQuery = "update tbl_bookstock set remaining_stock = ? where bookId = ?";
-                pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+                pst = getConnection().prepareStatement(sqlQuery);
                 if (action.equals("Borrow")) {
                     pst.setInt(1, rs.getInt("remaining_stock") - 1);
                 } else if (action.equals("Return")) {
@@ -128,6 +146,12 @@ public class BorrowDaoImpl implements BorrowDao {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -139,11 +163,17 @@ public class BorrowDaoImpl implements BorrowDao {
     public void updateFrequencyOfBookBorrowed(String bookId) {
         try {
             sqlQuery = "update tbl_borrowcount set borrow_times = borrow_times+1 where bookId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, bookId);
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }
@@ -158,7 +188,7 @@ public class BorrowDaoImpl implements BorrowDao {
     public boolean isBookBorrowedByUser(int userId, String bookId) {
         try {
             sqlQuery = "select count(*) from tbl_borrow where userId = ? and bookId = ? and return_status = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             pst.setString(2, bookId);
             pst.setString(3, "pending");
@@ -168,7 +198,13 @@ public class BorrowDaoImpl implements BorrowDao {
                 return true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return false;
     }
@@ -187,7 +223,7 @@ public class BorrowDaoImpl implements BorrowDao {
         try {
             sqlQuery = "select count(*) from tbl_borrow where userId = ? and bookId = ? and return_date "
                     + "is null and return_status = 'pending'";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             pst.setString(2, bookId);
             ResultSet rs = pst.executeQuery();
@@ -198,6 +234,12 @@ public class BorrowDaoImpl implements BorrowDao {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return true;
     }
@@ -212,7 +254,7 @@ public class BorrowDaoImpl implements BorrowDao {
     public LocalDate getIssuedDate(int userId, String bookId) {
         try {
             sqlQuery = "select issue_date from tbl_borrow where userId = ? and bookId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             pst.setString(2, bookId);
             ResultSet rs = pst.executeQuery();
@@ -221,6 +263,12 @@ public class BorrowDaoImpl implements BorrowDao {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return null;
     }
@@ -234,7 +282,7 @@ public class BorrowDaoImpl implements BorrowDao {
     public void returnBookProcess(String bookId, int userId) {
         try {
             sqlQuery = "update tbl_borrow set return_date = ?, return_status = ? where bookId = ? and userId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setDate(1, new GenerateDates().getCurrentDate());
             pst.setString(2, "returned");
             pst.setString(3, bookId);
@@ -243,6 +291,12 @@ public class BorrowDaoImpl implements BorrowDao {
             changeNumberOfStock(bookId, "Return");
         } catch (SQLException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -258,7 +312,7 @@ public class BorrowDaoImpl implements BorrowDao {
                     LocalDate.parse(new GenerateDates().getCurrentDate().toString()));
 
             sqlQuery = "update tbl_userdetails set fine = ? where userId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             if (interval.getDays() > 10) {
                 pst.setDouble(1, interval.getDays() * FINE_RATE);
             } else {
@@ -268,6 +322,12 @@ public class BorrowDaoImpl implements BorrowDao {
             pst.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
             Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BorrowDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

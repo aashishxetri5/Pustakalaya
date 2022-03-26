@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author Aashish Katwal
  */
-public class BookDaoImpl implements BookDao {
+public class BookDaoImpl extends DBConnection implements BookDao {
 
     private String sqlQuery = "";
     private List<Books> allBooks = new ArrayList<>();
@@ -36,7 +36,7 @@ public class BookDaoImpl implements BookDao {
     public void addBook(Books book) {
         try {
             sqlQuery = "insert into tbl_books values (?,?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, book.getBookId());
             pst.setString(2, book.getBookTitle());
             pst.setString(3, book.getGenre());
@@ -54,6 +54,12 @@ public class BookDaoImpl implements BookDao {
             addStockRecord(book.getBookId(), book.getStock());
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -66,7 +72,7 @@ public class BookDaoImpl implements BookDao {
     public void addStockRecord(String bookId, int stock) {
         try {
             sqlQuery = "insert into tbl_bookstock values(?, ?)";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, bookId);
             pst.setInt(2, stock);
             pst.executeUpdate();
@@ -74,6 +80,12 @@ public class BookDaoImpl implements BookDao {
             addInBorrowCount(bookId);
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }
@@ -86,12 +98,18 @@ public class BookDaoImpl implements BookDao {
     public void addInBorrowCount(String bookId) {
         try {
             sqlQuery = "insert into tbl_borrowcount(bookId, borrow_times) values(?, ?)";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, bookId);
             pst.setInt(2, 0);
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -104,7 +122,7 @@ public class BookDaoImpl implements BookDao {
     public List<Books> getAllBooks() {
         try {
             sqlQuery = "select * from tbl_books";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             ResultSet rs = pst.executeQuery();
             //loops through the table until there's a next record available and feteches it and stores into book.
             while (rs.next()) {
@@ -120,6 +138,12 @@ public class BookDaoImpl implements BookDao {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return allBooks;
     }
@@ -138,7 +162,7 @@ public class BookDaoImpl implements BookDao {
             sqlQuery = "select tbl_books.bookId, tbl_books.title, tbl_books.author, tbl_books.publisher, tbl_books.genre, "
                     + "tbl_borrow.issue_date, tbl_borrow.return_date, tbl_borrow.return_status from tbl_books inner join tbl_borrow "
                     + "on userId = ? and tbl_books.bookId = tbl_borrow.bookId order by tbl_borrow.return_status ASC";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -155,6 +179,12 @@ public class BookDaoImpl implements BookDao {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return allBooks;
     }
@@ -171,7 +201,7 @@ public class BookDaoImpl implements BookDao {
             sqlQuery = "select tbl_books.bookId, tbl_books.title, tbl_books.author, tbl_books.publisher, tbl_books.genre, "
                     + "tbl_borrow.userId, tbl_borrow.issue_date, tbl_borrow.return_date, tbl_borrow.return_status from tbl_books "
                     + "inner join tbl_borrow on tbl_books.bookId = tbl_borrow.bookId order by tbl_borrow.return_status ASC";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 Books book = new Books();
@@ -188,6 +218,12 @@ public class BookDaoImpl implements BookDao {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return allBooks;
     }
@@ -202,7 +238,7 @@ public class BookDaoImpl implements BookDao {
         try {
             sqlQuery = "update tbl_books set title = ?, genre = ?, author = ?, publisher = ?, language = ?, ISBN = ?,"
                     + "edition = ?, stock = ?, price = ?, pages = ? where bookId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, book.getBookTitle());
             pst.setString(2, book.getGenre());
             pst.setString(3, book.getAuthor());
@@ -218,6 +254,12 @@ public class BookDaoImpl implements BookDao {
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -230,11 +272,17 @@ public class BookDaoImpl implements BookDao {
     public void deleteBook(String bookId) {
         try {
             sqlQuery = "delete from tbl_books where bookId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, bookId);
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -246,18 +294,24 @@ public class BookDaoImpl implements BookDao {
     public void addNewGenre(String genre) {
         try {
             sqlQuery = "insert into tbl_genres(genre) values (?)";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, genre);
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     public boolean doesGenreExist(String genre) {
         try {
             sqlQuery = "select count(*) from tbl_genres where genre = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, genre);
             ResultSet rs = pst.executeQuery();
             rs.next();
@@ -266,6 +320,12 @@ public class BookDaoImpl implements BookDao {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return false;
     }
@@ -280,13 +340,19 @@ public class BookDaoImpl implements BookDao {
         Map<Integer, String> allGenres = new HashMap<>();
         try {
             sqlQuery = "select * from tbl_genres";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 allGenres.put(rs.getInt("id"), rs.getString("genre"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return allGenres;
     }
@@ -299,11 +365,17 @@ public class BookDaoImpl implements BookDao {
     public void removeGenre(int id) {
         try {
             sqlQuery = "delete from tbl_genres where id = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, id);
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -319,7 +391,7 @@ public class BookDaoImpl implements BookDao {
         Books thisBook = new Books();
         try {
             sqlQuery = "select * from tbl_books where bookId = ? and ISBN = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, bookId);
             pst.setString(2, ISBN);
             ResultSet rs = pst.executeQuery();
@@ -337,6 +409,12 @@ public class BookDaoImpl implements BookDao {
             thisBook.setLanguage(rs.getString("language"));
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return thisBook;
     }
@@ -353,7 +431,7 @@ public class BookDaoImpl implements BookDao {
         String fullname = "";
         try {
             sqlQuery = "select first_name, last_name from tbl_userdetails where userId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
@@ -361,6 +439,12 @@ public class BookDaoImpl implements BookDao {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return fullname;
     }
@@ -375,7 +459,7 @@ public class BookDaoImpl implements BookDao {
     public boolean isBookBorrowed(String bookId) {
         try {
             sqlQuery = "select count(*) from tbl_borrow where bookId = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, bookId);
             ResultSet rs = pst.executeQuery();
             rs.next();
@@ -384,6 +468,12 @@ public class BookDaoImpl implements BookDao {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return false;
     }
@@ -399,7 +489,7 @@ public class BookDaoImpl implements BookDao {
     public boolean doesBookidAndIsbnExist(String bookId, String ISBN) {
         try {
             sqlQuery = "select count(*) from tbl_books where bookId = ? or ISBn = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, bookId);
             pst.setString(2, ISBN);
             ResultSet rs = pst.executeQuery();
@@ -410,6 +500,12 @@ public class BookDaoImpl implements BookDao {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return false;
     }
@@ -417,7 +513,7 @@ public class BookDaoImpl implements BookDao {
     public boolean isBookBorrowedByUser(int userId) {
         try {
             sqlQuery = "select count(*) from tbl_borrow where userId = ? and return_status = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             pst.setString(2, "pending");
             ResultSet rs = pst.executeQuery();
@@ -427,6 +523,12 @@ public class BookDaoImpl implements BookDao {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(BookDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return false;
     }

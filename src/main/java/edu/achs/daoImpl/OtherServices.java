@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @author Aashish Katwal
  */
-public class OtherServices {
+public class OtherServices extends DBConnection {
 
     private String sqlQuery;
 
@@ -33,13 +33,19 @@ public class OtherServices {
     public void insertContactInfo(FeedbacksAndContacts fac) {
         try {
             sqlQuery = "insert into tbl_contact (fullname, email, message) values(?,?,?)";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, fac.getFullname());
             pst.setString(2, fac.getEmail());
             pst.setString(3, fac.getMessage());
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -51,7 +57,7 @@ public class OtherServices {
     public void insertFeedbacks(FeedbacksAndContacts fac) {
         try {
             sqlQuery = "insert into tbl_feedback values(?,?,?,?)";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, new UserDaoImpl().getUserID(fac.getUsername()));
             pst.setString(2, fac.getEmail());
             pst.setString(3, fac.getUsername());
@@ -59,6 +65,12 @@ public class OtherServices {
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -70,7 +82,7 @@ public class OtherServices {
     public void addBookRequest(Books book) {
         try {
             sqlQuery = "insert into tbl_bookRequest (book_name, author, genre, isListed) values(?,?,?,?)";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, book.getBookTitle());
             pst.setString(2, book.getAuthor());
             pst.setString(3, book.getGenre());
@@ -78,6 +90,12 @@ public class OtherServices {
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -90,7 +108,7 @@ public class OtherServices {
         List<Books> requestedBooks = new ArrayList<>();
         try {
             sqlQuery = "select * from tbl_bookRequest order by tbl_bookrequest.isListed asc";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 Books book = new Books();
@@ -103,6 +121,12 @@ public class OtherServices {
             }
         } catch (SQLException ex) {
             Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return requestedBooks;
     }
@@ -114,12 +138,18 @@ public class OtherServices {
     public void markAsAvailable(int id) {
         try {
             sqlQuery = "update tbl_bookRequest set isListed = ? where id = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setBoolean(1, true);
             pst.setInt(2, id);
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -132,7 +162,7 @@ public class OtherServices {
         List<FeedbacksAndContacts> allFeedbacks = new ArrayList<>();
         try {
             sqlQuery = "select * from tbl_feedback";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 FeedbacksAndContacts feedback = new FeedbacksAndContacts();
@@ -143,6 +173,12 @@ public class OtherServices {
             }
         } catch (SQLException ex) {
             Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return allFeedbacks;
     }
@@ -154,13 +190,19 @@ public class OtherServices {
     public void insertNotice(FeedbacksAndContacts fac) {
         try {
             sqlQuery = "insert into tbl_notices (title, message, pub_date) values(?,?,?)";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setString(1, fac.getTitle());
             pst.setString(2, fac.getMessage());
             pst.setDate(3, new GenerateDates().getCurrentDate());
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -172,7 +214,7 @@ public class OtherServices {
         List<FeedbacksAndContacts> allNotices = new ArrayList<>();
         try {
             sqlQuery = "select * from tbl_notices order by pub_date desc";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 FeedbacksAndContacts fac = new FeedbacksAndContacts();
@@ -184,6 +226,12 @@ public class OtherServices {
             }
         } catch (SQLException ex) {
             Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return allNotices;
     }
@@ -195,11 +243,17 @@ public class OtherServices {
     public void deleteNotice(int id) {
         try {
             sqlQuery = "delete from tbl_notices where id = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, id);
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(OtherServices.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

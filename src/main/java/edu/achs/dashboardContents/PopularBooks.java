@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  *
  * @author Aashish Katwal
  */
-public class PopularBooks {
+public class PopularBooks extends DBConnection {
 
     /**
      * Fetches the popular books from the DB on the basis of borrow count.
@@ -36,7 +36,7 @@ public class PopularBooks {
                     + "tbl_books.genre, tbl_books.language, tbl_borrowcount.borrow_times from tbl_books inner join "
                     + "tbl_borrowcount where tbl_books.bookId = tbl_borrowcount.bookId and tbl_borrowcount.borrow_times > 0 "
                     + "order by tbl_borrowcount.borrow_times desc limit ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, numberOfRecords);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -52,6 +52,12 @@ public class PopularBooks {
             }
         } catch (SQLException ex) {
             Logger.getLogger(PopularBooks.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(PopularBooks.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return popularBooks;
     }

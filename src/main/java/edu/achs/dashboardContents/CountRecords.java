@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author Aashish Katwal
  */
-public class CountRecords {
+public class CountRecords extends DBConnection {
 
     String sqlQuery = "";
 
@@ -28,7 +28,12 @@ public class CountRecords {
      */
     public int getTotalBooks() {
         sqlQuery = "select count(*) from tbl_books";
-        return getNumOfRecords(sqlQuery);
+        try {
+            return getNumOfRecords(sqlQuery);
+        } catch (SQLException ex) {
+            Logger.getLogger(CountRecords.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
     /**
@@ -39,7 +44,12 @@ public class CountRecords {
      */
     public int getTotalMembers() {
         sqlQuery = "select count(*) from tbl_userdetails";
-        return getNumOfRecords(sqlQuery);
+        try {
+            return getNumOfRecords(sqlQuery);
+        } catch (SQLException ex) {
+            Logger.getLogger(CountRecords.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
     /**
@@ -50,7 +60,12 @@ public class CountRecords {
      */
     public int getTotalBorrowedBooks() {
         sqlQuery = "select count(*) from tbl_borrow";
-        return getNumOfRecords(sqlQuery);
+        try {
+            return getNumOfRecords(sqlQuery);
+        } catch (SQLException ex) {
+            Logger.getLogger(CountRecords.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
     /**
@@ -61,7 +76,12 @@ public class CountRecords {
      */
     public int getTotalBookRequests() {
         sqlQuery = "select count(*) from tbl_bookrequest";
-        return getNumOfRecords(sqlQuery);
+        try {
+            return getNumOfRecords(sqlQuery);
+        } catch (SQLException ex) {
+            Logger.getLogger(CountRecords.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
     /**
@@ -72,7 +92,12 @@ public class CountRecords {
      */
     public int getTotalFeedbacks() {
         sqlQuery = "select count(*) from tbl_feedback";
-        return getNumOfRecords(sqlQuery);
+        try {
+            return getNumOfRecords(sqlQuery);
+        } catch (SQLException ex) {
+            Logger.getLogger(CountRecords.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
     /**
@@ -81,22 +106,24 @@ public class CountRecords {
      * @param query
      * @return
      */
-    public int getNumOfRecords(String query) {
+    public int getNumOfRecords(String query) throws SQLException {
         try {
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             ResultSet rs = pst.executeQuery();
             rs.next();
             return rs.getInt(1);
         } catch (SQLException ex) {
             Logger.getLogger(CountRecords.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            con.close();
         }
         return 0;
     }
 
-    public int getPendingBorrowedBooks(int userId) {
+    public int getPendingBorrowedBooks(int userId) throws SQLException {
         try {
             sqlQuery = "select count(*) from tbl_borrow where userId = ? and return_status = ?";
-            PreparedStatement pst = new DBConnection().getConnection().prepareStatement(sqlQuery);
+            PreparedStatement pst = getConnection().prepareStatement(sqlQuery);
             pst.setInt(1, userId);
             pst.setString(2, "pending");
             ResultSet rs = pst.executeQuery();
@@ -104,6 +131,8 @@ public class CountRecords {
             return rs.getInt(1);
         } catch (SQLException ex) {
             Logger.getLogger(CountRecords.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            con.close();
         }
         return 0;
     }

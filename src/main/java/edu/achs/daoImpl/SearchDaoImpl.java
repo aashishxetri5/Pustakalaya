@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author Aashish Katwal
  */
-public class SearchDaoImpl implements SearchDao {
+public class SearchDaoImpl extends DBConnection implements SearchDao {
 
     private String sqlQuery = "";
     private final List<Books> bookSearchResults = new ArrayList<>();
@@ -45,6 +45,7 @@ public class SearchDaoImpl implements SearchDao {
             Logger.getLogger(SearchDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+                con.close();
                 pst.close();
             } catch (SQLException ex) {
                 Logger.getLogger(SearchDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,6 +73,7 @@ public class SearchDaoImpl implements SearchDao {
             Logger.getLogger(SearchDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+                con.close();
                 pst.close();
             } catch (SQLException ex) {
                 Logger.getLogger(SearchDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -103,6 +105,13 @@ public class SearchDaoImpl implements SearchDao {
             rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(SearchDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                con.close();
+                pst.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SearchDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
