@@ -1,6 +1,7 @@
 # Pustakalaya
 A Library Management System using JSP/Servlet, JDBC. It has Admin (Librarian) and Member Panel. Members can borrow the book and list of books they've borrowed.
 
+---
 ## Any member can:
 + Request for a book
 + Login
@@ -20,3 +21,6 @@ A Library Management System using JSP/Servlet, JDBC. It has Admin (Librarian) an
 + View all books and borrowed books
 + Promote a member to Librarian and demote a librarian to normal member
 + View feedbacks, notices and book requests.
+---
+### See the glimpses of the project [here](https://github.com/aashishxetri5/Pustakalaya/tree/main/Glimpes)
+### See a short video of it [here](https://www.facebook.com/100008924349017/videos/645726906717458/)
